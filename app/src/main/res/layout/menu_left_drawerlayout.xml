@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/user_layout"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="55sp"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp" >
+
+            <ImageView
+                android:id="@+id/image_head"
+                android:layout_width="55sp"
+                android:layout_height="55sp"
+                android:src="@drawable/icon_user_header_def" />
+
+            <TextView
+                android:id="@+id/user_tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/image_head"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="user_telphone"
+                android:textColor="#7a7a7a"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#1a000000" />
+
+        <RelativeLayout
+            android:id="@+id/order_layout"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30sp" >
+
+            <ImageView
+                android:id="@+id/order_pic"
+                android:layout_width="35sp"
+                android:layout_height="35sp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_left_route" />
+
+            <TextView
+                android:id="@+id/order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25sp"
+                android:layout_toRightOf="@id/order_pic"
+                android:text="订单"
+                android:textColor="#9b9b9b"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/wallet_layout"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30sp" >
+
+            <ImageView
+                android:id="@+id/wallet_pic"
+                android:layout_width="35sp"
+                android:layout_height="35sp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_left_wallet" />
+
+            <TextView
+                android:id="@+id/wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25sp"
+                android:layout_toRightOf="@id/wallet_pic"
+                android:text="钱包"
+                android:textColor="#9b9b9b"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting_layout"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30sp" >
+
+            <ImageView
+                android:id="@+id/setting_pic"
+                android:layout_width="35sp"
+                android:layout_height="35sp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_left_setting" />
+
+            <TextView
+                android:id="@+id/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25sp"
+                android:layout_toRightOf="@id/setting_pic"
+                android:text="设置"
+                android:textColor="#9b9b9b"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
