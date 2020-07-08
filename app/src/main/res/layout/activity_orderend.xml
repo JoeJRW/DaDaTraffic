@@ -158,37 +158,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="299dp"
-            android:layout_height="127dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="42dp"
-            android:background="#E0F2F1"
-            android:editable="false"
-            android:hint="意见及建议（内容匿名，可放心填写）"
-            android:keepScreenOn="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColorHint="#80B3CB"
-            android:textColorLink="#FFFFFF"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/score" />
-
         <Button
             android:id="@+id/submitcomment"
             android:layout_width="242dp"
             android:layout_height="50dp"
-            android:layout_marginStart="85dp"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="73dp"
+            android:layout_marginStart="84dp"
+            android:layout_marginLeft="84dp"
+            android:layout_marginTop="57dp"
             android:background="#FFB300"
             android:text="提交评价"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comment" />
+            app:layout_constraintTop_toBottomOf="@+id/tour_comment" />
 
         <Button
             android:id="@+id/end_tousu_button"
@@ -201,6 +183,25 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/tour_comment"
+            android:layout_width="328dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="46dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="46dp"
+            android:layout_marginRight="46dp"
+            android:background="#E0F2F1"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="意见及建议(内容匿名，可放心填写)"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/score" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
