@@ -14,11 +14,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Splash extends AppCompatActivity {
+
+    public static Splash instance = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        instance = this;
         Timer timer = new Timer();
         timer.schedule(task, 2000);
     }

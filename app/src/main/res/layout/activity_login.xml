@@ -113,7 +113,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.713">
+        app:layout_constraintVertical_bias="0.703">
 
         <RadioButton
             android:id="@+id/rbtPassenger"
@@ -131,7 +131,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/registerBtn"
+        android:id="@+id/cfRegisterBtn"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginTop="90dp"
@@ -156,11 +156,12 @@
 
     <TextView
         android:id="@+id/msgTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="43dp"
         android:layout_marginTop="23dp"
         android:textColor="#FF0909"
         android:textSize="24sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

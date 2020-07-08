@@ -10,6 +10,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.os.Bundle;
+import android.widget.TextView;
+import android.content.Intent;
+import com.whu.dadatraffic.Activity.LoginActivity;
+import com.whu.dadatraffic.Activity.OrdersActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -19,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
@@ -40,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         orderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Todo 编写界面跳换代码
+
                 //代码示例
-                //Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent);
+                Intent intent=new Intent(MainActivity.this, OrdersActivity.class);
+                startActivity(intent);
             }
         });
 
