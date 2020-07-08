@@ -35,4 +35,8 @@ public class Order {
     public void completeOrder(){
         this.orderState = "已支付";
     }
+
+    public String getDriverName(){return driverName;}
+    public String getStartPoint(){return startPoint;}
+    public String getDestination(){return destination;}
 }

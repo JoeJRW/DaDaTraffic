@@ -11,13 +11,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-<<<<<<< HEAD
 import android.os.Bundle;
 import android.widget.TextView;
 import android.content.Intent;
-=======
 import com.whu.dadatraffic.Activity.LoginActivity;
->>>>>>> ae6ee7344592eb8bb652da4d3c24f17bca7ab35a
+import com.whu.dadatraffic.Activity.OrdersActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
-=======
+
         drawerLayout = findViewById(R.id.drawer_layout);
 
         initActionBar();
@@ -51,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         orderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Todo 编写界面跳换代码
+
                 //代码示例
-                //Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent);
+                Intent intent=new Intent(MainActivity.this, OrdersActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
         //5.三条横线 添加动画 （现在显示的是 三条横线与←符号切换的效果）
         addAnamator(toggle);
->>>>>>> ae6ee7344592eb8bb652da4d3c24f17bca7ab35a
     }
 
     private void addAnamator(ActionBarDrawerToggle toggle) {
