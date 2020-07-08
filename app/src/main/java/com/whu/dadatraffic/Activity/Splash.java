@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.whu.dadatraffic.MainActivity;
+
 import com.whu.dadatraffic.R;
 
 import java.util.Timer;
@@ -25,7 +26,7 @@ public class Splash extends AppCompatActivity {
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            startActivity(new Intent(Splash.this, MainActivity.class));
+            startActivity(new Intent(Splash.this, LoginActivity.class));
         }
     };
 
