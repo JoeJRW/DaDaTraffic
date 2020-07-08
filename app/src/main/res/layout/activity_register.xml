@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".Activity.RegisterActivity">
 
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="228dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/hintTextView1" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="122dp"
+        android:text="姓名"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -21,52 +49,53 @@
         android:id="@+id/cfRegisterBtn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="确认注册"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carNumberEditText" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907" />
 
     <TextView
-        android:id="@+id/hintTextView2"
+        android:id="@+id/hintTextView3"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginLeft="144dp"
+        android:layout_marginTop="8dp"
         android:textColor="#F40505"
-        android:textSize="18sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="232dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="56dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="29dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/TextView"
-        app:layout_constraintTop_toBottomOf="@+id/phoneEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/hintTextView2" />
 
     <TextView
         android:id="@+id/carNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="104dp"
         android:text="车牌号"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextView2" />
 
@@ -76,9 +105,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="62dp"
         android:text="确认密码"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextView" />
 
@@ -86,13 +115,25 @@
         android:id="@+id/hintTextView1"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginLeft="144dp"
+        android:layout_marginTop="8dp"
         android:textColor="#FB0303"
-        android:textSize="18sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneEditText" />
+
+    <TextView
+        android:id="@+id/hintTextView2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="144dp"
+        android:layout_marginLeft="144dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#FB0303"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
     <TextView
         android:id="@+id/TextView"
@@ -102,24 +143,24 @@
         android:layout_marginLeft="28dp"
         android:layout_marginTop="64dp"
         android:text="密码"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
     <EditText
         android:id="@+id/phoneEditText"
         android:layout_width="228dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginLeft="45dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
         android:inputType="number"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/phoneTextView"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -127,28 +168,28 @@
         android:id="@+id/isDriverCheckBox_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:text="我是司机"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hintTextView3" />
+        app:layout_constraintTop_toBottomOf="@+id/hintTextView4" />
 
     <EditText
         android:id="@+id/carNumberEditText"
         android:layout_width="232dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.344"
         app:layout_constraintStart_toEndOf="@+id/TextView2"
         app:layout_constraintTop_toBottomOf="@+id/isDriverCheckBox_reg" />
 
@@ -160,36 +201,36 @@
         android:layout_marginLeft="28dp"
         android:layout_marginTop="28dp"
         android:text="手机号"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/cfPasswordEditText"
         android:layout_width="232dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="68dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.341"
         app:layout_constraintStart_toEndOf="@+id/TextView2"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/hintTextView3" />
 
     <TextView
-        android:id="@+id/hintTextView3"
+        android:id="@+id/hintTextView4"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginLeft="148dp"
+        android:layout_marginTop="8dp"
         android:textColor="#FB0303"
-        android:textSize="18sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cfPasswordEditText" />
 
