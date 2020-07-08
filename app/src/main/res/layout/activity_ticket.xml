@@ -62,5 +62,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Title"
-        app:srcCompat="@drawable/icon_noTicket" />
+        app:srcCompat="@drawable/icon_noticket" />
 </androidx.constraintlayout.widget.ConstraintLayout>
