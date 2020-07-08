@@ -58,20 +58,7 @@
                 android:layout_marginBottom="34dp"
                 android:src="@drawable/driver"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/drivername"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/drivername"
-                android:layout_width="111dp"
-                android:layout_height="27dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="29dp"
-                android:text="某师傅"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -80,44 +67,47 @@
                 android:layout_height="25dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="34dp"
                 android:layout_marginBottom="42dp"
                 android:text="评分："
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
-                app:layout_constraintTop_toBottomOf="@+id/drivername" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="63dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="34dp"
-                android:layout_marginBottom="42dp"
-                android:text="5.0"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#EF5350"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/drivername"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toEndOf="@+id/imageView4" />
 
             <ImageButton
-                android:id="@+id/calldriver3"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginRight="36dp"
-                android:layout_marginBottom="78dp"
+                android:id="@+id/calldriver1"
+                android:layout_width="61dp"
+                android:layout_height="59dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginBottom="48dp"
                 android:background="#E0F2F1"
-                android:src="@android:drawable/ic_menu_call"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.055" />
+                app:srcCompat="@android:drawable/ic_menu_call" />
+
+            <TextView
+                android:id="@+id/drivername1"
+                android:layout_width="111dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="29dp"
+                android:text="某师傅"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/driverscore1"
+                android:layout_width="63dp"
+                android:layout_height="25dp"
+                android:text="5.0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#EF5350"
+                tools:layout_editor_absoluteX="201dp"
+                tools:layout_editor_absoluteY="88dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,6 +121,7 @@
             android:layout_marginEnd="147dp"
             android:layout_marginRight="147dp"
             android:text="行程中"
+            android:textColor="#000000"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout"
             app:layout_constraintEnd_toEndOf="parent"

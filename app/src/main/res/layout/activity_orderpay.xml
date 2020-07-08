@@ -39,12 +39,12 @@
             android:layout_marginBottom="109dp"
             android:background="#E0F2F1"
             android:src="@android:drawable/ic_menu_call"
-            app:layout_constraintBottom_toTopOf="@+id/endprice"
+            app:layout_constraintBottom_toTopOf="@+id/allprice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/driverscore2"
             android:layout_width="50dp"
             android:layout_height="25dp"
             android:layout_marginStart="12dp"
@@ -99,8 +99,8 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="136dp"
-            android:layout_height="50dp"
+            android:layout_width="144dp"
+            android:layout_height="48dp"
             android:layout_marginStart="137dp"
             android:layout_marginLeft="137dp"
             android:layout_marginTop="16dp"
@@ -109,9 +109,10 @@
             android:layout_marginBottom="53dp"
             android:text="支付车费"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/drivername2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -144,7 +145,7 @@
             android:textColor="#80CBC4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/driverscore2" />
 
         <TextView
             android:id="@+id/textView12"
@@ -172,7 +173,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/endprice"
+            android:id="@+id/allprice"
             android:layout_width="67dp"
             android:layout_height="26dp"
             android:layout_marginStart="128dp"
@@ -184,7 +185,7 @@
             app:layout_constraintTop_toBottomOf="@+id/calldriver2" />
 
         <TextView
-            android:id="@+id/endprice2"
+            android:id="@+id/discountprice"
             android:layout_width="67dp"
             android:layout_height="26dp"
             android:layout_marginStart="128dp"
@@ -194,7 +195,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#FFB300"
             app:layout_constraintStart_toEndOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/endprice" />
+            app:layout_constraintTop_toBottomOf="@+id/allprice" />
 
         <Button
             android:id="@+id/coupon_option"
@@ -205,7 +206,7 @@
             android:text=">"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/endprice2"
+            app:layout_constraintStart_toEndOf="@+id/discountprice"
             app:layout_constraintTop_toBottomOf="@+id/calldriver2" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -213,7 +214,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="487dp" />
+            app:layout_constraintGuide_begin="442dp" />
 
         <TextView
             android:id="@+id/textView17"
@@ -221,13 +222,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="169dp"
             android:layout_marginLeft="169dp"
-            android:layout_marginTop="225dp"
+            android:layout_marginTop="184dp"
             android:layout_marginEnd="169dp"
             android:layout_marginRight="169dp"
             android:text="支付方式"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#80CBC4"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -253,37 +255,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/radioGroup3"
-            android:layout_width="33dp"
-            android:layout_height="102dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginLeft="36dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.832"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView17">
-
-            <RadioButton
-                android:id="@+id/wechatpaybutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <RadioButton
-                android:id="@+id/zfbpaybutton"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <Button
             android:id="@+id/pay"
             android:layout_width="189dp"
@@ -292,7 +263,7 @@
             android:layout_marginLeft="111dp"
             android:layout_marginEnd="110dp"
             android:layout_marginRight="110dp"
-            android:layout_marginBottom="33dp"
+            android:layout_marginBottom="56dp"
             android:background="#FFB300"
             android:fontFamily="casual"
             android:freezesText="false"
@@ -301,7 +272,36 @@
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/payOptionGroup"
+            android:layout_width="32dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="106dp"
+            android:layout_marginEnd="39dp"
+            android:layout_marginRight="39dp"
+            android:layout_marginBottom="155dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coupon_option">
+
+            <RadioButton
+                android:id="@+id/wechatpaybutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:layout_conversion_absoluteHeight="50dp"
+                tools:layout_conversion_absoluteWidth="32dp" />
+
+            <RadioButton
+                android:id="@+id/zfbpaybutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                tools:layout_conversion_absoluteHeight="50dp"
+                tools:layout_conversion_absoluteWidth="50dp" />
+        </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
