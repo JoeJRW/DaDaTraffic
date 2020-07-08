@@ -10,16 +10,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-<<<<<<< HEAD
 import android.os.Bundle;
 import android.widget.TextView;
 import android.content.Intent;
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.OrdersActivity;
 
-
-=======
->>>>>>> 2d52f96bf7ca2f533902f884f91342988e4a5db2
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
