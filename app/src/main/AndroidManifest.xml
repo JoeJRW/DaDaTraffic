@@ -14,6 +14,8 @@
         <activity android:name=".Activity.OrdermakeActivity" />
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.TicketActivity" />
+        <activity android:name=".Activity.WalletActivity" />
         <activity android:name=".Activity.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

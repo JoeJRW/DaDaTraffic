@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class WalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
         Button ticketBtn = (Button) findViewById(R.id.ticketBtn);//优惠券按钮
+        ImageButton backBtn = (ImageButton) findViewById(R.id.BackBtn) ;
         ticketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,6 +32,13 @@ public class WalletActivity extends AppCompatActivity {
                 intentToTicket.setClass(WalletActivity.this, TicketActivity.class);
                 //启动跳转
                 startActivity(intentToTicket);
+            }
+        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //实现返回
+                finish();
             }
         });
     }

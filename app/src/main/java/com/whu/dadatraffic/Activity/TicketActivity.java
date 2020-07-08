@@ -13,10 +13,12 @@ public class TicketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        ImageButton imageButton = (ImageButton) findViewById(R.id.Back);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        //设置返回按钮
+        ImageButton backButton = (ImageButton) findViewById(R.id.TicketBackBtn);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //实现返回
                 finish();
             }
         });

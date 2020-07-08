@@ -7,12 +7,12 @@
     tools:context=".Activity.TicketActivity">
 
     <ImageButton
-        android:id="@+id/Back"
+        android:id="@+id/TicketBackBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="687dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,5 +62,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Title"
-        app:srcCompat="@drawable/icon_noticket" />
+        app:srcCompat="@drawable/icon_noneticket" />
 </androidx.constraintlayout.widget.ConstraintLayout>

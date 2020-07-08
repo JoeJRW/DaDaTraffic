@@ -1,5 +1,6 @@
 package com.whu.dadatraffic;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,6 +10,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.whu.dadatraffic.Activity.TicketActivity;
+import com.whu.dadatraffic.Activity.WalletActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
         walletLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Todo 编写界面跳换代码
-                //代码示例
-                //Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent);
+                //跳转到优惠券界面
+                //定义跳转对象
+                Intent intentToWallet = new Intent();
+                //设置跳转的起始界面和目的界面
+                intentToWallet.setClass(MainActivity.this, WalletActivity.class);
+                //启动跳转
+                startActivity(intentToWallet);
             }
         });
 
