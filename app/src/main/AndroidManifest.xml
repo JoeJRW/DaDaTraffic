@@ -9,13 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Activity.TousuActivity"></activity>
-        <activity android:name=".Activity.OrderDetailActivity"></activity>
+        <activity android:name=".Activity.ItemsActivity"></activity>
+        <activity android:name=".Activity.MarketActivity" />
+        <activity android:name=".Activity.TousuActivity" />
+        <activity android:name=".Activity.OrderDetailActivity" />
         <activity
             android:name=".Activity.OrdersActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".Activity.OrderendActivity"></activity>
+        <activity android:name=".Activity.OrderendActivity" />
         <activity android:name=".Activity.OrderpayActivity" />
         <activity android:name=".Activity.OrdermakeActivity" />
         <activity android:name=".Activity.RegisterActivity" />

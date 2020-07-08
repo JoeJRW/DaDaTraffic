@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         walletLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //跳转到优惠券界面
+                //跳转到钱包界面
                 //定义跳转对象
                 Intent intentToWallet = new Intent();
                 //设置跳转的起始界面和目的界面
