@@ -41,6 +41,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.whu.dadatraffic.Activity.OrdersActivity;
+import com.whu.dadatraffic.Activity.SettingActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -107,10 +108,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Todo 编写界面跳换代码
-                //代码示例
-                //Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent);
+                //跳转到优惠券界面
+                //定义跳转对象
+                Intent intentToSetting = new Intent();
+                //设置跳转的起始界面和目的界面
+                intentToSetting.setClass(MainActivity.this, SettingActivity.class);
+                //启动跳转
+                startActivity(intentToSetting);
             }
         });
 
