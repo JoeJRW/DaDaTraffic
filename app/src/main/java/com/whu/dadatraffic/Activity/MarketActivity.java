@@ -3,11 +3,8 @@ package com.whu.dadatraffic.Activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.whu.dadatraffic.Base.ViewHolder;
 import com.whu.dadatraffic.R;
-import com.whu.dadatraffic.Service.TicketService;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,46 +14,46 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.whu.dadatraffic.Service.ItemService;
+import com.whu.dadatraffic.Base.ViewHolder;
 
-public class TicketActivity extends AppCompatActivity {
 
-    TicketService ticketService = new TicketService();
-    String giveTime = null;
-    String endTime = "2021年8月1日";
+
+public class MarketActivity extends AppCompatActivity {
+
+    ItemService itemService = new ItemService();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket);
-
+        setContentView(R.layout.activity_market);
         setCustomActionBar();
-
-        Date date = new Date(System.currentTimeMillis());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-        giveTime = simpleDateFormat.format(date);
-        ticketService.AddTicket("38元打车券","8折",R.drawable.icon_38,giveTime,endTime,true);
-        //ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_card);
+        itemService.AddItem("围巾","1800分",R.drawable.icon_scarf);
+        itemService.AddItem("耳机","2480分",R.drawable.icon_earphone);
+        itemService.AddItem("马克杯","880分",R.drawable.icon_cup);
+        itemService.AddItem("38元打车券","380分",R.drawable.icon_38);
+        itemService.AddItem("音箱","580分",R.drawable.icon_box);
+        itemService.AddItem("8折优惠券","80分",R.drawable.icon_card);
         //初始化ListView控件
-        ListView listView=findViewById(R.id.tlv);
+        ListView listView=findViewById(R.id.lv);
         //创建一个Adapter的实例
-        TicketAdapter newAdapter=new TicketAdapter();
+        MarketAdapter newMarketAdapter =new MarketAdapter();
         //设置Adapter
-        listView.setAdapter(newAdapter);
+        listView.setAdapter(newMarketAdapter);
     }
 
-    class TicketAdapter extends BaseAdapter {
+    class MarketAdapter extends BaseAdapter {
 
         @Override
         public int getCount(){       //得到item的总数
 
-            return ticketService.Count();    //返回ListView Item条目代表的对象
+            return itemService.Count();    //返回ListView Item条目代表的对象
         }
 
         @Override
         public Object getItem(int position)
         {
-            return ticketService.GetTitle(position); //返回item的数据对象
+            return itemService.GetTitle(position); //返回item的数据对象
         }
         @Override
         public long getItemId(int position)
@@ -70,7 +67,7 @@ public class TicketActivity extends AppCompatActivity {
             ViewHolder holder;
             if(convertView==null)//convertview为空则绑定各控件
             {
-                convertView=View.inflate(TicketActivity.this, R.layout.activity_items, null);
+                convertView=View.inflate(MarketActivity.this, R.layout.activity_items, null);
                 holder=new ViewHolder();
                 holder.title=convertView.findViewById(R.id.title);
                 holder.price=convertView.findViewById(R.id.price);
@@ -82,10 +79,10 @@ public class TicketActivity extends AppCompatActivity {
                 holder=(ViewHolder)convertView.getTag();
             }
             //设置该View中各项值
-            ticketService.GetTitle(position);
-            holder.title.setText(ticketService.GetTitle(position));
-            holder.price.setText(ticketService.GetDiscount(position));
-            holder.image.setImageResource(ticketService.GetIcon(position));
+            itemService.GetTitle(position);
+            holder.title.setText(itemService.GetTitle(position));
+            holder.price.setText(itemService.GetPrice(position));
+            holder.image.setImageResource(itemService.GetIcon(position));
             return convertView;
         }
     }
@@ -97,7 +94,7 @@ public class TicketActivity extends AppCompatActivity {
         //2.显示home键
         actionBar.setDisplayHomeAsUpEnabled(true);
         //3.设置标题
-        actionBar.setTitle("优惠券");
+        actionBar.setTitle("积分商城");
     }
 
     //返回父活动
@@ -112,3 +109,5 @@ public class TicketActivity extends AppCompatActivity {
     }
 
 }
+
+
