@@ -50,11 +50,11 @@ public class WalletActivity extends AppCompatActivity {
             }
         });
 
-        RelativeLayout MoneyLayout = findViewById(R.id.money_layout);//积分文本
+        RelativeLayout MoneyLayout = findViewById(R.id.money_layout);//余额文本
         scoreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //跳转到积分商城界面
+                //跳转到充值界面
                 //定义跳转对象
                 Intent intentToWallet = new Intent();
                 //设置跳转的起始界面和目的界面
