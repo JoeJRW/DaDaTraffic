@@ -58,12 +58,12 @@
                 android:layout_marginBottom="34dp"
                 android:src="@drawable/driver"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/drivername"
+                app:layout_constraintEnd_toStartOf="@+id/drivername3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/drivername"
+                android:id="@+id/drivername3"
                 android:layout_width="111dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="25dp"
@@ -86,10 +86,10 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
-                app:layout_constraintTop_toBottomOf="@+id/drivername" />
+                app:layout_constraintTop_toBottomOf="@+id/drivername3" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/driverscore3"
                 android:layout_width="63dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="8dp"
@@ -101,7 +101,7 @@
                 android:textColor="#EF5350"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/drivername"
+                app:layout_constraintTop_toBottomOf="@+id/drivername3"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
@@ -154,6 +154,7 @@
             android:layout_marginEnd="84dp"
             android:layout_marginRight="84dp"
             android:background="#FFFFFF"
+            android:rating="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -198,6 +199,7 @@
             android:gravity="start|top"
             android:hint="意见及建议(内容匿名，可放心填写)"
             android:inputType="textMultiLine"
+            android:lines="7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
