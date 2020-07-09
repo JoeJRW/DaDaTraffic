@@ -44,8 +44,11 @@ import com.baidu.mapapi.model.LatLng;
 import com.whu.dadatraffic.Activity.OrdersActivity;
 import com.whu.dadatraffic.Activity.SettingActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
+import com.whu.dadatraffic.Base.Order;
+import com.whu.dadatraffic.Service.OrderService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private OrderService service = new OrderService();
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 

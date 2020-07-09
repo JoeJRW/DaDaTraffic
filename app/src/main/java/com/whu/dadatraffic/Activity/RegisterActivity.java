@@ -18,11 +18,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button registerBtn = null;//确认注册按钮
     private EditText phoneNumberEt = null;//手机号输入框
+    private EditText nameEt = null;//姓名输入框
     private EditText passwordEt = null;//密码输入框
     private EditText confirmPasswordEt = null;//确认密码输入框
     private TextView hintTv1 = null;//提示框1
     private TextView hintTv2 = null;//提示框2
     private TextView hintTv3 = null;//提示框3
+    private TextView hintTv4 =null;//提示框4
     private CheckBox isDriverCb_reg = null;//我是司机复选框
     private TextView carNumTv = null;
     private EditText carNumEt = null;
@@ -30,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean canRegister = true;
     private boolean isDriver = false;
     private String phoneNumber = null;
+    private String name = null;
     private String password1 = null;
     private String password2 = null;
     private String carNumber = null;
@@ -46,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 phoneNumber = phoneNumberEt.getText().toString();
+                name = nameEt.getText().toString();
                 password1 = passwordEt.getText().toString();
                 password1 = confirmPasswordEt.getText().toString();
 
@@ -55,16 +59,22 @@ public class RegisterActivity extends AppCompatActivity {
                     canRegister = false;
                 }
 
+                //判断是否输入姓名
+                if(name.isEmpty()){
+                    hintTv2.setText("请输入姓名");
+                    canRegister = false;
+                }
+
                 //判断是否输入密码
                 if(password1.isEmpty()){
-                    hintTv2.setText("请输入密码");
+                    hintTv3.setText("请输入密码");
                     canRegister = false;
                 }
 
                 //判断确认密码与原密码是否一致
                 if(!password1.equals(password2)){
-                    hintTv3.setText("两次输入的密码不一致");
-                    canRegister = false;
+                    hintTv4.setText("两次输入的密码不一致");
+                    //canRegister = false;
                 }
 
 
@@ -77,11 +87,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //将数据传给服务器并获得一个结果
 
+                //当注册成功时
+                if(canRegister)
+                {
+                    //LoginActivity.instance.setPhoneNumber(phoneNumber);//将用户手机号传到登录界面
+                }
                 //跳转回登录界面
                 //定义跳转对象
                 Intent intentToLogin = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 //设置跳转的起始界面和目的界面
                 intentToLogin.setClass(RegisterActivity.this, LoginActivity.class);
+                //将用户手机号传到登录界面
+                intentToLogin.putExtra("phone",phoneNumber);
                 //启动跳转
                 startActivity(intentToLogin);
 
@@ -114,11 +131,13 @@ public class RegisterActivity extends AppCompatActivity {
     private void initUI(){
         registerBtn = (Button)findViewById(R.id.cfRegisterBtn);
         phoneNumberEt = (EditText)findViewById(R.id.phoneEditText);
+        nameEt = (EditText)findViewById(R.id.nameEditText);
         passwordEt = (EditText)findViewById(R.id.passwordEditText);
         confirmPasswordEt = (EditText)findViewById(R.id.cfPasswordEditText);
         hintTv1 = (TextView)findViewById(R.id.hintTextView1);
         hintTv2 = (TextView)findViewById(R.id.hintTextView2);
         hintTv3 = (TextView)findViewById(R.id.hintTextView3);
+        hintTv4 = (TextView)findViewById(R.id.hintTextView4);
         isDriverCb_reg = (CheckBox)findViewById(R.id.isDriverCheckBox_reg);
         carNumTv = (TextView)findViewById(R.id.carNumberTextView);
         carNumEt = (EditText)findViewById(R.id.carNumberEditText);

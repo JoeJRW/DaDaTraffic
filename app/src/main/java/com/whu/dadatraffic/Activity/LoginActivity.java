@@ -33,8 +33,10 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isPassager = true;
     private boolean autoLogin = false;
     private boolean rememberPsw = false;
-    private String phoneNumber = null;
-    private String password = null;
+    private String phoneNumber = "";
+    private String password = "";
+
+    //public static LoginActivity instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +46,17 @@ public class LoginActivity extends AppCompatActivity {
         //关闭初始化界面
         Splash.instance.finish();
 
+        phoneNumber=getIntent().getStringExtra("phone");
+
+        initUI();
+
         //隐藏标题栏
         ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
             actionBar.hide();
         }
 
-        initUI();
+
         //messageTv.setText("是乘客");
 
 
@@ -145,5 +151,11 @@ public class LoginActivity extends AppCompatActivity {
         roleRadioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         rememberPswCheckBox = (CheckBox)findViewById(R.id.rememberCheckBox);
         autoLoginCheckBox = (CheckBox)findViewById(R.id.autoLoginCheckBox);
+
+        usernameEt.setText(phoneNumber);
+    }
+
+    public void setPhoneNumber(String phoneNum){
+        this.phoneNumber = phoneNum;
     }
 }
