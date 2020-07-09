@@ -1,4 +1,4 @@
-package com.whu.dadatraffic;
+package com.whu.dadatraffic.Base;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
@@ -11,7 +11,7 @@ import java.util.Date;
 public class Order {
     private String customerPhoneNum = null;//乘客手机号
     private String orderID = null;//订单编号
-    private String driverName = null;//司机姓名
+    private String driverName = "";//司机姓名
     private String carNumber = null;//车牌号
     private String createTime = null;//订单创建时间
     private String startPoint = null;//行程起始地点
@@ -21,11 +21,11 @@ public class Order {
     private String evalution = "";//行程评价
     private float score = 1.0f;//得分
 
-    public Order(String PhoneNum ,String orderID, String driverName, String startPoint, String destination, double price){
+    public Order(String PhoneNum ,String orderID, String startPoint, String destination){
         Date date = new Date(System.currentTimeMillis());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         createTime = simpleDateFormat.format(date);
-        orderState = "进行中";
+        orderState = "等待中";
 
         this.customerPhoneNum = PhoneNum;
         this.orderID = orderID;
@@ -40,13 +40,19 @@ public class Order {
 
     public String getCreateTime(){return createTime;}
 
-    public String getDriverName(){return driverName;}
-
     public String getStartPoint(){return startPoint;}
 
     public String getDestination(){return destination;}
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public double getPrice(){return  price;}
+
+    public String getCustomerPhoneNum() {
+        return customerPhoneNum;
+    }
 
     public void setEvalution(String evalution){this.evalution = evalution;}
     public String getEvalution(){return evalution;}
@@ -54,53 +60,18 @@ public class Order {
     public void setScore(float score){this.score = score;}
     public float getScore(){return score;}
 
-    /*
-    //实现接口
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setCarNumber(String carNumber) {
+        this.carNumber = carNumber;
     }
 
-    //实现接口用于对象传递
-    @Override
-    public void writeToParcel(Parcel out, int i) {
-        out.writeString(customerPhoneNum);
-        out.writeString(orderID);
-        out.writeString(carNumber);
-        out.writeString(createTime);
-        out.writeString(driverName);
-        out.writeString(startPoint);
-        out.writeString(destination);
-        out.writeString(evalution);
-        out.writeDouble(price);
-        out.writeFloat(score);
+    public String getCarNumber() {
+        return carNumber;
     }
 
-    public Order(Parcel in)
-    {
-        customerPhoneNum = in.readString();
-        orderID=in.readString();
-        carNumber=in.readString();
-        createTime=in.readString();
-        driverName=in.readString();
-        startPoint = in.readString();
-        destination=in.readString();
-        evalution=in.readString();
-        price=in.readDouble();
-        score = in.readFloat();
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
-    public static final Creator<Order> CREATOR = new Creator<Order>() {
-        @Override
-        public Order createFromParcel(Parcel in) {
-            return new Order(in);
-        }
+    public String getDriverName(){return driverName;}
 
-        @Override
-        public Order[] newArray(int size) {
-            return new Order[size];
-        }
-    };
-
-     */
 }
