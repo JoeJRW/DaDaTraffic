@@ -23,7 +23,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="@+id/imageButton3"
+        app:layout_constraintStart_toStartOf="@+id/backToSetting"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
