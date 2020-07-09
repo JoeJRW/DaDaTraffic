@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_travel = (Button) findViewById(R.id.btn_travel);
         btn_travel.setOnClickListener(this);
 
+        initActionBar();
 //--------------侧拉框中多个界面的跳转----------------------------------
         RelativeLayout userLayout = findViewById(R.id.user_layout);
         userLayout.setOnClickListener(new View.OnClickListener() {
