@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:parentActivityName = ".WalletActivity"
     tools:context=".Activity.WalletActivity">
 
 
 
     <ImageView
         android:id="@+id/Walletbkg"
-        android:layout_width="match_parent"
-        android:layout_height="257sp"
+        android:layout_width="407dp"
+        android:layout_height="257dp"
 
-        android:layout_marginBottom="300sp"
+        android:layout_marginBottom="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -23,100 +22,97 @@
         app:srcCompat="@drawable/icon_bkg"
         tools:visibility="visible" />
 
-
-    <RelativeLayout
-        android:id="@+id/money_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="90sp"
-        android:layout_marginBottom="500sp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:onClick="onClick"
-        android:paddingLeft="30sp"
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="324dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="220dp"
+        android:textSize="18sp"
+        android:text="0分"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Tscore"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/Tmoney"
-            android:layout_width="130sp"
-            android:layout_height="60sp"
-            android:layout_marginTop="100sp"
-            android:text="余额："
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/money"
-            android:layout_width="324sp"
-            android:layout_height="34sp"
-            android:layout_marginTop="150sp"
-            android:layout_marginBottom="100sp"
-            android:gravity="center"
-            android:text="00.00元"
-            android:textSize="24sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/score_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_marginTop="200sp"
-        android:layout_marginBottom="400sp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:onClick="onClick"
+    <TextView
+        android:id="@+id/Tscore"
+        android:layout_width="65dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="220dp"
+        android:text="积分："
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toStartOf="@+id/score"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="324sp"
-            android:layout_height="40sp"
-            android:layout_marginBottom="210sp"
-            android:layout_marginTop="200sp"
-            android:gravity="center"
-            android:text="0分"
-            android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/Tscore"
-            android:layout_width="65sp"
-            android:layout_height="34sp"
-            android:layout_marginStart="16sp"
-            android:layout_marginLeft="16sp"
-            android:layout_marginBottom="240sp"
-            android:layout_marginTop="200sp"
-            android:text="积分："
-            android:textSize="18sp" />
-    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/Text1"
+        android:layout_width="145dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="183dp"
+        android:layout_marginLeft="183dp"
+        android:layout_marginEnd="171dp"
+        android:layout_marginRight="171dp"
+        android:layout_marginBottom="630dp"
+        android:text="我的钱包"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.306"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/IconWallet"
+        android:layout_width="55dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="101dp"
+        android:layout_marginLeft="101dp"
+        android:layout_marginBottom="630dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Text1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_left_wallet" />
 
     <TextView
         android:id="@+id/Text2"
-        android:layout_width="100sp"
-        android:layout_height="32sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginEnd="295sp"
-        android:layout_marginRight="295sp"
-        android:layout_marginBottom="288sp"
+        android:layout_width="100dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="340dp"
+        android:layout_marginEnd="295dp"
+        android:layout_marginRight="295dp"
+        android:layout_marginBottom="288dp"
         android:text="支付方式"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IconWallet" />
 
     <Button
         android:id="@+id/cardBtn"
-        android:layout_width="380sp"
-        android:layout_height="38sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginTop="16sp"
-        android:layout_marginEnd="15sp"
-        android:layout_marginRight="15sp"
-        android:layout_marginBottom="15sp"
+        android:layout_width="380dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:background="#FFFFFF"
         android:drawableLeft="@drawable/icon_card"
         android:text="银行卡                                                             未绑定"
@@ -128,14 +124,14 @@
 
     <Button
         android:id="@+id/vxBtn"
-        android:layout_width="380sp"
-        android:layout_height="38sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginTop="3sp"
-        android:layout_marginEnd="15sp"
-        android:layout_marginRight="15sp"
-        android:layout_marginBottom="127sp"
+        android:layout_width="380dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="127dp"
         android:background="#FDFDFD"
         android:drawableLeft="@drawable/icon_vx"
         android:text="微信                                                                       未绑定"
@@ -146,14 +142,14 @@
 
     <Button
         android:id="@+id/zfbBtn"
-        android:layout_width="380sp"
-        android:layout_height="38sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginTop="3sp"
-        android:layout_marginEnd="15sp"
-        android:layout_marginRight="15sp"
-        android:layout_marginBottom="15sp"
+        android:layout_width="380dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:background="#FFFFFF"
         android:drawableLeft="@drawable/icon_zfb"
         android:text="支付宝                                                                  未绑定"
@@ -162,28 +158,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardBtn" />
 
+    <TextView
+        android:id="@+id/money"
+        android:layout_width="324dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="416dp"
+        android:text="00.00元"
+        android:gravity="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Tmoney"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/Tmoney"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="450dp"
+        android:text="余额："
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/money"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/ticketBtn"
-        android:layout_width="380sp"
-        android:layout_height="38sp"
-        android:layout_marginStart="16sp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginTop="13sp"
-        android:layout_marginEnd="15sp"
-        android:layout_marginRight="15sp"
-        android:layout_marginBottom="21sp"
+        android:layout_width="380dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="21dp"
         android:background="#FFFFFF"
         android:drawableLeft="@drawable/icon_ticket"
-        android:paddingLeft="5sp"
-        android:paddingTop="5sp"
-        android:paddingRight="5sp"
-        android:paddingBottom="5sp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
         android:text="优惠券                                                                         0张"
         app:layout_constraintBottom_toTopOf="@+id/Text2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Walletbkg" />
+
+    <ImageButton
+        android:id="@+id/BackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="51dp"
+        android:layout_marginRight="51dp"
+        android:layout_marginBottom="41dp"
+        app:layout_constraintBottom_toTopOf="@+id/Walletbkg"
+        app:layout_constraintEnd_toStartOf="@+id/IconWallet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/abc_vector_test" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
