@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //判断确认密码与原密码是否一致
                 if(!password1.equals(password2)){
                     hintTv4.setText("两次输入的密码不一致");
-                    canRegister = false;
+                    //canRegister = false;
                 }
 
 
@@ -87,11 +87,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //将数据传给服务器并获得一个结果
 
+                //当注册成功时
+                if(canRegister)
+                {
+                    //LoginActivity.instance.setPhoneNumber(phoneNumber);//将用户手机号传到登录界面
+                }
                 //跳转回登录界面
                 //定义跳转对象
                 Intent intentToLogin = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 //设置跳转的起始界面和目的界面
                 intentToLogin.setClass(RegisterActivity.this, LoginActivity.class);
+                //将用户手机号传到登录界面
+                intentToLogin.putExtra("phone",phoneNumber);
                 //启动跳转
                 startActivity(intentToLogin);
 

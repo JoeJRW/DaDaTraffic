@@ -17,11 +17,11 @@ public class Order {
     private String startPoint = null;//行程起始地点
     private String destination = null;//行程目的地
     private double price = 0.00;//本次行程价格
-    private String orderState = null;//订单状态
+    public String orderState = null;//订单状态
     private String evalution = "";//行程评价
     private float score = 1.0f;//得分
 
-    public Order(String PhoneNum ,String orderID, String driverName, String startPoint, String destination, String carNumber, double price){
+    public Order(String PhoneNum ,String orderID, String driverName, String startPoint, String destination, double price){
         Date date = new Date(System.currentTimeMillis());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         createTime = simpleDateFormat.format(date);
@@ -34,15 +34,6 @@ public class Order {
         this.destination = destination;
         this.carNumber = carNumber;
         this.price = price;
-    }
-
-    public void orderCancel()
-    {
-        this.orderState = "已取消";
-    }
-
-    public void orderComplete(){
-        this.orderState = "已支付";
     }
 
     public String getOrderID(){return orderID;}

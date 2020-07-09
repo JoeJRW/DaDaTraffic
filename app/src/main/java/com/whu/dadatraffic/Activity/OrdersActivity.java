@@ -28,9 +28,9 @@ public class OrdersActivity extends AppCompatActivity {
 
         initUI();
         //测试
-        OrderList.add(new Order("18945612321","01","swx","whu","wuhan","A20556",50.0));
-        OrderList.add(new Order("13352556211","02","zcx","whu","shu","B25465",40.0));
-        OrderList.add(new Order("13655552221","03","zcx","whu","shu","E13224",30.0));
+        OrderList.add(new Order("18945612321","01","swx","whu","wuhan",50.0));
+        OrderList.add(new Order("13352556211","02","zcx","whu","shu",40.0));
+        OrderList.add(new Order("13655552221","03","zcx","whu","shu",30.0));
         OrderList.elementAt(0).setScore(0.5f);
 
 
