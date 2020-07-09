@@ -3,8 +3,7 @@ package com.whu.dadatraffic.Activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.whu.dadatraffic.MainActivity;
-import com.whu.dadatraffic.Order;
+import com.whu.dadatraffic.Base.Order;
 
 import android.content.Intent;
 import android.os.Bundle;

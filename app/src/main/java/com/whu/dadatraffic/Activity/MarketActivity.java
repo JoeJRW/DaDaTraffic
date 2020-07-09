@@ -2,73 +2,100 @@ package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.whu.dadatraffic.R;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
-import com.whu.dadatraffic.ViewHolder;
+import com.whu.dadatraffic.Service.ItemService;
+import com.whu.dadatraffic.Base.ViewHolder;
 
 
 
 public class MarketActivity extends AppCompatActivity {
 
-    private String[] titles={"围巾","苹果","耳机","马克杯","38元打车券","音箱"};
-    private String[] prices={"1800分","100分/kg","2480分","880分","380分","580分"};
-    //图片集合
-    private  int[] icons={R.drawable.icon_scarf,R.drawable.icon_apple,R.drawable.icon_earphone,
-            R.drawable.icon_cup,R.drawable.icon_card,R.drawable.icon_box};
+    ItemService itemService = new ItemService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market);
         setCustomActionBar();
-
+        itemService.AddItem("围巾","1800分",R.drawable.icon_scarf);
+        itemService.AddItem("耳机","2480分",R.drawable.icon_earphone);
+        itemService.AddItem("马克杯","880分",R.drawable.icon_cup);
+        itemService.AddItem("38元打车券","380分",R.drawable.icon_card);
+        itemService.AddItem("音箱","580分",R.drawable.icon_box);
+        itemService.AddItem("8折优惠券","80分",R.drawable.icon_card);
         //初始化ListView控件
         ListView listView=findViewById(R.id.lv);
         //创建一个Adapter的实例
-        Adapter newAdapter=new Adapter();
+        MarketAdapter newMarketAdapter =new MarketAdapter();
         //设置Adapter
-        listView.setAdapter(newAdapter);
+        listView.setAdapter(newMarketAdapter);
+        RelativeLayout walletLayout = findViewById(R.id.item_layout);
+        walletLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //跳转到钱包界面
+                //定义跳转对象
+                Intent intentToWallet = new Intent();
+                //设置跳转的起始界面和目的界面
+                intentToWallet.setClass(MarketActivity.this, WalletActivity.class);
+                //启动跳转
+                startActivity(intentToWallet);
+            }
+        });
     }
 
-    class Adapter extends BaseAdapter {
+    class MarketAdapter extends BaseAdapter {
 
         @Override
         public int getCount(){       //得到item的总数
-            return titles.length;    //返回ListView Item条目代表的对象
+
+            return itemService.Count();    //返回ListView Item条目代表的对象
         }
 
         @Override
-        public Object getItem(int position){
-            return titles[position]; //返回item的数据对象
+        public Object getItem(int position)
+        {
+            return itemService.GetTitle(position); //返回item的数据对象
         }
         @Override
-        public long getItemId(int position){
+        public long getItemId(int position)
+        {
             return position;         //返回item的id
         }
 
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent){//获取item中的View视图
+        public View getView(int position, View convertView, ViewGroup parent){//获取item中的View视图,使用convertview增加系统效率
             ViewHolder holder;
-            if(convertView==null){
+            if(convertView==null)//convertview为空则绑定各控件
+            {
                 convertView=View.inflate(MarketActivity.this, R.layout.activity_items, null);
-                holder=new com.whu.dadatraffic.ViewHolder();
+                holder=new ViewHolder();
                 holder.title=convertView.findViewById(R.id.title);
                 holder.price=convertView.findViewById(R.id.price);
                 holder.image=convertView.findViewById(R.id.item);
                 convertView.setTag(holder);
-            }else{
-                holder=(com.whu.dadatraffic.ViewHolder)convertView.getTag();
             }
-            holder.title.setText(titles[position]);
-            holder.price.setText(prices[position]);
-            holder.image.setImageResource(icons[position]);
+            else//非空，则复用convertview
+            {
+                holder=(ViewHolder)convertView.getTag();
+            }
+            //设置该View中各项值
+            itemService.GetTitle(position);
+            holder.title.setText(itemService.GetTitle(position));
+            holder.price.setText(itemService.GetPrice(position));
+            holder.image.setImageResource(itemService.GetIcon(position));
             return convertView;
         }
     }

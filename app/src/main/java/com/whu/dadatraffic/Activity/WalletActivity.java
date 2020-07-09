@@ -5,12 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -50,8 +47,8 @@ public class WalletActivity extends AppCompatActivity {
             }
         });
 
-        RelativeLayout MoneyLayout = findViewById(R.id.money_layout);//余额文本
-        scoreLayout.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout moneyLayout = findViewById(R.id.money_layout);//余额文本
+        moneyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //跳转到充值界面
