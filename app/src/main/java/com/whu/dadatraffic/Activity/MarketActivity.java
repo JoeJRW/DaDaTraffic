@@ -31,7 +31,7 @@ public class MarketActivity extends AppCompatActivity {
         itemService.AddItem("围巾","1800分",R.drawable.icon_scarf);
         itemService.AddItem("耳机","2480分",R.drawable.icon_earphone);
         itemService.AddItem("马克杯","880分",R.drawable.icon_cup);
-        itemService.AddItem("38元打车券","380分",R.drawable.icon_card);
+        itemService.AddItem("38元打车券","380分",R.drawable.icon_38);
         itemService.AddItem("音箱","580分",R.drawable.icon_box);
         itemService.AddItem("8折优惠券","80分",R.drawable.icon_card);
         //初始化ListView控件
@@ -40,19 +40,6 @@ public class MarketActivity extends AppCompatActivity {
         MarketAdapter newMarketAdapter =new MarketAdapter();
         //设置Adapter
         listView.setAdapter(newMarketAdapter);
-        RelativeLayout walletLayout = findViewById(R.id.item_layout);
-        walletLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //跳转到钱包界面
-                //定义跳转对象
-                Intent intentToWallet = new Intent();
-                //设置跳转的起始界面和目的界面
-                intentToWallet.setClass(MarketActivity.this, WalletActivity.class);
-                //启动跳转
-                startActivity(intentToWallet);
-            }
-        });
     }
 
     class MarketAdapter extends BaseAdapter {

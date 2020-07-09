@@ -17,7 +17,7 @@ import java.util.Vector;
 import static com.whu.dadatraffic.R.*;
 
 public class OrdersActivity extends AppCompatActivity {
-    public Vector<Order> OrderList = new Vector<Order>();
+    public static Vector<Order> orderList = new Vector<Order>();
     private LinearLayout ordersLayout = null;
 
     @Override
@@ -26,10 +26,15 @@ public class OrdersActivity extends AppCompatActivity {
         setContentView(layout.activity_orders);
 
         initUI();
-        OrderList.add(new Order("01","swx","whu","wuhan",50.0));
-        OrderList.add(new Order("02","zcx","whu","shu",50.0));
-        OrderList.add(new Order("02","zcx","whu","shu",50.0));
-        initOrdersUI();
+        //测试
+        orderList.removeAllElements();
+        orderList.add(new Order("18945612321","01","whu","wuhan"));
+        orderList.add(new Order("13352556211","02","whu","shu"));
+        orderList.add(new Order("13655552221","03","whu","shu"));
+        orderList.elementAt(0).setScore(0.5f);
+
+
+        //initOrdersUI();
 
         //ordersLv.setAdapter(new ArrayAdapter<Order>(this,));
     }
@@ -45,7 +50,21 @@ public class OrdersActivity extends AppCompatActivity {
     //返回父活动
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-            return super.onOptionsItemSelected(item);
+        if(item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 调用onCreate(), 目的是刷新数据,  从另一activity界面返回到该activity界面时, 此方法自动调用
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initOrdersUI();
     }
 
     private void initUI()
@@ -60,8 +79,12 @@ public class OrdersActivity extends AppCompatActivity {
 
     private void initOrdersUI()
     {
-        for(int i=0;i<OrderList.size();i++){
-            Order curOrder = OrderList.elementAt(i);
+        //清空当前布局
+        ordersLayout.removeAllViews();
+        for(int i = 0; i< orderList.size(); i++){
+            //获取订单信息
+            final Order curOrder = orderList.elementAt(i);
+            //设计每个订单的布局（自定义layout）
             LinearLayout cell = new LinearLayout(this);
             cell.setOrientation(LinearLayout.VERTICAL);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,160,1.0f);
@@ -69,6 +92,7 @@ public class OrdersActivity extends AppCompatActivity {
             cell.setLayoutParams(layoutParams);
             cell.setBackgroundColor(0xffff00f);
             cell.setClickable(true);
+
             //给每个layoutt绑定点击事件
             cell.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,19 +102,24 @@ public class OrdersActivity extends AppCompatActivity {
                     Intent intentToDetail = new Intent();
                     //设置跳转的起始界面和目的界面
                     intentToDetail.setClass(view.getContext(), OrderDetailActivity.class);
+                    //传递点击的Order编号
+                    intentToDetail.putExtra("ID",curOrder.getOrderID());
                     //启动跳转
                     startActivity(intentToDetail);
                 }
             });
 
+            //layout内部子控件设计
             TextView driverTv = new TextView(this);
             driverTv.setTextSize(20);
-            driverTv.setText("  司机："+curOrder.getDriverName());
+            driverTv.setText("  司机："+curOrder.getDriverName()+"                   "+curOrder.orderState);
             TextView routeTv = new TextView(this);
             routeTv.setTextSize(20);
             routeTv.setText("  出发点："+curOrder.getStartPoint()+"      "+"目的地："+curOrder.getDestination());
+            //添加子控件
             cell.addView(driverTv);
             cell.addView(routeTv);
+            //添加自定义layout
             ordersLayout.addView(cell);
         }
     }

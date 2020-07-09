@@ -38,24 +38,11 @@ public class TicketActivity extends AppCompatActivity {
         ticketService.AddTicket("38元打车券","8折",R.drawable.icon_38,giveTime,endTime,true);
         //ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_card);
         //初始化ListView控件
-        ListView listView=findViewById(R.id.lv);
+        ListView listView=findViewById(R.id.tlv);
         //创建一个Adapter的实例
         TicketAdapter newAdapter=new TicketAdapter();
         //设置Adapter
         listView.setAdapter(newAdapter);
-        RelativeLayout walletLayout = findViewById(R.id.ticket_layout);
-        walletLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //跳转到优惠券详情界面
-                //定义跳转对象
-                Intent intentToDetail = new Intent();
-                //设置跳转的起始界面和目的界面
-                intentToDetail.setClass(TicketActivity.this, TicketDetailActivity.class);
-                //启动跳转
-                startActivity(intentToDetail);
-            }
-        });
     }
 
     class TicketAdapter extends BaseAdapter {

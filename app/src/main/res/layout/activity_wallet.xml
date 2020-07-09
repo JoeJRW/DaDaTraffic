@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/Walletbkg"
-        android:layout_width="407sp"
+        android:layout_width="match_parent"
         android:layout_height="257sp"
 
         android:layout_marginBottom="300sp"

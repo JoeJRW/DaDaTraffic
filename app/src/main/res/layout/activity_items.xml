@@ -9,8 +9,6 @@
         android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="onClick"
-        android:clickable="true"
         android:padding="10dp">
         <ImageView
             android:id="@+id/item"

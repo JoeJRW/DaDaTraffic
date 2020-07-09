@@ -9,8 +9,6 @@
         android:id="@+id/ticket_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="onClick"
-        android:clickable="true"
         android:padding="10dp">
         <ImageView
             android:id="@+id/ticket"
@@ -31,7 +29,7 @@
                 android:textSize="20sp"
                 android:textColor="#000000"/>
             <TextView
-                android:id="@+id/tv_price"
+                android:id="@+id/tv_for"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="用途："

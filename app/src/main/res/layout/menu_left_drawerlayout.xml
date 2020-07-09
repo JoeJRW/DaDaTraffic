@@ -75,19 +75,19 @@
 
         <RelativeLayout
             android:id="@+id/wallet_layout"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="50sp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
             android:gravity="center_vertical"
-            android:onClick="onClick"
-            android:paddingLeft="30sp">
+            android:paddingLeft="30sp" >
 
             <ImageView
                 android:id="@+id/wallet_pic"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-
+                android:layout_centerVertical="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/icon_left_wallet" />
 
