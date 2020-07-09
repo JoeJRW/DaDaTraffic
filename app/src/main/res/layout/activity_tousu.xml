@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.TousuActivity">
@@ -30,7 +31,7 @@
         app:layout_constraintGuide_begin="62dp"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu1"
         android:layout_width="103dp"
         android:layout_height="30dp"
@@ -41,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,7 +53,7 @@
         app:layout_constraintStart_toEndOf="@+id/tousu1"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +64,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tousu1" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +75,7 @@
         app:layout_constraintStart_toEndOf="@+id/tousu3"
         app:layout_constraintTop_toBottomOf="@+id/tousu2" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +86,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tousu3" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,7 +97,7 @@
         app:layout_constraintStart_toEndOf="@+id/tousu5"
         app:layout_constraintTop_toBottomOf="@+id/tousu4" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,7 +108,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tousu5" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,7 +119,7 @@
         app:layout_constraintStart_toEndOf="@+id/tousu7"
         app:layout_constraintTop_toBottomOf="@+id/tousu6" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -129,7 +130,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tousu7" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -140,7 +141,7 @@
         app:layout_constraintStart_toEndOf="@+id/tousu9"
         app:layout_constraintTop_toBottomOf="@+id/tousu8" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -151,7 +152,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tousu9" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/tousu12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -199,5 +200,17 @@
         app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tousu11" />
+
+    <ImageButton
+        android:id="@+id/tousu_back"
+        android:layout_width="56dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="13dp"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/homeAsUpIndicator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
