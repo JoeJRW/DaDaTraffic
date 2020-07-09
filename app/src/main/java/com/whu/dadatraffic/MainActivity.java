@@ -1,39 +1,74 @@
 package com.whu.dadatraffic;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.whu.dadatraffic.Activity.OrdersActivity;
-import com.whu.dadatraffic.Activity.TicketActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
 
-
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
+
+    private EditText et_departure;
+    private EditText et_destination;
+    private TextView tv_travel;
+    private Button btn_travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
-
         drawerLayout = findViewById(R.id.drawer_layout);
+        et_departure = (EditText) findViewById(R.id.et_departure);
+        et_destination = (EditText) findViewById(R.id.et_destination);
+        tv_travel = (TextView) findViewById(R.id.tv_travel);
+        btn_travel = (Button) findViewById(R.id.btn_travel);
+        btn_travel.setOnClickListener(this);
 
-        initActionBar();
-
+//--------------侧拉框中多个界面的跳转----------------------------------
         RelativeLayout userLayout = findViewById(R.id.user_layout);
-
         userLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,9 +83,7 @@ public class MainActivity extends AppCompatActivity {
         orderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //代码示例
-                Intent intent=new Intent(MainActivity.this, OrdersActivity.class);
+                Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
                 startActivity(intent);
             }
         });
@@ -79,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
-    }
 
+    }
+//----------------------------------------------------------------------------------------------------
     private void initActionBar() {
         //1.获取 actionbar 对象
         ActionBar actionBar = getSupportActionBar();
@@ -131,7 +165,12 @@ public class MainActivity extends AppCompatActivity {
         toggle.onOptionsItemSelected(item);
     }
 
-
-
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_travel) {
+            btn_travel.setTextColor(getResources().getColor(R.color.dark_grey));
+            btn_travel.setEnabled(false);
+        }
+    }
 
 }
