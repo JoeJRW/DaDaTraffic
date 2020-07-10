@@ -28,15 +28,13 @@
         android:text="自动登录"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.79"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.627" />
+        app:layout_constraintVertical_bias="0.626"
+        tools:layout_editor_absoluteX="229dp" />
 
     <EditText
         android:id="@+id/userEditText"
-        android:layout_width="230dp"
+        android:layout_width="230sp"
         android:layout_height="49dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
@@ -66,14 +64,17 @@
         android:id="@+id/rememberCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
+        android:layout_marginLeft="61dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:text="记住密码"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.209"
+        app:layout_constraintEnd_toStartOf="@+id/autoLoginCheckBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.628" />
+        app:layout_constraintVertical_bias="0.626" />
 
     <ImageView
         android:id="@+id/imageView"

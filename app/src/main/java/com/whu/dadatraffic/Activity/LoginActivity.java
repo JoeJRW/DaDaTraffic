@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
         registerBtn = (Button)findViewById(R.id.cfRegisterBtn);
         messageTv = (TextView)findViewById(R.id.msgTextView);
         usernameEt = (EditText)findViewById(R.id.userEditText);
-        passwordEt = (EditText)findViewById(R.id.passwordEditText);
+        passwordEt = (EditText)findViewById(R.id.passwordEditText_reg);
         passengerRbtn = (RadioButton)findViewById(R.id.rbtPassenger);
         driverRbtn = (RadioButton)findViewById(R.id.rbtDriver);
         roleRadioGroup = (RadioGroup)findViewById(R.id.radioGroup);
