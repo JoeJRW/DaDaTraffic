@@ -4,12 +4,15 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +50,9 @@ import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Service.OrderService;
 
+import so.orion.slidebar.GBSlideBar;
+import so.orion.slidebar.GBSlideBarListener;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private OrderService service = new OrderService();
     private DrawerLayout drawerLayout;
@@ -62,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isFirstLoc = true;
     private double latitude;
     private double longitude;
+
+    private GBSlideBar gbSlideBar;
+    private SlideAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +134,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intentToSetting.setClass(MainActivity.this, SettingActivity.class);
                 //启动跳转
                 startActivity(intentToSetting);
+            }
+        });
+
+        //滑动条--------------------------------------------------------------------需添加对应车型服务
+        gbSlideBar = (GBSlideBar) findViewById(R.id.gbslidebar);
+        Resources resources = getResources();
+        mAdapter = new SlideAdapter(resources, new int[]{
+                R.drawable.btn_tag_selector,
+                R.drawable.btn_more_selector,
+                R.drawable.btn_reject_selector});
+        mAdapter.setTextColor(new int[]{
+                Color.parseColor("#FFB300"),
+                Color.parseColor("#FFB300"),
+                Color.parseColor("#FFB300")
+        });
+        Log.i("edanelx",mAdapter.getCount()+"");
+        gbSlideBar.setAdapter(mAdapter);
+        gbSlideBar.setPosition(2);
+        gbSlideBar.setOnGbSlideBarListener(new GBSlideBarListener() {
+            @Override
+            public void onPositionSelected(int position) {
+                Log.d("edanelx","selected "+position);
             }
         });
 

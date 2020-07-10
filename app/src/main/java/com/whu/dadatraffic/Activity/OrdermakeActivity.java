@@ -32,6 +32,11 @@ public class OrdermakeActivity extends AppCompatActivity {
         TextView textView1=findViewById(R.id.drivername1);
         textView1.setText(driverName);
 
+        //显示司机车牌号               //需修改-------------------------------------------------------
+        String carID="鄂A123456";
+        TextView carID1=findViewById(R.id.carID1);
+        carID1.setText(carID);
+
         //显示司机评分
         double driverScore=5.0;    //需修改----------------------------------------------------------
         CharSequence ScoreText=String.valueOf(driverScore);

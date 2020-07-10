@@ -47,16 +47,14 @@
             android:id="@+id/driverscore2"
             android:layout_width="50dp"
             android:layout_height="25dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="34dp"
-            android:layout_marginBottom="29dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="12dp"
             android:text="5.0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#EF5350"
-            app:layout_constraintBottom_toTopOf="@+id/textView8"
             app:layout_constraintStart_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/drivername2" />
+            app:layout_constraintTop_toBottomOf="@+id/carID2" />
 
         <TextView
             android:id="@+id/textView6"
@@ -64,11 +62,9 @@
             android:layout_height="26dp"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="34dp"
-            android:layout_marginBottom="29dp"
+            android:layout_marginTop="48dp"
             android:text="评分："
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toTopOf="@+id/textView8"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/drivername2" />
 
@@ -130,22 +126,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="236dp" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="72dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="169dp"
-            android:layout_marginLeft="169dp"
-            android:layout_marginTop="29dp"
-            android:layout_marginEnd="169dp"
-            android:layout_marginRight="169dp"
-            android:text="车费详情"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="#80CBC4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/driverscore2" />
 
         <TextView
             android:id="@+id/textView12"
@@ -275,6 +255,23 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="72dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="169dp"
+            android:layout_marginLeft="169dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="169dp"
+            android:layout_marginRight="169dp"
+            android:text="车费详情"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#80CBC4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
         <RadioGroup
             android:id="@+id/payOptionGroup"
             android:layout_width="32dp"
@@ -302,6 +299,21 @@
                 tools:layout_conversion_absoluteHeight="50dp"
                 tools:layout_conversion_absoluteWidth="50dp" />
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/carID2"
+            android:layout_width="110dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:text="鄂A123456"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#004D40"
+            app:layout_constraintBottom_toTopOf="@+id/driverscore2"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/drivername2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
