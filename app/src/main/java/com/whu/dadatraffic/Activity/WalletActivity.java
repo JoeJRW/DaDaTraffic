@@ -27,6 +27,7 @@ public class WalletActivity extends AppCompatActivity {
                 //定义跳转对象
                 Intent intentToTicket = new Intent();
                 //设置跳转的起始界面和目的界面
+                //TODO 数据库搭建完成后，判断用户优惠券数量，如果为零则跳往noneTicketActivity
                 intentToTicket.setClass(WalletActivity.this, TicketActivity.class);
                 //启动跳转
                 startActivity(intentToTicket);

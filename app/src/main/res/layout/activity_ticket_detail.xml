@@ -6,4 +6,113 @@
     android:layout_height="match_parent"
     tools:context=".Activity.TicketDetailActivity">
 
+    <LinearLayout
+        android:id="@+id/TDetailVIew"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="170dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp">
+
+        <RelativeLayout
+            android:id="@+id/ddl_layout"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/ddl_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="有效时间:"
+                android:textColor="#7a7a7a"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/ddl_time"
+                android:singleLine="false"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@+id/ddl_title"
+                android:text="date to date"
+                android:textColor="#7a7a7a"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/discount_layout"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/discount_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="优惠效果:"
+                android:textColor="#7a7a7a"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/discount_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@+id/discount_title"
+                android:singleLine="true"
+                android:text="xx折"
+                android:textColor="#7a7a7a"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/Use_layout"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/Use_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="订单金额:"
+                android:textColor="#7a7a7a"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/Use_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@+id/Use_title"
+                android:singleLine="true"
+                android:text="满1元可用"
+                android:textColor="#7a7a7a"
+                android:textSize="24sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/TicketView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/TDetailVIew"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_dc6" />
 </androidx.constraintlayout.widget.ConstraintLayout>

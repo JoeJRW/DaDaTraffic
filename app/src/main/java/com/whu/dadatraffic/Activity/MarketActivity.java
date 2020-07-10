@@ -33,7 +33,7 @@ public class MarketActivity extends AppCompatActivity {
         itemService.AddItem("马克杯","880分",R.drawable.icon_cup);
         itemService.AddItem("38元打车券","380分",R.drawable.icon_38);
         itemService.AddItem("音箱","580分",R.drawable.icon_box);
-        itemService.AddItem("8折优惠券","80分",R.drawable.icon_card);
+        itemService.AddItem("8折优惠券","80分",R.drawable.icon_d8);
         //初始化ListView控件
         ListView listView=findViewById(R.id.lv);
         //创建一个Adapter的实例
@@ -79,7 +79,6 @@ public class MarketActivity extends AppCompatActivity {
                 holder=(ViewHolder)convertView.getTag();
             }
             //设置该View中各项值
-            itemService.GetTitle(position);
             holder.title.setText(itemService.GetTitle(position));
             holder.price.setText(itemService.GetPrice(position));
             holder.image.setImageResource(itemService.GetIcon(position));
