@@ -235,12 +235,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     SuggestionSearch mSuggestionSearch = SuggestionSearch.newInstance();
 
-
     ArrayList<SuggestionResult.SuggestionInfo> resl
             = new ArrayList<SuggestionResult.SuggestionInfo>();
     ArrayAdapter<SuggestionResult.SuggestionInfo> adapter =
             new ArrayAdapter<SuggestionResult.SuggestionInfo>(this,
                     android.R.layout.simple_list_item_1, resl);
+
+    
 
 //--------------------------------------------------------------------------------------------------
     /**
