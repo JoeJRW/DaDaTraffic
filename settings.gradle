@@ -1,2 +1,3 @@
+include ':slidebar'
 include ':app'
 rootProject.name = "DaDaTraffic"

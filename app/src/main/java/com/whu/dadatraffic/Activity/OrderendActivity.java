@@ -43,6 +43,11 @@ public class OrderendActivity extends AppCompatActivity {
         TextView textView1=findViewById(R.id.drivername3);
         textView1.setText(driverName);
 
+        //显示司机车牌号
+        String carID="鄂A123456";     //需修改-------------------------------------------------------
+        TextView carID3=findViewById(R.id.carID3);
+        carID3.setText(carID);
+
         //显示司机评分
         double driverScore=5.0;    //需修改----------------------------------------------------------
         CharSequence ScoreText=String.valueOf(driverScore);
