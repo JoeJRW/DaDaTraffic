@@ -1,5 +1,9 @@
 package com.whu.dadatraffic.Activity;
-
+/**
+ * author:王子皓
+ * create time：2020.07.07
+ * 功能为应用启动界面
+ */
 import android.content.Intent;
 import android.os.Bundle;
 

@@ -1,5 +1,12 @@
 package com.whu.dadatraffic;
-
+/**
+ * author:王子皓
+ * create time：2020.07.07
+ * update time：2020.07.12 仍未完成...
+ * log：2020.07.07&07.08 完成侧拉框的代码编写
+ *      2020.07.08&07.09 完成百度地图SDK的环境配置和定位功能的实现
+ *      2020.07.10&07.11 完成出发地和目的地文本框代码编写，主要实现sug检索和显示相关热词，并在点击后补全地址
+ */
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +19,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -50,9 +60,11 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.whu.dadatraffic.Activity.OrdersActivity;
 import com.whu.dadatraffic.Activity.SettingActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
+import com.whu.dadatraffic.Adapter.AutoEditTextAdapter;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Service.OrderService;
 
@@ -69,10 +81,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 
-    private EditText et_departure;
-    private EditText et_destination;
+    private AutoCompleteTextView et_departure;
+    private AutoCompleteTextView et_destination;
     private Button btn_travel;
-    private ListView placeList;
+
 
     private LocationClient locationClient;
     private MapView mapView;
@@ -84,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GBSlideBar gbSlideBar;
     private SlideAdapter mAdapter;
 
+    private SuggestionSearch mSuggestionSearch;
+    private List<String> stringlist = new ArrayList<>();
+    private List<String> stringlist2 = new ArrayList<>();
+    private LatLng latLng;
+    private String mCity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +111,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        et_departure = (EditText) findViewById(R.id.et_departure);
-        et_destination = (EditText) findViewById(R.id.et_destination);
+        et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
+        et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
         btn_travel = (Button) findViewById(R.id.btn_travel);
         btn_travel.setOnClickListener(this);
-        placeList = findViewById(R.id.placeList);
 
         initLocation();
         initActionBar();
@@ -172,6 +189,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+//-----------------监听目的地文本框-------------------------------------------------------------------
+        setDestination();
+//----------------实例化mSuggestionSearch ，并添加监听器。用于处理搜索到的结果---------------------------
+
+        mSuggestionSearch = SuggestionSearch.newInstance();
+        mSuggestionSearch.setOnGetSuggestionResultListener(listener);
     }
 //--------------------------------------------------------------------------------------------------
     /**
@@ -236,11 +259,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(location==null||mapView==null){
                 return;
             }
+            latLng = new LatLng(location.getLatitude(), location.getLongitude());
             //获取纬度信息
             latitude = location.getLatitude();
             //获取经度信息
             longitude = location.getLongitude();
-            String position = String.format("%s|%s|%s|%s|%s",
+            String position = String.format("%s%s%s%s%s",
                     location.getCity(),
                     location.getDistrict(),location.getStreet(),
                     location.getStreetNumber(),location.getAddrStr());
@@ -251,6 +275,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .direction(100).latitude(latitude).longitude(longitude)
                     .build();
             mapLayer.setMyLocationData(locData);//给地图图层设置定位地点
+
+            setEdit(location.getCity());
+
             if(isFirstLoc) {//首次定位
                 isFirstLoc=false;
                 LatLng ll = new LatLng(latitude,longitude);//创建一个经纬度对象
@@ -265,16 +292,111 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 实现关键字搜索定位
      */
-    //SuggestionSearch mSuggestionSearch = SuggestionSearch.newInstance();
 
-    //ArrayList<SuggestionResult.SuggestionInfo> resl
-     //       = new ArrayList<SuggestionResult.SuggestionInfo>();
-    //ArrayAdapter<SuggestionResult.SuggestionInfo> adapter =
-      //      new ArrayAdapter<SuggestionResult.SuggestionInfo>(this,
-      //              android.R.layout.simple_list_item_1, resl);
+    //监听输入框
+    public void setEdit(final String city) {
+        //点击就自动提示
+        et_departure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_departure.showDropDown();
 
-    
+            }
+        });
 
+        et_departure.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                locationClient.stop();
+                mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                        .keyword(et_departure.getText().toString())
+                        .city(city)
+                        .citylimit(false));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    OnGetSuggestionResultListener listener = new OnGetSuggestionResultListener() {
+        public void onGetSuggestionResult(SuggestionResult res) {
+            if (res == null || res.getAllSuggestions() == null) {//未找到相关结果
+                return;
+            } else {//获取在线建议检索结果
+                List<SuggestionResult.SuggestionInfo> resl = res.getAllSuggestions();
+                stringlist.clear();
+                stringlist2.clear();
+                for (int i = 0; i < resl.size(); i++) {
+                    stringlist.add(resl.get(i).key);
+                    stringlist2.add(resl.get(i).city+resl.get(i).district+resl.get(i).key);
+                    latLng = resl.get(i).pt;
+                }
+                AutoEditTextAdapter adapter = new AutoEditTextAdapter(stringlist,stringlist2, MainActivity.this);
+                et_departure.setAdapter(adapter);
+            }
+        }
+    };
+//-----------------设置目的地文本框监听和热点查询------------------------------------------------------
+    private void setDestination(){
+        final SuggestionSearch destinationSuggestionSearch = SuggestionSearch.newInstance();
+        destinationSuggestionSearch.setOnGetSuggestionResultListener(destinationListener);
+
+        et_destination.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_destination.showDropDown();
+
+            }
+        });
+
+        et_destination.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                destinationSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                        .keyword(et_destination.getText().toString())
+                        .city("宁波")
+                        .citylimit(false));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    OnGetSuggestionResultListener destinationListener = new OnGetSuggestionResultListener() {
+        public void onGetSuggestionResult(SuggestionResult res) {
+            if (res == null || res.getAllSuggestions() == null) {//未找到相关结果
+                return;
+            } else {//获取在线建议检索结果
+                List<SuggestionResult.SuggestionInfo> resl = res.getAllSuggestions();
+                stringlist.clear();
+                stringlist2.clear();
+                for (int i = 0; i < resl.size(); i++) {
+                    stringlist.add(resl.get(i).key);
+                    stringlist2.add(resl.get(i).city+resl.get(i).district+resl.get(i).key);
+                    //latLng = resl.get(i).pt;
+                }
+                AutoEditTextAdapter adapter = new
+                        AutoEditTextAdapter(stringlist,stringlist2, MainActivity.this);
+                et_destination.setAdapter(adapter);
+            }
+        }
+    };
 //--------------------------------------------------------------------------------------------------
     /**
      * 初始化ActionBar
