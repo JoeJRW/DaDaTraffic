@@ -32,15 +32,12 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText nameEt = null;//姓名输入框
     private EditText passwordEt = null;//密码输入框
     private EditText confirmPasswordEt = null;//确认密码输入框
-    private TextView hintTv1 = null;//提示框1
-    private TextView hintTv2 = null;//提示框2
-    private TextView hintTv3 = null;//提示框3
-    private TextView hintTv4 =null;//提示框4
+    private TextView hintTv = null;//提示框
     private CheckBox isDriverCb_reg = null;//我是司机复选框
     private TextView carNumTv = null;
     private EditText carNumEt = null;
 
-    private boolean canRegister = false;
+    //private boolean canRegister = false;
     private boolean isDriver = false;
     private String phoneNumber = null;
     private String name = null;
@@ -66,32 +63,37 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //判断手机号是否有误
                 if(phoneNumber.length() != 11){
-                    hintTv1.setText("输入手机号有误");
-                    canRegister = false;
+                    hintTv.setText("手机号格式错误");
+                    //canRegister = false;
+                    return;
                 }
 
                 //判断是否输入姓名
                 if(name.isEmpty()){
-                    hintTv2.setText("请输入姓名");
-                    canRegister = false;
+                    hintTv.setText("请输入姓名");
+                    //canRegister = false;
+                    return;
                 }
 
                 //判断是否输入密码
                 if(password1.isEmpty()){
-                    hintTv3.setText("请输入密码");
-                    canRegister = false;
+                    hintTv.setText("请输入密码");
+                    //canRegister = false;
+                    return;
                 }
 
                 //判断确认密码与原密码是否一致
                 if(!password1.equals(password2)){
-                    hintTv4.setText("两次输入的密码不一致");
-                    canRegister = false;
+                    hintTv.setText("两次输入的密码不一致");
+                    //canRegister = false;
+                    return;
                 }
 
                 if (isDriver){
                     carNumber = carNumEt.getText().toString();
                     if(carNumber.isEmpty()){
-                        Toast.makeText(getApplicationContext(),"车牌号不可为空",Toast.LENGTH_SHORT);
+                        hintTv.setText("车牌号不可为空");
+                        return;
                     }
                 }
 
@@ -145,10 +147,13 @@ public class RegisterActivity extends AppCompatActivity {
         nameEt = (EditText)findViewById(R.id.nameEditText);
         passwordEt = (EditText)findViewById(R.id.passwordEditText_reg);
         confirmPasswordEt = (EditText)findViewById(R.id.cfPasswordEditText);
+        /*
         hintTv1 = (TextView)findViewById(R.id.hintTextView1);
         hintTv2 = (TextView)findViewById(R.id.hintTextView2);
         hintTv3 = (TextView)findViewById(R.id.hintTextView3);
         hintTv4 = (TextView)findViewById(R.id.hintTextView4);
+         */
+        hintTv = (TextView)findViewById(R.id.hintTv);
         isDriverCb_reg = (CheckBox)findViewById(R.id.isDriverCheckBox_reg);
         carNumTv = (TextView)findViewById(R.id.carNumberTextView);
         carNumEt = (EditText)findViewById(R.id.carNumberEditText);
@@ -162,34 +167,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void register() {
         final String registerUrlStr = DBConstent.URL_Register + "?phonenumber=" + phoneNumber + "&password=" + password1 +"&username="+name;
         new RegisterAsyncTask().execute(registerUrlStr);
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                HttpURLConnection connection = null;
-                try {
-                    URL url = new URL(registerUrlStr); // 声明一个URL,注意——如果用百度首页实验，请使用https
-                    connection = (HttpURLConnection) url.openConnection(); // 打开该URL连接
-                    connection.setRequestMethod("GET"); // 设置请求方法，“POST或GET”，我们这里用GET，在说到POST的时候再用POST
-                    connection.setConnectTimeout(8000); // 设置连接建立的超时时间
-                    connection.setReadTimeout(8000); // 设置网络报文收发超时时间
-                    InputStream in = connection.getInputStream();  // 通过连接的输入流获取下发报文，然后就是Java的流处理
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null){
-                        response.append(line);
-                    }
-
-                    //tvContent.setText(response.toString()); // 地雷
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-*/
     }
 
     /**
@@ -248,12 +225,12 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             if(result.equals("100")) {
-                Toast.makeText(getApplicationContext(), "当前手机号已注册", Toast.LENGTH_SHORT);
-                canRegister = false;
+                hintTv.setText("当前号码已注册");
+                //canRegister = false;
             }
             else if(result.equals("200")) {
-                Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_LONG);
-                canRegister = true;
+                hintTv.setText("注册成功");
+                //canRegister = true;
                 //hintTv2.setText(result);
                 //跳转回登录界面
                 //定义跳转对象
@@ -266,8 +243,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intentToLogin);
             }
             else {
-                Toast.makeText(getApplicationContext(), "注册失败", Toast.LENGTH_SHORT);
-                canRegister = false;
+                hintTv.setText("注册失败");
+                //canRegister = false;
             }
         }
 

@@ -25,17 +25,22 @@
         android:id="@+id/autoLoginCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
         android:text="自动登录"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rememberCheckBox"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.626"
-        tools:layout_editor_absoluteX="229dp" />
+        app:layout_constraintVertical_bias="0.626" />
 
     <EditText
         android:id="@+id/userEditText"
-        android:layout_width="230sp"
-        android:layout_height="49dp"
+        android:layout_width="220sp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:ems="10"
@@ -66,8 +71,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="61dp"
         android:layout_marginLeft="61dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="记住密码"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -91,8 +96,8 @@
 
     <EditText
         android:id="@+id/pswEditText"
-        android:layout_width="230dp"
-        android:layout_height="49dp"
+        android:layout_width="220sp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:ems="10"
@@ -118,8 +123,8 @@
 
         <RadioButton
             android:id="@+id/rbtPassenger"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
             android:text="乘客"
             android:textSize="24sp" />
 
@@ -157,12 +162,12 @@
 
     <TextView
         android:id="@+id/msgTextView"
-        android:layout_width="150dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="23dp"
-        android:textColor="#FF0909"
-        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:gravity="center"
+        android:textColor="#FF0909"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
