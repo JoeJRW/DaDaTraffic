@@ -56,13 +56,13 @@ import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Service.OrderService;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import so.orion.slidebar.GBSlideBar;
 import so.orion.slidebar.GBSlideBarAdapter;
 import so.orion.slidebar.GBSlideBarListener;
 import com.whu.dadatraffic.Adapter.SlideAdapter;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private OrderService service = new OrderService();
