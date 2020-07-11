@@ -10,10 +10,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,11 +45,17 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
+import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.whu.dadatraffic.Activity.OrdersActivity;
 import com.whu.dadatraffic.Activity.SettingActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Service.OrderService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private OrderService service = new OrderService();
@@ -55,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText et_departure;
     private EditText et_destination;
     private Button btn_travel;
+    private ListView placeList;
 
     private LocationClient locationClient;
     private MapView mapView;
@@ -76,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         et_destination = (EditText) findViewById(R.id.et_destination);
         btn_travel = (Button) findViewById(R.id.btn_travel);
         btn_travel.setOnClickListener(this);
+        placeList = findViewById(R.id.placeList);
 
         initLocation();
         initActionBar();
@@ -196,11 +208,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             latitude = location.getLatitude();
             //获取经度信息
             longitude = location.getLongitude();
-            //String position = String.format("当前位置: %s|%s|%s|%s|%s|%s|%s",
-            //        location.getProvince(),location.getCity(),
-            //        location.getDistrict(),location.getStreet(),
-            //        location.getStreetNumber(),location.getAddrStr(),
-            //        location.getTime());
+            String position = String.format("%s|%s|%s|%s|%s",
+                    location.getCity(),
+                    location.getDistrict(),location.getStreet(),
+                    location.getStreetNumber(),location.getAddrStr());
+            et_departure.setText(position);
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                     //此处设置开发者获取到的方向信息，顺时针0-360
@@ -218,6 +230,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 //--------------------------------------------------------------------------------------------------
+    /**
+     * 实现关键字搜索定位
+     */
+    SuggestionSearch mSuggestionSearch = SuggestionSearch.newInstance();
+
+
+    ArrayList<SuggestionResult.SuggestionInfo> resl
+            = new ArrayList<SuggestionResult.SuggestionInfo>();
+    ArrayAdapter<SuggestionResult.SuggestionInfo> adapter =
+            new ArrayAdapter<SuggestionResult.SuggestionInfo>(this,
+                    android.R.layout.simple_list_item_1, resl);
+
+//--------------------------------------------------------------------------------------------------
+    /**
+     * 初始化ActionBar
+     */
     private void initActionBar() {
         //1.获取 actionbar 对象
         ActionBar actionBar = getSupportActionBar();
