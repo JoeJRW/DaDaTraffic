@@ -59,7 +59,9 @@ import com.whu.dadatraffic.Service.OrderService;
 import java.util.ArrayList;
 import java.util.List;
 import so.orion.slidebar.GBSlideBar;
+import so.orion.slidebar.GBSlideBarAdapter;
 import so.orion.slidebar.GBSlideBarListener;
+import com.whu.dadatraffic.Adapter.SlideAdapter;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -263,13 +265,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 实现关键字搜索定位
      */
-    SuggestionSearch mSuggestionSearch = SuggestionSearch.newInstance();
+    //SuggestionSearch mSuggestionSearch = SuggestionSearch.newInstance();
 
-    ArrayList<SuggestionResult.SuggestionInfo> resl
-            = new ArrayList<SuggestionResult.SuggestionInfo>();
-    ArrayAdapter<SuggestionResult.SuggestionInfo> adapter =
-            new ArrayAdapter<SuggestionResult.SuggestionInfo>(this,
-                    android.R.layout.simple_list_item_1, resl);
+    //ArrayList<SuggestionResult.SuggestionInfo> resl
+     //       = new ArrayList<SuggestionResult.SuggestionInfo>();
+    //ArrayAdapter<SuggestionResult.SuggestionInfo> adapter =
+      //      new ArrayAdapter<SuggestionResult.SuggestionInfo>(this,
+      //              android.R.layout.simple_list_item_1, resl);
 
     
 
