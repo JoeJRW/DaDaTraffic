@@ -1,3 +1,9 @@
+/*
+*author: 李俊
+*create: time: 2020-07-09
+*update: time:
+*/
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.ActionBar;
@@ -38,18 +44,18 @@ public class OrderendActivity extends AppCompatActivity {
         }
 
         //显示司机姓别
-        String driverFistName="某";   //需修改-------------------------------------------------------
+        String driverFistName="某";   //版本2修改-------------------------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername3);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID="鄂A123456";     //需修改-------------------------------------------------------
+        String carID="鄂A123456";     //版本2修改-------------------------------------------------------
         TextView carID3=findViewById(R.id.carID3);
         carID3.setText(carID);
 
         //显示司机评分
-        double driverScore=5.0;    //需修改----------------------------------------------------------
+        double driverScore=5.0;    //版本2修改----------------------------------------------------------
         CharSequence ScoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore3);
         textView2.setText(ScoreText);
@@ -91,7 +97,7 @@ public class OrderendActivity extends AppCompatActivity {
             };
         });
 
-        //点击电话按钮，对司机进行拨号-----------------------------------------------------------------
+        //点击电话按钮，对司机进行拨号-----------------------版本2修改---------------------------------
         ImageButton imageButton=findViewById(R.id.calldriver3);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

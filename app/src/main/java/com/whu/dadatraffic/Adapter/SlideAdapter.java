@@ -1,3 +1,9 @@
+/*
+*author: 李俊
+*create: time: 2020-07-11
+*update: time:
+*/
+
 package com.whu.dadatraffic.Adapter;
 
 import android.content.res.Resources;

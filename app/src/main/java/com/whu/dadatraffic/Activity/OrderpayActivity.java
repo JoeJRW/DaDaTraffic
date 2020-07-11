@@ -1,3 +1,9 @@
+/*
+*author: 李俊
+*create: time: 2020-07-08
+*update: time:
+*/
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.ActionBar;
@@ -30,29 +36,29 @@ public class OrderpayActivity extends AppCompatActivity {
         }
 
         //显示司机姓别
-        String driverFistName="某";   //需修改-------------------------------------------------------------------
+        String driverFistName="某";   //版本2修改-------------------------------------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername2);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID="鄂A123456";      //需修改------------------------------------------------------------------
+        String carID="鄂A123456";      //版本2修改------------------------------------------------------------------
         TextView carID2=findViewById(R.id.carID2);
         carID2.setText(carID);
 
         //显示司机评分
-        double driverScore=5.0;    //需修改----------------------------------------------------------------------
+        double driverScore=5.0;    //版本2修改----------------------------------------------------------------------
         CharSequence scoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore2);
         textView2.setText(scoreText);
 
         //显示车费合计
-        double allPrice=8.0;   //需修改--------------------------------------------------------------------------
+        double allPrice=8.0;   //版本2修改--------------------------------------------------------------------------
         CharSequence allPriceText=String.valueOf(allPrice)+"元";
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
 
-        //点击优惠券选择按钮，进入优惠券选择界面---------------------------------------------------------------------
+        //点击优惠券选择按钮，进入优惠券选择界面--------------------------版本2修改---------------------------------
         Button couponOption=findViewById(R.id.coupon_option);
         couponOption.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -63,7 +69,7 @@ public class OrderpayActivity extends AppCompatActivity {
         });
 
         //显示车费抵扣
-        double discountPrice=2.0;   //需修改---------------------------------------------------------------------
+        double discountPrice=2.0;   //版本2修改---------------------------------------------------------------------
         CharSequence discountPriceText="-"+discountPrice+"元";
         TextView textView4=findViewById(R.id.discountprice);
         textView4.setText(discountPriceText);
@@ -74,7 +80,7 @@ public class OrderpayActivity extends AppCompatActivity {
         Button button2=findViewById(R.id.pay);
         button2.setText(payPriceText);
 
-        //获取支付方式的ID，ID为wechatpaybutton或zfbpaybutton---------------------------------------------------
+        //获取支付方式的ID，ID为wechatpaybutton或zfbpaybutton---------------------版本2修改------------------
         RadioGroup radioGroup=findViewById(R.id.payOptionGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -90,11 +96,11 @@ public class OrderpayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(payId==findViewById(R.id.wechatpaybutton).getId())
                 {
-                    //跳转微信支付页面--------------------------------------------------------------------------
+                    //跳转微信支付页面----------------------------------版本2添加-------------------------
                 }
                 else if(payId==findViewById(R.id.zfbpaybutton).getId())
                 {
-                    //跳转支付宝支付页面------------------------------------------------------------------------
+                    //跳转支付宝支付页面---------------------------------版本2添加-------------------------------
                 }
                 else
                 {
@@ -113,7 +119,7 @@ public class OrderpayActivity extends AppCompatActivity {
             }
         });
 
-        //点击电话按钮，对司机进行拨号------------------------------------------------------------------------------
+        //点击电话按钮，对司机进行拨号--------------------------------版本2添加-----------------------------------
         ImageButton imageButton=findViewById(R.id.calldriver2);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
