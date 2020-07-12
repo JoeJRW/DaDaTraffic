@@ -1,10 +1,12 @@
 package com.whu.dadatraffic.Activity;
-
+/*
+ *author：张朝勋
+ * create time：7/7
+ * update time: 7/11
+ */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.ListMenuPresenter;
-
-import com.whu.dadatraffic.Base.ViewHolder;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.TicketService;
@@ -17,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +39,7 @@ public class TicketActivity extends AppCompatActivity {
 
         setCustomActionBar();
 
+        //使用现在时间创建优惠券
         Date date = new Date(System.currentTimeMillis());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         giveTime = simpleDateFormat.format(date);
@@ -54,7 +59,7 @@ public class TicketActivity extends AppCompatActivity {
                 Intent intentToTDetail = new Intent();
                 //设置跳转的起始界面和目的界面
                 intentToTDetail.setClass(TicketActivity.this, TicketDetailActivity.class);
-                //传递选中View的对象
+                //传递选中View的属性
                 Bundle bundle = new Bundle();
                 bundle.putCharSequence("title",ticketService.GetTitle(position));
                 bundle.putCharSequence("discount",ticketService.GetDiscount(position));
@@ -67,6 +72,10 @@ public class TicketActivity extends AppCompatActivity {
                 startActivity(intentToTDetail);
             }
         });
+    }
+
+    public class ViewHolder {
+        public ImageView image;
     }
 
     class TicketAdapter extends BaseAdapter {
