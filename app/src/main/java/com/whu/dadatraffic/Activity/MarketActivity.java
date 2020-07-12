@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.whu.dadatraffic.R;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,14 +20,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.whu.dadatraffic.Service.ItemService;
-
-import java.util.Map;
+import com.whu.dadatraffic.Service.MarketItemService;
 
 
 public class MarketActivity extends AppCompatActivity {
 
-    ItemService itemService = new ItemService();
+    MarketItemService itemService = new MarketItemService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
