@@ -1,5 +1,9 @@
 package com.whu.dadatraffic.Activity;
-
+/*
+ *author：张朝勋
+ * create time：7/6
+ * update time: 7/9
+ */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,13 +56,13 @@ public class WalletActivity extends AppCompatActivity {
         moneyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //跳转到充值界面
+                //TODO 跳转到充值界面
                 //定义跳转对象
-                Intent intentToWallet = new Intent();
+                //Intent intentToCharge = new Intent();
                 //设置跳转的起始界面和目的界面
-                intentToWallet.setClass(WalletActivity.this, MarketActivity.class);
+                //intentToCharge.setClass(WalletActivity.this, MarketActivity.class);
                 //启动跳转
-                startActivity(intentToWallet);
+                //startActivity(intentToCharge);
             }
         });
 

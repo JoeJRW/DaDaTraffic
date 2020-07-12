@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,6 +15,7 @@
             android:layout_height="120dp"
             android:layout_centerVertical="true"/>
         <RelativeLayout
+            android:id="@+id/iteminfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -47,6 +47,39 @@
                 android:layout_toRightOf="@+id/tv_price"
                 android:textColor="#FF8F03"
                 android:layout_marginTop="10dp"/>
+
+<!--            <TextView-->
+<!--                android:id="@+id/reduce"-->
+<!--                android:layout_width="30sp"-->
+<!--                android:layout_height="30sp"-->
+<!--                android:layout_below="@id/title"-->
+<!--                android:layout_marginLeft="30sp"-->
+<!--                android:layout_marginTop="10sp"-->
+<!--                android:layout_toRightOf="@id/price"-->
+<!--                android:gravity="center"-->
+<!--                android:text="——"-->
+<!--                android:textSize="20sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/count"-->
+<!--                android:layout_width="30sp"-->
+<!--                android:layout_height="30sp"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_toRightOf="@id/reduce"-->
+<!--                android:layout_marginTop="10sp"-->
+<!--                android:layout_below="@id/title"-->
+<!--                android:text="0"-->
+<!--                android:textSize="20sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/add"-->
+<!--                android:layout_width="30sp"-->
+<!--                android:layout_height="30sp"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_toRightOf="@id/count"-->
+<!--                android:layout_marginTop="7sp"-->
+<!--                android:layout_below="@id/title"-->
+<!--                android:text="+"-->
+<!--                android:textSize="24sp" />-->
         </RelativeLayout>
+
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
