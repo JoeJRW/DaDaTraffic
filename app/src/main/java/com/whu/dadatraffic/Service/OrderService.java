@@ -13,7 +13,6 @@ public class OrderService {
     public boolean addOrder(Order order) {
         return OrdersActivity.orderList.add(order);
         //存入数据库
-
     }
 
     //根据订单编号取消相应订单
