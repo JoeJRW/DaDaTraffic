@@ -39,7 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView carNumTv = null;
     private EditText carNumEt = null;
 
-    //private boolean canRegister = false;
     private boolean isDriver = false;
     private String phoneNumber = null;
     private String name = null;
@@ -139,12 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
         nameEt = (EditText)findViewById(R.id.nameEditText);
         passwordEt = (EditText)findViewById(R.id.passwordEditText_reg);
         confirmPasswordEt = (EditText)findViewById(R.id.cfPasswordEditText);
-        /*
-        hintTv1 = (TextView)findViewById(R.id.hintTextView1);
-        hintTv2 = (TextView)findViewById(R.id.hintTextView2);
-        hintTv3 = (TextView)findViewById(R.id.hintTextView3);
-        hintTv4 = (TextView)findViewById(R.id.hintTextView4);
-         */
         hintTv = (TextView)findViewById(R.id.hintTv);
         isDriverCb_reg = (CheckBox)findViewById(R.id.isDriverCheckBox_reg);
         carNumTv = (TextView)findViewById(R.id.carNumberTextView);
