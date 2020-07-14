@@ -1,5 +1,5 @@
 /*
- *作者：施武轩 创建时间：2020.7.7 更新时间：2020.7.11
+ *作者：施武轩 创建时间：2020.7.7 更新时间：2020.7.13
  */
 
 package com.whu.dadatraffic.Activity;
@@ -7,7 +7,6 @@ package com.whu.dadatraffic.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,22 +14,21 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.whu.dadatraffic.Base.DBConstent;
+import com.whu.dadatraffic.Base.Driver;
+import com.whu.dadatraffic.Base.User;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.DriverService;
+import com.whu.dadatraffic.Service.UserService;
+import com.whu.dadatraffic.Utils.LocalStorageUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    private UserService userService = new UserService();
+    private DriverService driverService = new DriverService();
+    public static RegisterActivity instance = null;
     private Button registerBtn = null;//确认注册按钮
     private EditText phoneNumberEt = null;//手机号输入框
     private EditText nameEt = null;//姓名输入框
@@ -53,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        instance = this;
 
         initUI();
 
@@ -101,26 +100,15 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
 
-                //将数据传给服务器
-                register();
-
-                /*
-                //当注册成功时
-                if(canRegister)
-                {
-                    //跳转回登录界面
-                    //定义跳转对象
-                    Intent intentToLogin = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //设置跳转的起始界面和目的界面
-                    intentToLogin.setClass(RegisterActivity.this, LoginActivity.class);
-                    //将用户手机号传到登录界面
-                    intentToLogin.putExtra("phone",phoneNumber);
-                    //启动跳转
-                    startActivity(intentToLogin);
+                if(isDriver){
+                    //司机注册
+                    driverService.register(new Driver(phoneNumber,password1,name,carNumber));
                 }
-                canRegister = true;
+                else {
+                    //用户注册
+                    userService.register(new User(phoneNumber,password1,name));
+                }
 
-                 */
             }
         });
 
@@ -167,18 +155,37 @@ public class RegisterActivity extends AppCompatActivity {
         carNumTv.setVisibility(View.INVISIBLE);
     }
 
-    //将账户注册到服务器
-    private void register() {
-        final String registerUrlStr = DBConstent.URL_Register + "?phonenumber=" + phoneNumber + "&password=" + password1 +"&username="+name;
-        new RegisterAsyncTask().execute(registerUrlStr);
+    //注册成功后的UI操作
+    public void registerSuccess(String result){
+        hintTv.setText(result);
+        //跳转回登录界面
+        //定义跳转对象
+        Intent intentToLogin = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //设置跳转的起始界面和目的界面
+        intentToLogin.setClass(RegisterActivity.this, LoginActivity.class);
+        //清空偏好配置
+        LocalStorageUtil.clearSettingNote(LoginActivity.instance,"userPreferences");
+        //把手机号保存到本地
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("userphone", phoneNumber);
+        LocalStorageUtil.saveSettingNote(LoginActivity.instance,"userPreferences",map);
+        //启动跳转
+        startActivity(intentToLogin);
     }
 
+    //注册失败后的UI操作
+    public void registerFail(String result)
+    {
+        hintTv.setText(result);
+    }
+
+    /*
     /**
      * AsyncTask类的三个泛型参数：
      * （1）Param 在执行AsyncTask是需要传入的参数，可用于后台任务中使用
      * （2）后台任务执行过程中，如果需要在UI上先是当前任务进度，则使用这里指定的泛型作为进度单位
      * （3）任务执行完毕后，如果需要对结果进行返回，则这里指定返回的数据类型
-*/
+
     public class RegisterAsyncTask extends AsyncTask<String, Integer, String> {
         @Override
         protected void onPreExecute() {
@@ -187,7 +194,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         /**
          * @param params 这里的params是一个数组，即AsyncTask在激活运行是调用execute()方法传入的参数
-*/
+
         @Override
         protected String doInBackground(String... params) {
             //Log.w("WangJ", "task doInBackground()");
@@ -223,7 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
         /**
          * 运行在UI线程中，所以可以直接操作UI元素
          * @param
-         */
+
 
         @Override
         protected void onPostExecute(String result) {
@@ -252,6 +259,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-    }
+    }*/
 
 }

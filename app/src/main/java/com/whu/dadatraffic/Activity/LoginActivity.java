@@ -8,7 +8,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,22 +17,20 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.whu.dadatraffic.Base.DBConstent;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.DriverService;
+import com.whu.dadatraffic.Service.UserService;
+import com.whu.dadatraffic.Utils.LocalStorageUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-
+    public static LoginActivity instance = null;
+    private UserService userService = new UserService();
+    private DriverService driverService = new DriverService();
     private Button loginBtn = null;  //登录按钮
     private Button registerBtn = null;//注册按钮
     private TextView messageTv = null;//消息提示框
@@ -57,11 +54,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        instance=this;
 
         //关闭初始化界面
         Splash.instance.finish();
-
-        phoneNumber=getIntent().getStringExtra("phone");
 
         initUI();
 
@@ -71,9 +67,15 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-
-        //messageTv.setText("是乘客");
-
+        if(autoLogin){
+            //从服务器端验证密码并登录
+            if(isPassager){//乘客登录
+                userService.login(phoneNumber,password);
+            }
+            else {//司机登录
+                driverService.login(phoneNumber,password);
+            }
+        }
 
         //给登录按钮绑定事件
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +87,12 @@ public class LoginActivity extends AppCompatActivity {
                 password = passwordEt.getText().toString();
 
                 //从服务器端验证密码并登录
-                login();
+                if(isPassager){//乘客登录
+                    userService.login(phoneNumber,password);
+                }
+                else {//司机登录
+                    driverService.login(phoneNumber,password);
+                }
             }
         });
 
@@ -111,13 +118,11 @@ public class LoginActivity extends AppCompatActivity {
                 if(i == passengerRbtn.getId())
                 {
                     //当前选择的是乘客
-                    //messageTv.setText("是乘客");
                     isPassager = true;
                 }
                 else if(i == driverRbtn.getId())
                 {
                     //当前选择的是司机
-                    //messageTv.setText("是司机");
                     isPassager = false;
                 }
             }
@@ -127,10 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         rememberPswCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked == true){
-                    rememberPsw = true;
-                    //修改服务器数据
-                }
+                rememberPsw = isChecked;
             }
         });
 
@@ -138,13 +140,9 @@ public class LoginActivity extends AppCompatActivity {
         autoLoginCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked == true){
-                    autoLogin = true;
-                    //修改服务器数据
-                }
+                autoLogin = isChecked;
             }
         });
-
     }
 
     //初始化控件，将控件与变量建立关联
@@ -160,95 +158,75 @@ public class LoginActivity extends AppCompatActivity {
         rememberPswCheckBox = (CheckBox)findViewById(R.id.rememberCheckBox);
         autoLoginCheckBox = (CheckBox)findViewById(R.id.autoLoginCheckBox);
 
+        //从而本地文件中读取上次保存的账号和密码
+        phoneNumber = LocalStorageUtil.getSettingNote(LoginActivity.this,"userPreferences","userphone");
+        password = LocalStorageUtil.getSettingNote(LoginActivity.this,"userPreferences","userpwd");
+
+        if(!password.equals("")){
+            rememberPswCheckBox.setChecked(true);
+            rememberPsw=true;
+        }
+
+        if(LocalStorageUtil.getSettingNote(LoginActivity.this,"userPreferences","userphone").equals("true")){
+            autoLoginCheckBox.setChecked(true);
+            autoLogin = true;
+        }
+
         usernameEt.setText(phoneNumber);
+        passwordEt.setText(password);
     }
 
     public void setPhoneNumber(String phoneNum){
         this.phoneNumber = phoneNum;
     }
 
-    //将账户注册到服务器
-    private void login() {
-        final String loginUrlStr = DBConstent.URL_Login + "?phonenumber=" + phoneNumber + "&password=" + password;
-        new LoginActivity.LoginAsyncTask().execute(loginUrlStr);
+
+    public void loginSuccess_Passenger(String result){
+        messageTv.setText(result);
+        //登录成功时检查是否记住密码
+        if(rememberPsw){
+            //把手机号和密码保存到本地
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("userphone", phoneNumber);
+            map.put("userpwd", password);
+            LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
+        }
+        else {
+            LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","userpwd");
+        }
+        if(autoLogin){
+            //把自动登录设置保存到本地
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("autologin", "true");
+            LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
+        }
+        else {
+            LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","autologin");
+        }
+        //跳转到乘客的主界面
+        //定义跳转对象
+        Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //设置跳转的起始界面和目的界面
+        intentToMain.setClass(LoginActivity.this, MainActivity.class);
+        //启动跳转
+        startActivity(intentToMain);
     }
 
-
-    /**
-     * AsyncTask类的三个泛型参数：
-     * （1）Param 在执行AsyncTask是需要传入的参数，可用于后台任务中使用
-     * （2）后台任务执行过程中，如果需要在UI上先是当前任务进度，则使用这里指定的泛型作为进度单位
-     * （3）任务执行完毕后，如果需要对结果进行返回，则这里指定返回的数据类型
-     */
-    public class LoginAsyncTask extends AsyncTask<String, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-            //Log.w("WangJ", "task onPreExecute()");
+    public void loginSuccess_Driver (String result){
+        messageTv.setText(result);
+        //登录成功时检查是否记住密码
+        if(rememberPsw){
+            //把密码保存到本地
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("userphone", phoneNumber);
+            map.put("userpwd", password);
+            LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
         }
+        //跳转到司机的主界面
+    }
 
-        /**
-         * @param params 这里的params是一个数组，即AsyncTask在激活运行是调用execute()方法传入的参数
-         */
-        @Override
-        protected String doInBackground(String... params) {
-            //Log.w("WangJ", "task doInBackground()");
-            HttpURLConnection connection = null;
-            StringBuilder response = new StringBuilder();
-            try {
-                URL url = new URL(params[0]); // 声明一个URL
-                connection = (HttpURLConnection) url.openConnection(); // 打开该URL连接
-                connection.setRequestMethod("GET"); // 设置请求方法，“POST或GET”，我们这里用GET，在说到POST的时候再用POST
-                connection.setConnectTimeout(80000); // 设置连接建立的超时时间
-                connection.setReadTimeout(80000); // 设置网络报文收发超时时间
-                InputStream in = connection.getInputStream();  // 通过连接的输入流获取下发报文，然后就是Java的流处理
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // 如果在doInBackground方法，那么就会立刻执行本方法
-            // 本方法在UI线程中执行，可以更新UI元素，典型的就是更新进度条进度，一般是在下载时候使用
-        }
-
-        /**
-         * 运行在UI线程中，所以可以直接操作UI元素
-         * @param
-         */
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            if(result.equals("100")) {
-                messageTv.setText("密码不匹配或账号未注册");
-
-            }
-            else if(result.equals("200")) {
-                messageTv.setText("登录成功");
-
-                //跳转到主界面
-                //定义跳转对象
-                Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                //设置跳转的起始界面和目的界面
-                intentToMain.setClass(LoginActivity.this, MainActivity.class);
-                //启动跳转
-                startActivity(intentToMain);
-            }
-            else {
-                messageTv.setText("登录失败");
-            }
-        }
-
+    public void loginFail(String result){
+        messageTv.setText(result);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.whu.dadatraffic.Base;
+package com.whu.dadatraffic.Utils;
 
 public class DBConstent {
 
