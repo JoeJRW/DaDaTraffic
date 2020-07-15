@@ -1,3 +1,7 @@
+/*
+ *作者：施武轩 创建时间：2020.7.9 更新时间：2020.7.10
+ */
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.annotation.RequiresApi;
@@ -41,12 +45,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         setCustomActionBar();
-        initUI();
-
         //获取上一界面传来的订单编号
         curOrderID = getIntent().getStringExtra("ID");
+
         //根据编号去服务器获取订单信息
 
+
+        initUI();
         //测试
         curOrder=new Order("18945612321","01","whu","wuhan");
 

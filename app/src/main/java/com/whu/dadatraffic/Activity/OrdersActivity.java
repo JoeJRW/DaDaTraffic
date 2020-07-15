@@ -1,3 +1,7 @@
+/*
+ *作者：施武轩 创建时间：2020.7.8 更新时间：2020.7.10
+ */
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.ActionBar;
@@ -87,7 +91,7 @@ public class OrdersActivity extends AppCompatActivity {
             //设计每个订单的布局（自定义layout）
             LinearLayout cell = new LinearLayout(this);
             cell.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,160,1.0f);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
             layoutParams.setMargins(40,20,40,20);
             cell.setLayoutParams(layoutParams);
             cell.setBackgroundColor(0xffff00f);
