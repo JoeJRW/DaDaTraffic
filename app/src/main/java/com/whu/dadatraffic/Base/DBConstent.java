@@ -2,9 +2,9 @@ package com.whu.dadatraffic.Base;
 
 public class DBConstent {
 
-    public static String URL = "http://192.168.50.72:8080/Servlet/";
+    public static String URL = "http://39.100.10.181:8080/DaDaTraffic/";
 
-    public static String URL_Register = URL + "RegisterServlet";
-    public static String URL_Login = URL + "LoginServlet";
+    public static String URL_Register = URL + "Register";
+    public static String URL_Login = URL + "Login";
 
 }

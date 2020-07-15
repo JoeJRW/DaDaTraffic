@@ -70,6 +70,7 @@
         <activity android:name=".Activity.NoneTicketActivity" />
         <activity android:name=".Activity.TicketDetailActivity" />
         <activity android:name=".Activity.MarketActivity" />
+        <activity android:name=".Activity.RouteActivity"/>
         <activity android:name=".Activity.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

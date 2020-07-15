@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFB300"
                 android:gravity="center"
-                android:text="开始叫车"
+                android:text="确定路线"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 

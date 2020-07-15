@@ -2,10 +2,11 @@ package com.whu.dadatraffic;
 /**
  * author:王子皓
  * create time：2020.07.07
- * update time：2020.07.12 仍未完成...
+ * update time：2020.07.15 仍未完成...
  * log：2020.07.07&07.08 完成侧拉框的代码编写
  *      2020.07.08&07.09 完成百度地图SDK的环境配置和定位功能的实现
  *      2020.07.10&07.11 完成出发地和目的地文本框代码编写，主要实现sug检索和显示相关热词，并在点击后补全地址
+ *      2020.07.15 添加向路线规划窗口传递信息的功能
  */
 import android.Manifest;
 import android.content.Context;
@@ -62,6 +63,7 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.whu.dadatraffic.Activity.OrdersActivity;
+import com.whu.dadatraffic.Activity.RouteActivity;
 import com.whu.dadatraffic.Activity.SettingActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Adapter.AutoEditTextAdapter;
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<String> stringlist = new ArrayList<>();
     private List<String> stringlist2 = new ArrayList<>();
     private LatLng latLng;
-    private String mCity;
+    private String mCity1;
+    private String mCity2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     location.getDistrict(),location.getStreet(),
                     location.getStreetNumber(),location.getAddrStr());
             et_departure.setText(position);
+            mCity1=location.getCity();
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                     //此处设置开发者获取到的方向信息，顺时针0-360
@@ -337,6 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int i = 0; i < resl.size(); i++) {
                     stringlist.add(resl.get(i).key);
                     stringlist2.add(resl.get(i).city+resl.get(i).district+resl.get(i).key);
+                    mCity1=resl.get(i).getCity();
                     latLng = resl.get(i).pt;
                 }
                 AutoEditTextAdapter adapter = new AutoEditTextAdapter(stringlist,stringlist2, MainActivity.this);
@@ -390,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     stringlist.add(resl.get(i).key);
                     stringlist2.add(resl.get(i).city+resl.get(i).district+resl.get(i).key);
                     //latLng = resl.get(i).pt;
+                    mCity2=resl.get(i).getCity();
                 }
                 AutoEditTextAdapter adapter = new
                         AutoEditTextAdapter(stringlist,stringlist2, MainActivity.this);
@@ -453,9 +459,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        //根据输入的出发地和目的地，生成路程规划界面，并将路线信息传递给RouteActivity
         if (v.getId() == R.id.btn_travel) {
+            String address1=et_departure.getText().toString();
+            String address2=et_destination.getText().toString();
+            if(address1=="" || address2=="") {
+                return;
+            }
             btn_travel.setTextColor(getResources().getColor(R.color.dark_grey));
             btn_travel.setEnabled(false);
+            ArrayList<String> addressList = new ArrayList<>();
+            addressList.add(mCity1);
+            addressList.add(address1);
+            addressList.add(mCity2);
+            addressList.add(address2);
+            Intent i = new Intent(MainActivity.this, RouteActivity.class);
+            i.putStringArrayListExtra("address", addressList);
         }
     }
 
