@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/cart_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <ImageView
+            android:id="@+id/marketOrderItem"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_centerVertical="true" />
+
+        <RelativeLayout
+            android:id="@+id/moInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/marketOrderItem"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/moTitle"
+                android:layout_width="150sp"
+                android:layout_height="wrap_content"
+                android:text="商品"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_moPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/moTitle"
+                android:layout_marginTop="10dp"
+                android:text="单价："
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/moPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/moTitle"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/tv_moPrice"
+                android:text="xx元"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/moCount"
+            android:layout_toRightOf="@id/moInfo"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:textSize="30sp"
+            android:textColor="#000000"
+            android:text="xx个" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

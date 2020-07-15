@@ -23,8 +23,8 @@ public class WalletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        Button ticketBtn = (Button) findViewById(R.id.ticketBtn);//优惠券按钮
-        ticketBtn.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout ticketLayout = findViewById(R.id.wticket_layout);//优惠券按钮
+        ticketLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //跳转到优惠券界面

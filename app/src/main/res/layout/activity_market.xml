@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="636dp"
+        android:layout_height="636sp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp">
@@ -32,38 +32,46 @@
         tools:layout_editor_absoluteX="1dp"
         app:layout_constraintHorizontal_weight="1">
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_priceinAll"-->
-<!--            android:layout_width="168sp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:clickable="true"-->
-<!--            android:gravity="center"-->
-<!--            android:onClick="onClick"-->
-<!--            android:text="合计:xx积分"-->
-<!--            android:textSize="24sp" />-->
+        <TextView
+            android:id="@+id/tv_priceinAll"
+            android:layout_width="168sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFE"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="合计:0积分"
+            android:textColor="#FFA41E"
+            android:textSize="24sp" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_delete"-->
-<!--            android:clickable="true"-->
-<!--            android:onClick="onClick"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:gravity="center"-->
-<!--            android:text="删除"-->
-<!--            android:textSize="24sp" />-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_buy"-->
-<!--            android:clickable="true"-->
-<!--            android:onClick="onClick"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:gravity="center"-->
-<!--            android:shadowColor="#FAF7F7"-->
-<!--            android:text="购买"-->
-<!--            android:textSize="24sp" />-->
+        <TextView
+            android:id="@+id/tv_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFA74E"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:shadowColor="#FAF7F7"
+            android:text="购买"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
     </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:id="@+id/CartLinearLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:layout_editor_absoluteX="1dp">-->
+
+<!--        <ListView-->
+<!--            android:id="@+id/cartLv"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
