@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.whu.dadatraffic.Base.MarketItem;
 import com.whu.dadatraffic.R;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.whu.dadatraffic.Service.MarketItemService;
 
@@ -105,19 +109,39 @@ public class MarketActivity extends AppCompatActivity{
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int a = marketItemService.CartCount();
-                //跳转到商城订单界面
-                //定义跳转对象
-                Intent intentToMOrder = new Intent();
-                //设置跳转的起始界面和目的界面
-                intentToMOrder.setClass(MarketActivity.this, MarketOrderActivity.class);
-                //传递选中View的对象
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("orderList", marketItemService.GetCartItemList());
-                //将bundle包中数据绑定到intent
-                intentToMOrder.putExtras(bundle);
-                //启动跳转，并传输对应数据
-                startActivity(intentToMOrder);
+                //创建对话框
+                AlertDialog confirmDialog = new AlertDialog.Builder(MarketActivity.this).create();
+                confirmDialog.setTitle("确认下单吗？");
+                confirmDialog.setMessage("此次购物将花费"+marketItemService.scoreInAll+"积分");
+
+                //确认按钮
+                confirmDialog.setButton(DialogInterface.BUTTON_POSITIVE, "是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MarketActivity.this,"已生成订单，感谢您的光临！",Toast.LENGTH_SHORT).show();
+                        int a = marketItemService.CartCount();
+                        //跳转到商城订单界面
+                        //定义跳转对象
+                        Intent intentToMOrder = new Intent();
+                        //设置跳转的起始界面和目的界面
+                        intentToMOrder.setClass(MarketActivity.this, MarketOrderActivity.class);
+                        //传递选中View的对象
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("orderList", marketItemService.GetCartItemList());
+                        //将bundle包中数据绑定到intent
+                        intentToMOrder.putExtras(bundle);
+                        //启动跳转，并传输对应数据
+                        startActivity(intentToMOrder);
+                    }
+                });
+                //取消按钮
+                confirmDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MarketActivity.this,"已取消生成订单，欢迎您继续挑选！",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                confirmDialog.show();
             }
         });
     }

@@ -178,53 +178,13 @@
 
             <TextView
                 android:id="@+id/wzfbTv"
-                android:layout_width="250sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/wzfbImage"
                 android:text="支付宝"
                 android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/wzfbStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/wzfbTv"
-                android:text="未绑定"
-                android:textSize="24sp" />
-
         </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="30sp"
-            android:id="@+id/wvx_layout"
-            android:layout_width="match_parent"
-            android:layout_height="35sp"
-            android:background="?attr/selectableItemBackground"
-            android:paddingLeft="30sp">
-<!--            android:clickable="true"-->
-<!--            android:onClick="onClick">-->
 
-            <ImageView
-                android:id="@+id/wvxImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_vx" />
-
-            <TextView
-                android:id="@+id/wvxTv"
-                android:layout_width="250sp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/wvxImage"
-                android:text="微信"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/wvxStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/wvxTv"
-                android:text="未绑定"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
