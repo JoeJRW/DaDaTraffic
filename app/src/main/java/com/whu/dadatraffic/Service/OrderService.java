@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.OrdersActivity;
+import com.whu.dadatraffic.Base.Driver;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Utils.DBConstent;
 
@@ -70,13 +71,8 @@ public class OrderService {
     }
 
     //根据订单编号接受相应订单
-    public boolean acceptOrder(String orderID) {
-        for (int i = 0; i < OrdersActivity.orderList.size(); i++) {
-            if (OrdersActivity.orderList.elementAt(i).getOrderID().equals(orderID)) {
-                OrdersActivity.orderList.elementAt(i).orderState = "进行中";
-                return true;
-            }
-        }
+    public boolean acceptOrder(String orderID, Driver driver) {
+
         return false;
         //操作数据库
     }
