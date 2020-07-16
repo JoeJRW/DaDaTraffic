@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -273,7 +274,7 @@ public class OrderpayActivity extends AppCompatActivity {
         textView2.setText(scoreText);
 
         //显示车费合计
-        double allPrice=8.0;   //------------------------------版本2修改--------------------------------------------
+        double allPrice=8.01;   //------------------------------版本2修改--------------------------------------------
         CharSequence allPriceText=String.valueOf(allPrice)+"元";
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
@@ -289,7 +290,7 @@ public class OrderpayActivity extends AppCompatActivity {
         });
 
         //显示车费抵扣
-        double discountPrice=2.0;   //版本2修改---------------------------------------------------------------------
+        double discountPrice=8.0;   //版本2修改---------------------------------------------------------------------
         CharSequence discountPriceText="-"+discountPrice+"元";
         TextView textView4=findViewById(R.id.discountprice);
         textView4.setText(discountPriceText);
@@ -300,7 +301,7 @@ public class OrderpayActivity extends AppCompatActivity {
         Button button2=findViewById(R.id.pay);
         button2.setText(payPriceText);
 
-        //获取支付方式的ID，ID为wechatpaybutton或zfbpaybutton---------------------版本2修改------------------
+        //获取支付方式的ID，ID为wechatpaybutton或zfbpaybutton
         RadioGroup radioGroup=findViewById(R.id.payOptionGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -317,17 +318,17 @@ public class OrderpayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(payId==findViewById(R.id.wechatpaybutton).getId())
                 {
-                    //跳转微信支付页面----------------------------------版本2添加-------------------------
+                    //跳转微信支付页面
                     Toast.makeText(OrderpayActivity.this,"微信支付功能关闭，请用支付宝支付",Toast.LENGTH_SHORT).show();
                 }
                 else if(payId==findViewById(R.id.zfbpaybutton).getId())
                 {
-                    //跳转支付宝支付页面---------------------------------版本2添加-------------------------------
+                    //跳转支付宝支付页面
                     payV2(view);
                 }
                 else
                 {
-                    //Toast.makeText(OrderpayActivity.this,"请选择支付方式",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderpayActivity.this,"请选择支付方式",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -348,15 +349,15 @@ public class OrderpayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                //String phone = et_phone.getText().toString().trim();
-                //创建打电话的意图
-                //Intent intent = new Intent();
-                //设置拨打电话的动作
-                //intent.setAction(Intent.ACTION_CALL);
-                //设置拨打电话的号码
-                //intent.setData(Uri.parse("tel:" + phone));
-                //开启打电话的意图
-                //startActivity(intent);
+                String phone = "13871142476";  //--------------------------------------需获取司机电话
+                Context context = OrderpayActivity.this;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(context, "请检查您的手机，无法拨打电话！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

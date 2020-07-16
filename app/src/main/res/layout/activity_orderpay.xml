@@ -33,14 +33,14 @@
             android:id="@+id/calldriver2"
             android:layout_width="66dp"
             android:layout_height="62dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:layout_marginTop="115dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginRight="37dp"
             android:layout_marginBottom="109dp"
             android:background="#E0F2F1"
             android:src="@android:drawable/ic_menu_call"
             app:layout_constraintBottom_toTopOf="@+id/allprice"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/drivername2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
