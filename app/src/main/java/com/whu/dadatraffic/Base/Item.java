@@ -10,6 +10,7 @@ public class Item {
     protected String title = null;
     protected String price = null;
     protected Integer icon = null;
+    //private int number = 0;
     public Item(){}
     public Item(String title, String price, Integer icon)
     {
@@ -29,5 +30,7 @@ public class Item {
     {
         return icon;
     }
+
+
 }
 

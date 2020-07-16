@@ -25,13 +25,13 @@ public class Order {
     private String evalution = "";//行程评价
     private float score = 1.0f;//得分
 
-    public Order(String PhoneNum ,String orderID, String startPoint, String destination){
+    public Order(String PhoneNum , String startPoint, String destination){
         Date date = new Date(System.currentTimeMillis());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         createTime = simpleDateFormat.format(date);
 
         this.customerPhoneNum = PhoneNum;
-        this.orderID = orderID;
+        //this.orderID = orderID;
         this.startPoint = startPoint;
         this.destination = destination;
     }
@@ -73,5 +73,7 @@ public class Order {
     }
 
     public String getDriverName(){return driverName;}
+
+    public void setOrderID(String id){orderID=id;}
 
 }

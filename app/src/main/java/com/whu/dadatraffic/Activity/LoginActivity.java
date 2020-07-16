@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.whu.dadatraffic.Base.User;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.DriverService;
@@ -176,9 +178,11 @@ public class LoginActivity extends AppCompatActivity {
         passwordEt.setText(password);
     }
 
-    public void setPhoneNumber(String phoneNum){
+    /*public void setPhoneNumber(String phoneNum){
         this.phoneNumber = phoneNum;
     }
+
+     */
 
 
     public void loginSuccess_Passenger(String result){
@@ -203,11 +207,16 @@ public class LoginActivity extends AppCompatActivity {
         else {
             LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","autologin");
         }
+
         //跳转到乘客的主界面
         //定义跳转对象
         Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         //设置跳转的起始界面和目的界面
         intentToMain.setClass(LoginActivity.this, MainActivity.class);
+        UserService.curUser = new User(phoneNumber);
+
+        //传递当前登录手机号
+        intentToMain.putExtra("phone",phoneNumber);
         //启动跳转
         startActivity(intentToMain);
     }
@@ -222,7 +231,25 @@ public class LoginActivity extends AppCompatActivity {
             map.put("userpwd", password);
             LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
         }
+        else {
+            LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","userpwd");
+        }
+        if(autoLogin){
+            //把自动登录设置保存到本地
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("autologin", "true");
+            LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
+        }
+        else {
+            LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","autologin");
+        }
         //跳转到司机的主界面
+        //定义跳转对象
+        Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //设置跳转的起始界面和目的界面
+        intentToMain.setClass(LoginActivity.this, DriverMainActivity.class);
+        //启动跳转
+        startActivity(intentToMain);
     }
 
     public void loginFail(String result){
