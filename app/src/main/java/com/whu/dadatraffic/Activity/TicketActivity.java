@@ -1,11 +1,12 @@
 package com.whu.dadatraffic.Activity;
-
+/*
+ *author：张朝勋
+ * create time：7/7
+ * update time: 7/15
+ */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.ListMenuPresenter;
 
-import com.whu.dadatraffic.Base.ViewHolder;
-import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.TicketService;
 
@@ -17,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,15 +36,16 @@ public class TicketActivity extends AppCompatActivity {
 
         setCustomActionBar();
 
+        //使用现在时间创建优惠券
         Date date = new Date(System.currentTimeMillis());
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         giveTime = simpleDateFormat.format(date);
-        ticketService.AddTicket("38元打车券","38元",R.drawable.icon_dc38d,giveTime,endTime,true,"icon_dc38d");
-        ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_dc8d,giveTime,endTime,true,"icon_dc8d");
+        ticketService.AddTicket("38元打车券","38元",R.drawable.icon_dc38d,giveTime,endTime,true,R.drawable.icon_dc38);
+        ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_dc8d,giveTime,endTime,true,R.drawable.icon_dc8);
         //初始化ListView控件
         ListView listView=findViewById(R.id.tlv);
         //创建一个Adapter的实例
-        TicketAdapter ticketAdapter=new TicketAdapter();
+        final TicketAdapter ticketAdapter=new TicketAdapter();
         //设置Adapter
         listView.setAdapter(ticketAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,13 +56,13 @@ public class TicketActivity extends AppCompatActivity {
                 Intent intentToTDetail = new Intent();
                 //设置跳转的起始界面和目的界面
                 intentToTDetail.setClass(TicketActivity.this, TicketDetailActivity.class);
-                //传递选中View的对象
+                //传递选中View的属性
                 Bundle bundle = new Bundle();
                 bundle.putCharSequence("title",ticketService.GetTitle(position));
                 bundle.putCharSequence("discount",ticketService.GetDiscount(position));
                 bundle.putCharSequence("StartDate",ticketService.GetStartDate(position));
                 bundle.putCharSequence("EndDate",ticketService.GetEndDate(position));
-                bundle.putCharSequence("icon",ticketService.GetName(position));
+                bundle.putInt("icon",ticketService.GetImageResource(position));
                 //将bundle包中数据绑定到intent
                 intentToTDetail.putExtras(bundle);
                 //启动跳转，并传输对应数据
@@ -69,6 +71,10 @@ public class TicketActivity extends AppCompatActivity {
         });
     }
 
+    public class ViewHolder {
+        public ImageView image;
+    }
+    //设置Adapter来实现listView中各优惠券的呈现
     class TicketAdapter extends BaseAdapter {
 
         @Override

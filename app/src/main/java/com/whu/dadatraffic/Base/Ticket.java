@@ -1,21 +1,25 @@
 package com.whu.dadatraffic.Base;
-
+/*
+ *author：张朝勋
+ * create time：7/9
+ * update time: 7/15
+ */
 import java.util.Date;
 import java.util.Vector;
 
 public class Ticket {
     //public int id = 1;
-    protected String title = null;
-    protected String discount = null;
-    protected Integer icon = null;
-    protected String startDate = null;
+    protected String title = null;//优惠券名称
+    protected String discount = null;//优惠券效果
+    protected Integer icon = null;//优惠券界面的图标
+    protected String startDate = null;//优惠券有效日期
     protected String endDate = null;
-    protected Boolean status = null;
-    protected String imageResource = null;
+    protected Boolean status = null;//优惠券状态
+    protected Integer imageResource = null;//优惠券详情界面的图标
     public Ticket() { }
 
 
-    public Ticket(String title, String discount, Integer icon, String startDate, String endDate,boolean status, String imageName)
+    public Ticket(String title, String discount, Integer icon, String startDate, String endDate,boolean status, Integer imageResource)
     {
         //this.id = id;
         this.title = title;
@@ -24,7 +28,7 @@ public class Ticket {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.imageResource = imageName;
+        this.imageResource = imageResource;
     }
 
     public String getTitle() {
@@ -46,7 +50,7 @@ public class Ticket {
         return startDate;
     }
 
-    public String getImageResource() {
+    public Integer getImageResource() {
         return imageResource;
     }
 

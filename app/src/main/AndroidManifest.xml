@@ -39,7 +39,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".Activity.DriverMainActivity"></activity>
+        <activity android:name=".Activity.MarketOrderActivity"></activity>
+        <activity android:name=".Activity.MarketOrderDetailActivity" />
+        <activity android:name=".Activity.MarketItemDetailActivity" />
         <activity android:name=".Activity.AccountAndSecurity" />
         <activity android:name=".Activity.SettingActivity" />
 
@@ -62,6 +64,7 @@
         <activity android:name=".Activity.NoneTicketActivity" />
         <activity android:name=".Activity.TicketDetailActivity" />
         <activity android:name=".Activity.MarketActivity" />
+        <activity android:name=".Activity.RouteActivity"/>
         <activity android:name=".Activity.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,7 +77,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
     </application>
 
 </manifest>

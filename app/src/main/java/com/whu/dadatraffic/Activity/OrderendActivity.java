@@ -1,8 +1,16 @@
+/*
+*author: 李俊
+*create: time: 2020-07-09
+*update: time:
+*/
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Rating;
 import android.net.Uri;
@@ -38,18 +46,18 @@ public class OrderendActivity extends AppCompatActivity {
         }
 
         //显示司机姓别
-        String driverFistName="某";   //需修改-------------------------------------------------------
+        String driverFistName="某";   //版本2修改-------------------------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername3);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID="鄂A123456";     //需修改-------------------------------------------------------
+        String carID="鄂A123456";     //版本2修改-------------------------------------------------------
         TextView carID3=findViewById(R.id.carID3);
         carID3.setText(carID);
 
         //显示司机评分
-        double driverScore=5.0;    //需修改----------------------------------------------------------
+        double driverScore=5.0;    //版本2修改----------------------------------------------------------
         CharSequence ScoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore3);
         textView2.setText(ScoreText);
@@ -91,21 +99,21 @@ public class OrderendActivity extends AppCompatActivity {
             };
         });
 
-        //点击电话按钮，对司机进行拨号-----------------------------------------------------------------
+        //点击电话按钮，对司机进行拨号-----------------------版本2修改---------------------------------
         ImageButton imageButton=findViewById(R.id.calldriver3);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                //String phone = et_phone.getText().toString().trim();
-                //创建打电话的意图
-                //Intent intent = new Intent();
-                //设置拨打电话的动作
-                //intent.setAction(Intent.ACTION_CALL);
-                //设置拨打电话的号码
-                //intent.setData(Uri.parse("tel:" + phone));
-                //开启打电话的意图
-                //startActivity(intent);
+                String phone = "13871142476";   //--------------------------------------需获取司机电话
+                Context context = OrderendActivity.this;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(context, "请检查您的手机，无法拨打电话！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

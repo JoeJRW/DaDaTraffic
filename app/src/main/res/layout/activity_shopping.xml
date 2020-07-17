@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MarketItemDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/ShoppingView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="170sp"
+        android:layout_marginBottom="100sp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp">
+
+        <RelativeLayout
+            android:id="@+id/itname_layout"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/itname_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="商品名:"
+                android:textColor="#7a7a7a"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/itname_name"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@+id/itname_title"
+                android:singleLine="false"
+                android:text="name"
+                android:textColor="#7a7a7a"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cost_layout"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/cost_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="商品价格:"
+                android:textColor="#7a7a7a"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/cost_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@+id/cost_title"
+                android:singleLine="true"
+                android:text="xx积分"
+                android:textColor="#7a7a7a"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/Use_layout"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp">
+
+            <TextView
+                android:id="@+id/Use_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:singleLine="true"
+                android:text="商品描述:"
+                android:textColor="#7a7a7a"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/Use_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_toRightOf="@+id/Use_title"
+                android:singleLine="true"
+                android:text="   nice！"
+                android:textColor="#7a7a7a"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ItemView"
+        android:layout_width="200sp"
+        android:layout_height="180sp"
+        app:layout_constraintBottom_toTopOf="@id/ShoppingView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/icon_apple" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

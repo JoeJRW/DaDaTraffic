@@ -1,3 +1,9 @@
+/*
+*author: 李俊
+*create: time: 2020-07-10
+*update: time:
+*/
+
 package com.whu.dadatraffic.Service;
 
 import android.os.AsyncTask;
@@ -251,6 +257,17 @@ public class UserService {
 
         @Override
         protected void onPostExecute(String result) {
+            
+            if(result.equals("100")) {
+                LoginActivity.instance.loginFail("密码不匹配或账号未注册");
+
+            }
+            else if(result.equals("200")) {
+                LoginActivity.instance.loginSuccess_Passenger("登录成功");
+            }
+            else {
+                LoginActivity.instance.loginFail("登录失败");
+            }
 
         }
 

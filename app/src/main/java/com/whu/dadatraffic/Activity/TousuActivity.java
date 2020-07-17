@@ -1,3 +1,9 @@
+/*
+*author: 李俊
+*create: time: 2020-07-09
+*update：time:
+*/
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.ActionBar;
@@ -34,7 +40,7 @@ public class TousuActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        //点击提交按钮，获取投诉选择内容和文本信息，显示提交成功-------------------------------------------
+        //点击提交按钮，获取投诉选择内容和文本信息，显示提交成功---------------版本2需记录信息存数据库------------------
         Button submitTousu=findViewById(R.id.submit_tousu);
         tousu_comment_text=findViewById(R.id.tousu_comment);   //投诉文本框信息
         tousu1=findViewById(R.id.tousu1);

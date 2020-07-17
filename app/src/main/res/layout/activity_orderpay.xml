@@ -20,9 +20,9 @@
             android:id="@+id/pay_tousu_button"
             android:layout_width="68dp"
             android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="#FFFFFF"
             android:text="投诉"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -33,14 +33,14 @@
             android:id="@+id/calldriver2"
             android:layout_width="66dp"
             android:layout_height="62dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
             android:layout_marginTop="115dp"
-            android:layout_marginEnd="37dp"
-            android:layout_marginRight="37dp"
             android:layout_marginBottom="109dp"
             android:background="#E0F2F1"
             android:src="@android:drawable/ic_menu_call"
             app:layout_constraintBottom_toTopOf="@+id/allprice"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/drivername2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_height="27dp"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="22dp"
             android:text="某师傅"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
@@ -99,26 +99,22 @@
             android:layout_height="48dp"
             android:layout_marginStart="137dp"
             android:layout_marginLeft="137dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="36dp"
             android:layout_marginEnd="137dp"
             android:layout_marginRight="137dp"
-            android:layout_marginBottom="53dp"
             android:text="支付车费"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/drivername2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="66dp" />
+            app:layout_constraintGuide_begin="82dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"

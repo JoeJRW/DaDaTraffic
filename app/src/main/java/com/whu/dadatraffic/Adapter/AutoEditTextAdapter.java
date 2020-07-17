@@ -11,8 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
-import com.whu.dadatraffic.Base.ViewHolder;
 import com.whu.dadatraffic.R;
 
 import java.util.ArrayList;
