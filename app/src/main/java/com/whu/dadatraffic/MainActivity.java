@@ -267,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             latitude = location.getLatitude();
             //获取经度信息
             longitude = location.getLongitude();
+            String pos=location.getLocationDescribe();
             String position = String.format("%s%s%s%s%s",
                     location.getCity(),
                     location.getDistrict(),location.getStreet(),
@@ -466,8 +467,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(address1=="" || address2=="") {
                 return;
             }
-            btn_travel.setTextColor(getResources().getColor(R.color.dark_grey));
-            btn_travel.setEnabled(false);
             ArrayList<String> addressList = new ArrayList<>();
             addressList.add(mCity1);
             addressList.add(address1);
@@ -475,6 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             addressList.add(address2);
             Intent i = new Intent(MainActivity.this, RouteActivity.class);
             i.putStringArrayListExtra("address", addressList);
+            startActivity(i);
         }
     }
 
