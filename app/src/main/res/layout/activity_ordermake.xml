@@ -77,14 +77,15 @@
                 android:id="@+id/calldriver1"
                 android:layout_width="61dp"
                 android:layout_height="59dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="48dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginRight="35dp"
                 android:layout_marginBottom="48dp"
                 android:background="#E0F2F1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/carID1"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@android:drawable/ic_menu_call" />
 
             <TextView
