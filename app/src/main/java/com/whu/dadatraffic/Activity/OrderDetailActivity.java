@@ -53,7 +53,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         initUI();
         //测试
-        curOrder=new Order("18945612321","01","whu","wuhan");
+        curOrder=new Order("18945612321","whu","wuhan");
 
         //如果当前订单正在等待司机接单，则可以取消
         if ("等待中".equals(curOrder.orderState)){
@@ -63,7 +63,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    service.cancelOrder(curOrderID);
+                    service.cancelOrder();
                     stateTv.setText("已取消");
                     cancelBtn.setClickable(false);
                     cancelBtn.setVisibility(View.INVISIBLE);
