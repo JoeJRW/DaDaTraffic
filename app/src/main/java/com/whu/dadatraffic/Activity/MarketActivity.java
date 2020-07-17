@@ -43,6 +43,7 @@ public class MarketActivity extends AppCompatActivity{
         setContentView(R.layout.activity_market);
         setCustomActionBar();
         initItems();
+
         //初始化ListView控件
         ListView listView = findViewById(R.id.lv);
         //创建一个Adapter的实例
