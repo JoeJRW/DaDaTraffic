@@ -10,11 +10,11 @@ public class User {
     private String phoneNumber;    //用户手机号
     private String password;       //用户密码
     private String name;           //用户姓名
+    private int credit;            //用户积分
 
-    public User(String phoneNumber,String password,String name){
+    public User(String phoneNumber){
         this.phoneNumber=phoneNumber;
-        this.name=name;
-        this.password =password;
+
     }
 
     public String getPhoneNumber() {
@@ -38,5 +38,15 @@ public class User {
 
     public String getPassword(){return password;}
 
-    public void setPassword(String newPassword){this.password=newPassword;}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
 }

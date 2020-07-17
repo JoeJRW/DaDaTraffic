@@ -7,9 +7,11 @@
 package com.whu.dadatraffic.Service;
 
 import android.os.AsyncTask;
+import android.os.Message;
 
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.RegisterActivity;
+import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.Utils.DBConstent;
 import com.whu.dadatraffic.Base.Driver;
 
@@ -21,10 +23,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DriverService {
-    private ArrayList<Driver> drivers;
-
+    public static Driver curDriver;
+    private String depatrue = "";//出发地
+    private String destination = "";//目的地
+    private boolean flag = false;
+    /*
     public DriverService() {
         drivers=new ArrayList<Driver>();
     }
@@ -33,14 +40,7 @@ public class DriverService {
         return drivers;
     }
 
-    //添加司机
-    public boolean addDriver(Driver driver) {
-        if(drivers.contains(driver))
-            return false;
-        drivers.add(driver);
-        return true;
-    }
-
+    /*
     //通过电话号码查找司机
     public Driver getDriver(String phoneNumber) {
         for(int i=0;i<drivers.size();i++){
@@ -50,6 +50,10 @@ public class DriverService {
         return null;
     }
 
+     */
+
+
+    /*
     //通过电话号码删除司机
     public boolean removeUser(String phoneNumber) {
         Driver driver=getDriver(phoneNumber);
@@ -61,6 +65,8 @@ public class DriverService {
             return false;
     }
 
+     */
+/*
     //修改用户信息（姓名、车牌号）
     public boolean updateDriver(Driver newDriver) {
         Driver oldDriver=getDriver(newDriver.getPhoneNumber());
@@ -70,6 +76,8 @@ public class DriverService {
         drivers.add(newDriver);
         return true;
     }
+
+ */
 
     /**
      * 司机注册时调用该函数
@@ -98,6 +106,35 @@ public class DriverService {
 
 
     /**
+     * 司机接单时调用该函数
+     * 每隔10s向服务器发送一次请求，如果有订单就会分配
+     */
+    public void open(){
+        final String checkUrlStr = DBConstent.URL_Driver + "?type=check";
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new DriverAsyncTask().execute(checkUrlStr,"check");
+                if(flag){
+                    return;
+                }
+            }
+        },0,10000);//每隔10秒做一次run()操作，查询是否有可接订单
+    }
+
+    /**
+     * 从服务器获取司机的姓名评分等信息并设置给当前司机
+     */
+    public void setCurDriver(){
+        //执行登录操作的服务端地址
+        final String setUrlStr = DBConstent.URL_Driver + "?type=driver&phonenumber=" + curDriver.getPhoneNumber();
+        //第二个参数代表操作类型
+        new DriverAsyncTask().execute(setUrlStr,"setInfo");
+    }
+
+    /**
      * AsyncTask类的三个泛型参数：
      * （1）Param 在执行AsyncTask是需要传入的参数，可用于后台任务中使用
      * （2）后台任务执行过程中，如果需要在UI上先是当前任务进度，则使用这里指定的泛型作为进度单位
@@ -114,7 +151,6 @@ public class DriverService {
          */
         @Override
         protected String doInBackground(String... params) {
-            //Log.w("WangJ", "task doInBackground()");
             HttpURLConnection connection = null;
             StringBuilder response = new StringBuilder();
             try {
@@ -149,16 +185,25 @@ public class DriverService {
             }
             else if(params[1].equals("login"))
             {
-                if(response.toString().equals("登录失败，密码不匹配或账号未注册")) {
+                if(response.toString().equals("100")) {
                     LoginActivity.instance.loginFail("密码不匹配或账号未注册");
 
                 }
-                else if(response.toString().equals("登陆成功")) {
+                else if(response.toString().equals("200")) {
                     LoginActivity.instance.loginSuccess_Driver("登录成功");
                 }
                 else {
                     LoginActivity.instance.loginFail("登录失败");
                 }
+            }
+            else if(params[1].equals("setInfo")){
+                String info[]=response.toString().split(";");
+                curDriver.setName(info[0]);
+                curDriver.setScore(Double.parseDouble(info[1]));
+            }
+            else if (params[1].equals("check")){
+                if(response.toString().equals("200")) {flag=true;}
+                else {flag=false;}
             }
             return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
         }
