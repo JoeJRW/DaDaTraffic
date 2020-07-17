@@ -12,17 +12,11 @@ public class User {
     private String name;           //用户姓名
     private int credit;            //用户积分
 
-<<<<<<< HEAD
+
     public User(String phoneNumber,String password,String name){
         this.phoneNumber=phoneNumber;
         this.password = password;
         this.name = name;
-=======
-    public User(String phoneNumber, String password, String name){
-        this.phoneNumber=phoneNumber;
-        this.password=password;
-        this.name=name;
->>>>>>> 116e2e4b40daebc2586ff96515775d5caae57025
     }
 
     public String getPhoneNumber() {

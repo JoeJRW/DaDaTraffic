@@ -127,8 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        //设置用户信息
+        /*设置用户信息
         userService.setCurrentUserInfo();
+
+         */
 
         drawerLayout = findViewById(R.id.drawer_layout);
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);

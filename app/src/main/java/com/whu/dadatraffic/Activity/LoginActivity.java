@@ -196,6 +196,9 @@ public class LoginActivity extends AppCompatActivity {
             LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
         }
         else {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("userphone", phoneNumber);
+            LocalStorageUtil.saveSettingNote(LoginActivity.this,"userPreferences",map);
             LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","userpwd");
         }
         if(autoLogin){
@@ -213,12 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         //设置跳转的起始界面和目的界面
         intentToMain.setClass(LoginActivity.this, MainActivity.class);
-<<<<<<< HEAD
         UserService.curUser = new User(phoneNumber,password,"");
-=======
-        //TODO
-        //UserService.curUser = new User(phoneNumber);
->>>>>>> 116e2e4b40daebc2586ff96515775d5caae57025
 
         //传递当前登录手机号
         intentToMain.putExtra("phone",phoneNumber);
