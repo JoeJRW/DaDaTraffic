@@ -10,7 +10,7 @@ public class Item {
     protected String title = null;
     protected String price = null;
     protected Integer icon = null;
-    //private int number = 0;
+    private int number = 0;
     public Item(){}
     public Item(String title, String price, Integer icon)
     {
@@ -31,6 +31,12 @@ public class Item {
         return icon;
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
+    public int getNumber() {
+        return number;
+    }
 }
 

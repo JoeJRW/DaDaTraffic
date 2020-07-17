@@ -12,26 +12,28 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class ItemService extends Item {
-    private Item[] historyItems;
+    private ArrayList<Item> historyItems = new ArrayList<Item>();
+
     /**用户在积分商城兑换商品后调用此函数，增加购买记录
      * @param items 本次购买的所有商品
-     * @param numbers 对应商品的数量
      */
-    public void buyItem(Item items[],int numbers[]){
+    public void buyItem(Item items[],String phoneNumber){
         for (int i=0;i<items.length;i++){
-            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&title="+items[i].getTitle() + "&number="+numbers[i];
+            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items[i].getTitle() + "&count="+items[i].getNumber();
             new ItemAsyncTask().execute(buyUrlStr);
         }
     }
 
-    /**用户查询积分商城购买记录
+    /**用户查询积分商城购买记录,将用户购买的所有商品存入historyItems。
      * @param phoneNumber 用户登录使用的手机号
      */
     public void queryAllItem(String phoneNumber){
-
+        final String queryUrlStr = DBConstent.URL_Item + "?type=query&phonenumber=" + phoneNumber;
+        new ItemAsyncTask().doInBackground(queryUrlStr);
     }
 
     public class ItemAsyncTask extends AsyncTask<String, Integer, String> {
@@ -83,7 +85,10 @@ public class ItemService extends Item {
 
         @Override
         protected void onPostExecute(String result) {
-
+             String results[] = result.split(";");
+             for (int i = 1;i<Integer.parseInt(results[0]);i+=3){
+                 historyItems.add(new Item(results[i],results[i+1],Integer.parseInt(results[i+2])));
+             }
         }
 
     }

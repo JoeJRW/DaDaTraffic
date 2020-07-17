@@ -28,12 +28,15 @@ public class MarketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market);
         setCustomActionBar();
+        /*
         itemService.AddItem("围巾","1800分",R.drawable.icon_scarf);
         itemService.AddItem("耳机","2480分",R.drawable.icon_earphone);
         itemService.AddItem("马克杯","880分",R.drawable.icon_cup);
         itemService.AddItem("38元打车券","380分",R.drawable.icon_38);
         itemService.AddItem("音箱","580分",R.drawable.icon_box);
         itemService.AddItem("8折优惠券","80分",R.drawable.icon_d8);
+        */
+
         //初始化ListView控件
         ListView listView=findViewById(R.id.lv);
         //创建一个Adapter的实例
