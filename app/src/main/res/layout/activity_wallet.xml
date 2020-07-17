@@ -8,87 +8,95 @@
     tools:context=".Activity.WalletActivity">
 
 
-    <LinearLayout
-        android:id="@+id/WMSlinear"
-        android:layout_width="match_parent"
-        android:layout_height="257sp"
-        android:background="@drawable/icon_bkg"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <RelativeLayout
-            android:id="@+id/money_layout"
+        <LinearLayout
+            android:id="@+id/WMSlinear"
             android:layout_width="match_parent"
-            android:layout_height="100sp"
-            android:layout_marginTop="50sp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:paddingLeft="30sp">
+            android:layout_height="250sp"
+            android:background="@drawable/icon_bkg"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/wLinear">
 
-            <TextView
-                android:id="@+id/Tmoney"
-                android:layout_width="130sp"
-                android:layout_height="60sp"
-                android:text="余额："
-                android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/money"
-                android:layout_width="324sp"
-                android:layout_height="34sp"
-                android:layout_marginTop="30sp"
-                android:layout_marginBottom="100sp"
-                android:gravity="center"
-                android:text="00.00元"
-                android:textSize="24sp" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/money_layout"
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:layout_marginTop="50sp"
+                android:background="?attr/selectableItemBackground"
 
-        <RelativeLayout
-            android:id="@+id/score_layout"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:paddingLeft="30sp">
+
+                <TextView
+                    android:id="@+id/Tmoney"
+                    android:layout_width="130sp"
+                    android:layout_height="60sp"
+                    android:text="余额："
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/money"
+                    android:layout_width="324sp"
+                    android:layout_height="34sp"
+                    android:layout_marginTop="30sp"
+                    android:layout_marginBottom="100sp"
+                    android:gravity="center"
+                    android:text="00.00元"
+                    android:textSize="24sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/score_layout"
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:paddingLeft="30sp">
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="324sp"
+                    android:layout_height="40sp"
+                    android:layout_marginTop="20sp"
+                    android:gravity="center"
+                    android:text="0分"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/Tscore"
+                    android:layout_width="65sp"
+                    android:layout_height="34sp"
+                    android:layout_marginStart="16sp"
+                    android:layout_marginLeft="16sp"
+                    android:text="积分："
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/wLinear"
             android:layout_width="match_parent"
-            android:layout_height="100sp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:paddingLeft="30sp">
-
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="324sp"
-                android:layout_height="40sp"
-                android:layout_marginTop="20sp"
-                android:gravity="center"
-                android:text="0分"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/Tscore"
-                android:layout_width="65sp"
-                android:layout_height="34sp"
-                android:layout_marginStart="16sp"
-                android:layout_marginLeft="16sp"
-                android:text="积分："
-                android:textSize="18sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="500sp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="1dp">
-
+            android:layout_height="0sp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/WMSlinear">
         <RelativeLayout
-            android:layout_marginTop="30sp"
             android:id="@+id/wticket_layout"
             android:layout_width="match_parent"
             android:layout_height="35sp"
+            android:layout_marginTop="30sp"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:onClick="onClick"
-            android:background="?attr/selectableItemBackground"
             android:paddingLeft="30sp">
 
 
@@ -100,7 +108,7 @@
 
             <TextView
                 android:id="@+id/wticketTv"
-                android:layout_width="250sp"
+                android:layout_width="200sp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/wticketImage"
                 android:text="优惠券"
@@ -114,77 +122,77 @@
                 android:text="0张"
                 android:textSize="24sp" />
 
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/Text2"
-            android:layout_width="match_parent"
-            android:layout_height="40sp"
-            android:layout_marginTop="55sp"
-            android:layout_marginLeft="10sp"
-            android:text="支付方式"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <RelativeLayout
-            android:layout_marginTop="30sp"
-            android:id="@+id/wcard_layout"
-            android:layout_width="match_parent"
-            android:layout_height="35sp"
-            android:background="?attr/selectableItemBackground"
-            android:paddingLeft="30sp">
-        <!--            android:clickable="true"-->
-        <!--            android:onClick="onClick"-->
-            <ImageView
-                android:id="@+id/wcardImage"
-                android:layout_marginTop="5sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_card" />
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/wcardTv"
-                android:layout_width="250sp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/wcardImage"
-                android:text="银行卡"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/wcardStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/wcardTv"
-                android:text="未绑定"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginTop="30sp"
-            android:id="@+id/wzfb_layout"
-            android:layout_width="match_parent"
-            android:layout_height="35sp"
-            android:background="?attr/selectableItemBackground"
-            android:paddingLeft="30sp">
-        <!--            android:clickable="true"-->
-        <!--            android:onClick="onClick"-->
-            <ImageView
-                android:id="@+id/wzfbImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_zfb" />
-
-            <TextView
-                android:id="@+id/wzfbTv"
+                android:id="@+id/Text2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/wzfbImage"
-                android:text="支付宝"
-                android:textSize="24sp" />
+                android:layout_height="40sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="55sp"
+                android:text="支付方式"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/wcard_layout"
+                android:layout_width="match_parent"
+                android:layout_height="35sp"
+                android:layout_marginTop="30sp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="30sp">
+                <!--            android:clickable="true"-->
+                <!--            android:onClick="onClick"-->
+                <ImageView
+                    android:id="@+id/wcardImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    app:srcCompat="@drawable/icon_card" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/wcardTv"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/wcardImage"
+                    android:text="银行卡"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/wcardStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/wcardTv"
+                    android:text="未绑定"
+                    android:textSize="24sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/wzfb_layout"
+                android:layout_width="match_parent"
+                android:layout_height="35sp"
+                android:layout_marginTop="30sp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="30sp">
+                <!--            android:clickable="true"-->
+                <!--            android:onClick="onClick"-->
+                <ImageView
+                    android:id="@+id/wzfbImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/icon_zfb" />
+
+                <TextView
+                    android:id="@+id/wzfbTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/wzfbImage"
+                    android:text="支付宝"
+                    android:textSize="24sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

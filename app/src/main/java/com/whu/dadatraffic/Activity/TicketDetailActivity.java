@@ -2,7 +2,7 @@ package com.whu.dadatraffic.Activity;
 /*
  *author：张朝勋
  * create time：7/9
- * update time: 7/10
+ * update time: 7/15
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,12 +28,13 @@ public class TicketDetailActivity extends AppCompatActivity {
         String title = bundle.getString("title");
         String Date = bundle.getString("StartDate") + " 到\n   " + bundle.getString("EndDate");
         String discount = bundle.getString("discount");
-        //将图片切换为详情页的图片
-        String icon = bundle.getString("icon").substring(0,bundle.getString("icon").length()-1);
+        Integer icon = bundle.getInt("icon");
+        //绑定界面控件
         TextView tvDiscount = (TextView)findViewById(R.id.discount_effect);
         TextView tvUse = (TextView)findViewById(R.id.Use_effect);
         TextView tvDate = (TextView)findViewById(R.id.ddl_time);
         ImageView ivIcon = (ImageView)findViewById(R.id.TicketView);
+        //根据优惠券名称变更优惠效果文本
         if(title.contains("元"))
         {
             title = "满"+title.substring(0,2)+"即可使用";
@@ -45,7 +46,7 @@ public class TicketDetailActivity extends AppCompatActivity {
         tvDiscount.setText("   "+discount);
         tvUse.setText("   "+title);
         tvDate.setText("   "+Date);
-        ivIcon.setImageResource(getResourceId(icon));
+        ivIcon.setImageResource(icon);
     }
     //显示home按钮与标题
     private void setCustomActionBar() {

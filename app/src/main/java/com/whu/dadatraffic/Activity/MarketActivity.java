@@ -7,7 +7,6 @@ package com.whu.dadatraffic.Activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.whu.dadatraffic.Base.MarketItem;
 import com.whu.dadatraffic.R;
 
 import android.app.AlertDialog;
@@ -15,8 +14,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -32,13 +31,10 @@ import android.widget.Toast;
 
 import com.whu.dadatraffic.Service.MarketItemService;
 
-import java.util.Vector;
-
 
 public class MarketActivity extends AppCompatActivity{
 
     MarketItemService marketItemService = new MarketItemService();
-    private LinearLayout mPopupLayout;
     TextView priceInAll = null;
     TextView buy = null;
     @Override
@@ -73,6 +69,7 @@ public class MarketActivity extends AppCompatActivity{
                 startActivity(intentToTDetail);
             }
         });
+        //点击总积分文本跳出已选择的商品列表
         priceInAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +103,7 @@ public class MarketActivity extends AppCompatActivity{
                 window.showAsDropDown(priceInAll, 0, 20);
             }
         });
+        //点击购买生成对话框，供用户选择是否确定购买
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +122,7 @@ public class MarketActivity extends AppCompatActivity{
                         //定义跳转对象
                         Intent intentToMOrder = new Intent();
                         //设置跳转的起始界面和目的界面
-                        intentToMOrder.setClass(MarketActivity.this, MarketOrderActivity.class);
+                        intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
                         //传递选中View的对象
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("orderList", marketItemService.GetCartItemList());
@@ -146,12 +144,20 @@ public class MarketActivity extends AppCompatActivity{
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //实例化MenuInflater对象
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.marketmenu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void initView() {
         buy = (TextView)findViewById(R.id.tv_buy);
         priceInAll = (TextView)findViewById(R.id.tv_priceinAll);
     }
 
-
+    //初始化商城中的元素
     private void initItems() {
         marketItemService.AddItem("围巾", "1800分", R.drawable.icon_scarf);
         marketItemService.AddItem("耳机", "2480分", R.drawable.icon_earphone);
@@ -172,12 +178,19 @@ public class MarketActivity extends AppCompatActivity{
         actionBar.setTitle("积分商城");
     }
 
-    //返回父活动
+    //返回父活动与前往订单详情页
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
+        }
+        if(item.getItemId() == R.id.toOrder){
+            Intent intentToTDetail = new Intent();
+            //设置跳转的起始界面和目的界面
+            intentToTDetail.setClass(MarketActivity.this, MarketOrderActivity.class);
+            //启动跳转，并传输对应数据
+            startActivity(intentToTDetail);
         }
         return super.onOptionsItemSelected(item);
     }

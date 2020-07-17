@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/marketOrderItem"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
+            android:layout_width="100sp"
+            android:layout_height="80sp"
             android:layout_centerVertical="true" />
 
         <RelativeLayout
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30sp"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textColor="#000000"
             android:text="xx个" />
 

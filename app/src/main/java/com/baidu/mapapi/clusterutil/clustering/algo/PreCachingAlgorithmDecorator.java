@@ -4,7 +4,9 @@
 
 package com.baidu.mapapi.clusterutil.clustering.algo;
 
-import android.support.v4.util.LruCache;
+
+
+import android.util.LruCache;
 
 import com.baidu.mapapi.clusterutil.clustering.Cluster;
 import com.baidu.mapapi.clusterutil.clustering.ClusterItem;

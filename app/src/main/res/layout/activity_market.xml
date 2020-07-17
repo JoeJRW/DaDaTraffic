@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="636sp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp">
@@ -18,48 +18,51 @@
         <ListView
             android:id="@+id/lv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            />
+        <LinearLayout
+            android:id="@+id/func"
+            android:layout_width="match_parent"
+            android:layout_height="93dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:layout_editor_absoluteX="1dp"
+            app:layout_constraintHorizontal_weight="1">
+
+            <TextView
+                android:id="@+id/tv_priceinAll"
+                android:layout_width="168sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFFFE"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="合计:0积分"
+                android:textColor="#FFA41E"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/tv_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFA74E"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:shadowColor="#FAF7F7"
+                android:text="购买"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/func"
-        android:layout_width="match_parent"
-        android:layout_height="93dp"
-        android:layout_marginTop="2dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="1dp"
-        app:layout_constraintHorizontal_weight="1">
-
-        <TextView
-            android:id="@+id/tv_priceinAll"
-            android:layout_width="168sp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#FFFFFE"
-            android:clickable="true"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:text="合计:0积分"
-            android:textColor="#FFA41E"
-            android:textSize="24sp" />
-
-
-        <TextView
-            android:id="@+id/tv_buy"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#FFA74E"
-            android:clickable="true"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:shadowColor="#FAF7F7"
-            android:text="购买"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp" />
-    </LinearLayout>
 <!--    <LinearLayout-->
 <!--        android:id="@+id/CartLinearLayout"-->
 <!--        android:layout_width="match_parent"-->
