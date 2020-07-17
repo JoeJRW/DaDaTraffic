@@ -107,14 +107,14 @@
                 android:id="@+id/calldriver3"
                 android:layout_width="68dp"
                 android:layout_height="68dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
                 android:layout_marginTop="45dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginRight="36dp"
                 android:layout_marginBottom="78dp"
                 android:background="#E0F2F1"
                 android:src="@android:drawable/ic_menu_call"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/carID3"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.055" />
 

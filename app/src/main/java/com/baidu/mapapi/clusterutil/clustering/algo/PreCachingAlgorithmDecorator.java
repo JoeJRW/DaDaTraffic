@@ -5,7 +5,6 @@
 package com.baidu.mapapi.clusterutil.clustering.algo;
 
 
-
 import android.util.LruCache;
 
 import com.baidu.mapapi.clusterutil.clustering.Cluster;

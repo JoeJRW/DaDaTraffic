@@ -27,17 +27,13 @@ public class Order {
 
     public Order(String PhoneNum ,String orderID, String startPoint, String destination){
         Date date = new Date(System.currentTimeMillis());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         createTime = simpleDateFormat.format(date);
-        orderState = "等待中";
 
         this.customerPhoneNum = PhoneNum;
         this.orderID = orderID;
-        this.driverName = driverName;
         this.startPoint = startPoint;
         this.destination = destination;
-        this.carNumber = carNumber;
-        this.price = price;
     }
 
     public String getOrderID(){return orderID;}

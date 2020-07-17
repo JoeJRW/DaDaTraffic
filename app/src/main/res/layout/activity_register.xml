@@ -14,7 +14,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
             android:id="@+id/totalline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +28,7 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <ImageView
+                <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -219,6 +225,9 @@
                     android:textSize="30sp" />
             </LinearLayout>
         </LinearLayout>
+        </ScrollView>
+
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -95,17 +95,12 @@
                 android:layout_height="wrap_content"
                 android:background="#FFB300"
                 android:gravity="center"
-                android:text="开始叫车"
+                android:text="确定路线"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 
         </LinearLayout>
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 
     <!--菜单栏布局-->
