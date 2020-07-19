@@ -1,5 +1,7 @@
 /*
- *作者：施武轩 创建时间：2020.7.10 更新时间：2020.7.10
+ *作者：施武轩
+ * 创建时间：2020.7.10
+ * 更新时间：2020.7.19
  */
 
 package com.whu.dadatraffic.Service;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.OrdersActivity;
+import com.whu.dadatraffic.Activity.RouteActivity;
 import com.whu.dadatraffic.Base.Driver;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.MainActivity;
@@ -31,7 +34,7 @@ import java.util.TimerTask;
 public class OrderService {
     private boolean flag = false;//表示当前操作是否成功
     private volatile boolean isRun = true;//表示当前异步进程是否正在运行
-    public Order curOrder;
+    public static Order curOrder;
     public Order[] historyOrders;
 
     /**
@@ -82,28 +85,6 @@ public class OrderService {
     public boolean completeOrder(double price) {
         final String completeSqlStr = DBConstent.URL_Order+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
         return flag;
-    }
-
-    /**
-     * 查看当前订单是否处于"进行中"（即是否已有司机接单）
-     */
-    public void checkOrderIsRunning(){
-        flag = false;
-        final String checkUrlStr = DBConstent.URL_Order + "?type=checkstate&orderid=" + curOrder.getOrderID();
-        //new OrderAsyncTask().execute(queryUrlStr);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                new OrderAsyncTask().execute(checkUrlStr,"check");
-                if(flag){
-                    Message message=new Message();
-                    message.what=1;
-                    MainActivity.mHandler.sendMessage(message);
-                }
-            }
-            },0,5000);//每隔5秒做一次run()操作，查询订单状态
     }
 
 
@@ -179,7 +160,7 @@ public class OrderService {
 
         @Override
         protected void onPostExecute(String result) {
-            if(result.equals("200")||result.equals("进行中")){
+            if(result.equals("200")){
                 flag=true;
             }
             else {
@@ -247,7 +228,8 @@ public class OrderService {
 
         @Override
         protected void onPostExecute(String result) {
-            curOrder.setOrderID(result);
+            if (!result.equals("100"))
+                curOrder.setOrderID(result);
         }
     }
 }

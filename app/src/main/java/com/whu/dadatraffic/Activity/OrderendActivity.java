@@ -1,7 +1,7 @@
 /*
 *author: 李俊
-*create: time: 2020-07-09
-*update: time:
+*create time: 2020-07-09
+*update time:2020-07-18
 */
 
 package com.whu.dadatraffic.Activity;
@@ -94,7 +94,8 @@ public class OrderendActivity extends AppCompatActivity {
             TimerTask task=new TimerTask() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(OrderendActivity.this, MainActivity.class));
+                    startActivity(new Intent(OrderendActivity.this, MainActivity.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             };
         });

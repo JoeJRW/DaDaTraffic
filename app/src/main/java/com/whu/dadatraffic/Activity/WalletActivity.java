@@ -2,7 +2,7 @@ package com.whu.dadatraffic.Activity;
 /*
  *author：张朝勋
  * create time：7/6
- * update time: 7/9
+ * update time: 7/16
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.UserService;
+
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import static java.lang.String.*;
 
 
 public class WalletActivity extends AppCompatActivity {
@@ -39,6 +44,7 @@ public class WalletActivity extends AppCompatActivity {
         });
 
         RelativeLayout scoreLayout = findViewById(R.id.score_layout);//积分文本
+
         scoreLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +75,7 @@ public class WalletActivity extends AppCompatActivity {
         setCustomActionBar();
     }
 
+
 //显示home按钮与标题
     private void setCustomActionBar() {
         //1.获取 actionbar 对象
@@ -91,4 +98,10 @@ public class WalletActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView scoreTv = (TextView)findViewById(R.id.score);
+        scoreTv.setText(UserService.curUser.getCredit()+"分");
+    }
 }

@@ -1,7 +1,7 @@
 /*
 *author: 李俊
-*create: time: 2020-07-08
-*update: time:
+*create time: 2020-07-08
+*update time: 2020-07-16
 */
 
 package com.whu.dadatraffic.Activity;
@@ -41,6 +41,7 @@ import com.whu.dadatraffic.AlipayTool.PayResult;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.MainActivity;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OrderpayActivity extends AppCompatActivity {
@@ -82,7 +83,8 @@ public class OrderpayActivity extends AppCompatActivity {
                         *TODO
                         *TODO
                         */
-                        Intent intent=new Intent(OrderpayActivity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent=new Intent(OrderpayActivity.this,OrderendActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
@@ -297,7 +299,8 @@ public class OrderpayActivity extends AppCompatActivity {
 
         //显示确认支付车费
         double endPrice=allPrice-discountPrice;
-        CharSequence payPriceText="确认支付"+endPrice+"元";
+        DecimalFormat df =new DecimalFormat("#.00");
+        CharSequence payPriceText="确认支付"+df.format(endPrice)+"元";
         Button button2=findViewById(R.id.pay);
         button2.setText(payPriceText);
 
