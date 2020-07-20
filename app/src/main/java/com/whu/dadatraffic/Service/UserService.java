@@ -1,15 +1,17 @@
 /*
 *author: 李俊
 *create: time: 2020-07-10
-*update: time:
+*update: time: 2020-07-19 施武轩
 */
 
 package com.whu.dadatraffic.Service;
 
 import android.os.AsyncTask;
+import android.os.Message;
 
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.RegisterActivity;
+import com.whu.dadatraffic.Activity.RouteActivity;
 import com.whu.dadatraffic.Utils.DBConstent;
 import com.whu.dadatraffic.Base.User;
 
@@ -21,9 +23,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class UserService {
-    public static User curUser;
+    public static User curUser;//表示当前登录应用的用户
+    private boolean flag = false;
     /*
     private ArrayList<User> users;
 
@@ -43,12 +48,33 @@ public class UserService {
     public void costCredit(int cost){
         final String costUrlStr = DBConstent.URL_User + "?type=cost&phonenumber="+ curUser.getPhoneNumber()+"costcredit="+cost;
         new UserAsyncTask().execute(costUrlStr);
+        curUser.costCredit(cost);
     }
 
     //设置当前用户信息
     public void setCurrentUserInfo() {
-        final String getUserUrlStr = DBConstent.URL_User + "?type=getInfo&phonenumber="+ curUser.getPhoneNumber();
-        new UserAsyncTask().execute(getUserUrlStr,"getInfo");
+        final String getUserUrlStr = DBConstent.URL_User + "?type=getinfo&phonenumber="+ curUser.getPhoneNumber();
+        new UserAsyncTask().execute(getUserUrlStr,"getinfo");
+    }
+
+    /**
+     * 查看当前订单是否处于"进行中"（即是否已有司机接单）
+     */
+    public void checkOrderIsRunning(){
+        //flag = false;
+        final String checkUrlStr = DBConstent.URL_User + "?type=checkstate&orderid=" + OrderService.curOrder.getOrderID();
+        //new OrderAsyncTask().execute(queryUrlStr);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new UserAsyncTask().execute(checkUrlStr,"check");
+                Message message=new Message();
+                message.what=1;
+                RouteActivity.tipHandler.sendMessage(message);
+            }
+        },5000);//每隔5秒做一次run()操作，查询订单状态
     }
 
     //用户注册,把数据传给服务器
@@ -104,15 +130,6 @@ public class UserService {
                 e.printStackTrace();
             }
 
-            if(response.toString().equals("100")) {
-                RegisterActivity.instance.registerFail("当前号码已注册");
-            }
-            else if(response.toString().equals("200")) {
-                RegisterActivity.instance.registerSuccess("注册成功");
-            }
-            else {
-                RegisterActivity.instance.registerFail("注册失败");
-            }
             return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
         }
 
@@ -129,7 +146,15 @@ public class UserService {
 
         @Override
         protected void onPostExecute(String result) {
-
+            if(result.equals("100")) {
+                RegisterActivity.instance.registerFail("当前号码已注册");
+            }
+            else if(result.equals("200")) {
+                RegisterActivity.instance.registerSuccess("注册成功");
+            }
+            else {
+                RegisterActivity.instance.registerFail("注册失败");
+            }
         }
 
     }
@@ -235,11 +260,24 @@ public class UserService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(type.equals("getInfo"))
+
+            if(type.equals("getinfo"))
             {
+                if(response.toString() != "100")
+                {
+                    String info[]=response.toString().split(";");
+                    curUser.setName(info[0]);
+                    curUser.setCredit(Integer.parseInt(info[1]));
+                }
+            }
+            else if(type.equals("check")){
                 String info[]=response.toString().split(";");
-                curUser.setName(info[0]);
-                curUser.setCredit(Integer.parseInt(info[1]));
+                if(info[0]=="200")
+                {
+                    flag = true;
+                    OrderService.curOrder.setDriverName(info[1]);
+                    OrderService.curOrder.setCarNumber(info[2]);
+                }
             }
             return response.toString();
         }
@@ -257,17 +295,6 @@ public class UserService {
 
         @Override
         protected void onPostExecute(String result) {
-            
-            if(result.equals("100")) {
-                LoginActivity.instance.loginFail("密码不匹配或账号未注册");
-
-            }
-            else if(result.equals("200")) {
-                LoginActivity.instance.loginSuccess_Passenger("登录成功");
-            }
-            else {
-                LoginActivity.instance.loginFail("登录失败");
-            }
 
         }
 

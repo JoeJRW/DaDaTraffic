@@ -3,7 +3,7 @@ package com.whu.dadatraffic.Base;
 /*
  *author：张朝勋
  * create time：7/9
- * update time: 7/14
+ * update time: 7/18
  */
 import android.content.ClipData;
 
@@ -43,5 +43,20 @@ public class MarketItem implements Serializable {
     public void CalculateCount(int number){
         count += number;
     }
+
+    public void setIcon(Integer icon) {
+        this.icon = icon;
+    }
+
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+
 }
 

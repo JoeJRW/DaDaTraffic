@@ -2,9 +2,10 @@ package com.whu.dadatraffic.Service;
 /*
  *author：张朝勋
  * create time：7/9
- * update time: 7/14
+ * update time: 7/19
  */
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.whu.dadatraffic.Base.MarketItem;
 import com.whu.dadatraffic.R;
@@ -22,45 +23,13 @@ import java.util.ArrayList;
 
 public class MarketItemService extends MarketItem implements Serializable {
 
-    private ArrayList<MarketItem> historyItems = new ArrayList<MarketItem>();
+    public static ArrayList<MarketItem> historyItems;
     private ArrayList<MarketItem> marketItemList = new ArrayList<MarketItem>();//商品列表
     private ArrayList<MarketItem> cartItemList = new ArrayList<MarketItem>();//购物车列表
     private ArrayList<MarketItem> mOrderItemList = new ArrayList<MarketItem>();//订单列表
-    private ArrayList<ArrayList<MarketItem>> MarketOrder = new ArrayList<ArrayList<MarketItem>>();
-    public ArrayList<MarketItem> Example = new ArrayList<MarketItem>();
-    public ArrayList<MarketItem> Example2 = new ArrayList<MarketItem>();
     public int scoreInAll = 0;//积分总和
     public MarketItemService() {
         super();
-    }
-    //测试功能用
-    public void addMarketOrder()
-    {
-        Example.add(new MarketItem("围巾", "1800分", R.drawable.icon_scarf));
-        CalculateMOCount(3,0);
-        MarketOrder.add(Example);
-        Example2.add(new MarketItem("耳机", "2480分", R.drawable.icon_earphone));
-        CalculateMOCount(2,0);
-        MarketOrder.add(Example2);
-    }
-    public ArrayList<MarketItem> GetOrder(int position)
-    {
-        return MarketOrder.get(position);
-    }
-    public void CalculateMOCount(int num,int position)
-    {
-        Example.get(position).CalculateCount(num);
-
-        SumScore();
-    }//
-    public int SumCount(ArrayList<MarketItem> list)
-    {
-        int price = 0;
-        for(int i = 0; i < list.size(); i++)
-        {
-            price += list.get(i).getCount();
-        }
-        return price;
     }
     public void AddItem(String title, String price, Integer icon)
     {
@@ -113,9 +82,20 @@ public class MarketItemService extends MarketItem implements Serializable {
     {
         return cartItemList;
     }
+    public ArrayList<MarketItem> getmOrderItemList()
+    {
+        return  mOrderItemList;
+    }
+
+    public ArrayList<MarketItem> getHistoryItems() {
+        return historyItems;
+    }
+
     public void setmOrderItemList(ArrayList<MarketItem> list)
     {
+        //todo 新增立即计算该list的总积分
         mOrderItemList = list;
+        SumScore(mOrderItemList);
     }
     //给列表中对应商品的count属性赋值并重新计算总分
     public void CalculateCount(int num,int position)
@@ -127,37 +107,29 @@ public class MarketItemService extends MarketItem implements Serializable {
         {
             marketItemList.get(position).CalculateCount(num);
         }
-        SumScore();
+        SumScore(marketItemList);
     }
     //计算积分总和
-    public void SumMarketOrderScore()
+    //todo 改为计算接收的list的总积分
+    public void SumScore(ArrayList<MarketItem> list)
     {
         int price;
         scoreInAll = 0;
-        for(int i = 0; i < mOrderItemList.size(); i++)
+        for(int i = 0; i < list.size(); i++)
         {
-            price = Integer.parseInt(GetMOrder(i).getPrice().substring(0,mOrderItemList.get(i).getPrice().length()-1));
-            scoreInAll += price * mOrderItemList.get(i).getCount();
-        }
-    }
-    public void SumScore()
-    {
-        int price;
-        scoreInAll = 0;
-        for(int i = 0; i < marketItemList.size(); i++)
-        {
-            price = Integer.parseInt(GetPrice(i).substring(0,GetPrice(i).length()-1));
-            scoreInAll += price * GetCount(i);
+            price = Integer.parseInt(list.get(i).getPrice().substring(0,list.get(i).getPrice().length()-1));
+            scoreInAll += price * list.get(i).getCount();
         }
     }
 
     /**用户在积分商城兑换商品后调用此函数，增加购买记录
      * @param items 本次购买的所有商品
      */
-    public void buyItem(MarketItem items[], String phoneNumber){
-        for (int i=0;i<items.length;i++){
-            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items[i].getTitle() + "&count="+items[i].getCount();
-            new ItemAsyncTask().execute(buyUrlStr);
+    //todo 改为使用ArrayList进行传输数据
+    public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
+        for (int i=0;i<items.size();i++){
+            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()+"&icon="+ items.get(i).getIcon();
+            new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }
 
@@ -165,8 +137,9 @@ public class MarketItemService extends MarketItem implements Serializable {
      * @param phoneNumber 用户登录使用的手机号
      */
     public void queryAllItem(String phoneNumber){
-        final String queryUrlStr = DBConstent.URL_Item + "?type=query&phonenumber=" + phoneNumber;
-        new ItemAsyncTask().doInBackground(queryUrlStr);
+        historyItems = new ArrayList<MarketItem>();
+        final String queryUrlStr = DBConstent.URL_Item + "?type=queryitems&phonenumber=" + phoneNumber;
+        new ItemAsyncTask().execute(queryUrlStr,"queryitems");
     }
 
     public class ItemAsyncTask extends AsyncTask<String, Integer, String> {
@@ -183,7 +156,7 @@ public class MarketItemService extends MarketItem implements Serializable {
             //Log.w("WangJ", "task doInBackground()");
             HttpURLConnection connection = null;
             StringBuilder response = new StringBuilder();
-            String type=params[1];
+            String type = params[1];
             try {
                 URL url = new URL(params[0]); // 声明一个URL
                 connection = (HttpURLConnection) url.openConnection(); // 打开该URL连接
@@ -201,8 +174,22 @@ public class MarketItemService extends MarketItem implements Serializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if(type.equals("queryitems"))
+            {
+                String results[] = response.toString().split(";");
 
-            return response.toString();
+                for (int i = 1;i<results.length;i+=3){
+                    MarketItem item = new MarketItem();
+                    item.setTitle(results[i]);
+                    item.setCount(Integer.parseInt(results[i+1]));
+                    item.setIcon(Integer.parseInt(results[i+2]));
+                    historyItems.add(item);
+                }
+
+                return response.toString();
+            }
+            else
+                return "";
         }
 
         @Override
@@ -218,10 +205,7 @@ public class MarketItemService extends MarketItem implements Serializable {
 
         @Override
         protected void onPostExecute(String result) {
-            String results[] = result.split(";");
-            for (int i = 1;i<Integer.parseInt(results[0]);i+=3){
-                historyItems.add(new MarketItem(results[i],results[i+1],Integer.parseInt(results[i+2])));
-            }
+
         }
 
     }

@@ -87,18 +87,16 @@ import so.orion.slidebar.GBSlideBarListener;
 import com.whu.dadatraffic.Adapter.SlideAdapter;
 import com.whu.dadatraffic.Service.UserService;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private OrderService orderService = new OrderService();
     private UserService userService = new UserService();
     private DrawerLayout drawerLayout;
-    private RelativeLayout mainLayout;
     private ActionBarDrawerToggle toggle;
 
     private AutoCompleteTextView et_departure;
     private AutoCompleteTextView et_destination;
     private Button btn_travel;
 
-    private TextView timerView = null;
     private LocationClient locationClient;
     private MapView mapView;
     private BaiduMap mapLayer;
@@ -116,10 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mCity1;
     private String mCity2;
 
-    private long baseTimer;
-    private boolean isWaiting = false;//当前是否在等待司机接单
-    public static Handler mHandler;//接收服务类发来的消息
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,8 +130,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
         et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
         btn_travel = (Button) findViewById(R.id.btn_travel);
-        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-
+        btn_travel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //根据输入的出发地和目的地，生成路程规划界面，并将路线信息传递给RouteActivity
+                String address1=et_departure.getText().toString();
+                String address2=et_destination.getText().toString();
+                if(address1=="" || address2=="") {
+                    return;
+                }
+                ArrayList<String> addressList = new ArrayList<>();
+                addressList.add(mCity1);
+                addressList.add(address1);
+                addressList.add(mCity2);
+                addressList.add(address2);
+                Intent i = new Intent(MainActivity.this, RouteActivity.class);
+                i.putStringArrayListExtra("address", addressList);
+                startActivity(i);
+            }
+        });
 
         initLocation();
         initActionBar();
@@ -216,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //-----------------监听目的地文本框-------------------------------------------------------------------
         setDestination();
 //----------------实例化mSuggestionSearch ，并添加监听器。用于处理搜索到的结果---------------------------
-
         mSuggestionSearch = SuggestionSearch.newInstance();
         mSuggestionSearch.setOnGetSuggestionResultListener(listener);
     }
@@ -480,26 +490,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-        //根据输入的出发地和目的地，生成路程规划界面，并将路线信息传递给RouteActivity
-        if (v.getId() == R.id.btn_travel) {
-            String address1=et_departure.getText().toString();
-            String address2=et_destination.getText().toString();
-            if(address1=="" || address2=="") {
-                return;
-            }
-            ArrayList<String> addressList = new ArrayList<>();
-            addressList.add(mCity1);
-            addressList.add(address1);
-            addressList.add(mCity2);
-            addressList.add(address2);
-            Intent i = new Intent(MainActivity.this, RouteActivity.class);
-            i.putStringArrayListExtra("address", addressList);
-            startActivity(i);
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         locationClient.stop();
@@ -518,53 +508,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mapView.onPause();
     }
 
-    //计时
-    private void tips(){
-
-        //RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-        this.baseTimer = SystemClock.elapsedRealtime();
-
-
-        //mainLayout.addView(timerView,0);
-
-        Handler myhandler = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (0 == baseTimer) {
-                    baseTimer = SystemClock.elapsedRealtime();
-                }
-                if(timerView==null){
-                    return;
-                }
-
-                int time = (int) ((SystemClock.elapsedRealtime() - baseTimer) / 1000);
-                String mm = new DecimalFormat("00").format(time / 60);
-                String ss = new DecimalFormat("00").format(time % 60);
-                if (null != timerView) {
-                    timerView.setText(mm + ":" + ss);
-                }
-                Message message = Message.obtain();
-                message.what = 0x0;
-                sendMessageDelayed(message, 1000);
-            }
-        };
-        myhandler.sendMessageDelayed(Message.obtain(myhandler, 1), 1000);
-    }
-
-    //设置计时框并显示
-    private void showTimerTv(){
-        gbSlideBar.setVisibility(View.INVISIBLE);
-        timerView = new TextView(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
-        timerView.setGravity(Gravity.CENTER);
-        timerView.setLayoutParams(params);
-        timerView.setBackgroundColor(Color.rgb(255,179,0));
-        timerView.setTextSize(36);
-        timerView.bringToFront();
-        mainLayout.addView(timerView);
-    }
-
-
-    //private boolean
 
 
 }

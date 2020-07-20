@@ -1,7 +1,7 @@
 /*
 *author: 李俊
 *create: time: 2020-07-09
-*update：time:
+*update：time: 2020-07-17
 */
 
 package com.whu.dadatraffic.Activity;
@@ -114,7 +114,7 @@ public class TousuActivity extends AppCompatActivity {
         imageButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();;
+                finish();
             }
         });
 
