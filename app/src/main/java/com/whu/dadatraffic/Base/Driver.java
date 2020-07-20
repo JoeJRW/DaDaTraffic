@@ -55,11 +55,5 @@ public class Driver {
 
     public String getPassword(){return password;}
 
-    //    public String getIDNumber() {
-//        return IDNumber;
-//    }
-//
-//    public void setIDNumber(String IDNumber) {
-//        this.IDNumber = IDNumber;
-//    }
+
 }

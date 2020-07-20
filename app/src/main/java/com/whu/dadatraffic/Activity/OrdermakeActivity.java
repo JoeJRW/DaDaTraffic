@@ -48,6 +48,7 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.OrderService;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -93,7 +94,7 @@ public class OrdermakeActivity extends AppCompatActivity {
     };
 
     //显示司机信息等
-    private void initInfo(){
+    public void initInfo(){
         //显示司机姓别
         String driverFistName = "某";   //版本2修改-------------------------------------------------------
         CharSequence driverName = driverFistName + "师傅";
@@ -118,6 +119,8 @@ public class OrdermakeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OrdermakeActivity.this, TousuActivity.class);
+                //传递数据到投诉界面
+                intent.putExtra("driverPhone",OrderService.curOrder.getDriverPhone());
                 startActivity(intent);
             }
         });
@@ -128,7 +131,7 @@ public class OrdermakeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                String phone = "13871142476";//TODO-需获取司机电话
+                String phone = "13871142476";//TODO-需获取司机电话  //phone=OrderService.curOrder.getDriverPhone();
                 Context context = OrdermakeActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

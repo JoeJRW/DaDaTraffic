@@ -52,7 +52,7 @@ public class User {
         return credit;
     }
 
-    public void costCredit(int cost){
-        credit-=cost;
+    public void changeCredit(int newCredit){
+        credit=newCredit;
     }
 }

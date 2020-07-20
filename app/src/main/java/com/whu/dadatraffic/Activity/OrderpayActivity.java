@@ -40,6 +40,7 @@ import com.whu.dadatraffic.AlipayTool.OrderInfoUtil2_0;
 import com.whu.dadatraffic.AlipayTool.PayResult;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.MainActivity;
+import com.whu.dadatraffic.Service.OrderService;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -342,6 +343,8 @@ public class OrderpayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(OrderpayActivity.this,TousuActivity.class);
+                //传递数据到投诉界面
+                intent.putExtra("driverPhone", OrderService.curOrder.getDriverPhone());
                 startActivity(intent);
             }
         });
