@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.MainActivity;
+import com.whu.dadatraffic.Service.OrderService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +35,7 @@ public class OrderendActivity extends AppCompatActivity {
     public String tourComment;    //记录行程意见及建议
     private RatingBar rating;
     private EditText tour_Comment;
+    private OrderService orderService=new OrderService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,18 +48,18 @@ public class OrderendActivity extends AppCompatActivity {
         }
 
         //显示司机姓别
-        String driverFistName="某";   //版本2修改-------------------------------------------------------
+        String driverFistName="某";   //orderService.curOrder.getDriverName().substring(0,1);   //7.18修改-------------------------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername3);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID="鄂A123456";     //版本2修改-------------------------------------------------------
+        String carID="鄂A123456";     //orderService.curOrder.getCarNumber();     //7.18修改-------------------------------------------------------
         TextView carID3=findViewById(R.id.carID3);
         carID3.setText(carID);
 
         //显示司机评分
-        double driverScore=5.0;    //版本2修改----------------------------------------------------------
+        double driverScore=5.0;      //TODO 版本2修改--------------------------------------------
         CharSequence ScoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore3);
         textView2.setText(ScoreText);
@@ -85,8 +87,10 @@ public class OrderendActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //记录星级得分
                 score=rating.getRating();
+                //TODO 将score存到数据库，对应Order类的score
                 //记录行程评价文本信息
                 tourComment=tour_Comment.getText().toString();
+                //TODO 将tourComment存到数据库，对应Order类的evaluation属性
                 Toast.makeText(OrderendActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 Timer timer = new Timer();
                 timer.schedule(task, 3000);
@@ -106,7 +110,7 @@ public class OrderendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                String phone = "13871142476";   //--------------------------------------需获取司机电话
+                String phone = "13871142476";   //TODO--------------------------------------需获取司机电话
                 Context context = OrderendActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -117,7 +121,6 @@ public class OrderendActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 }
