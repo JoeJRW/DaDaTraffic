@@ -81,7 +81,7 @@
             android:textColor="#000000"
             android:visibility="invisible" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/addressInput"
             android:layout_width="290dp"
             android:layout_height="match_parent"
