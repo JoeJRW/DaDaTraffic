@@ -48,6 +48,7 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.OrderService;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -55,7 +56,7 @@ import java.util.TimerTask;
 
 
 public class OrdermakeActivity extends AppCompatActivity {
-    public static final int REQUEST_CALL_PERMISSION = 10111; //拨号请求码
+    private OrderService orderService=new OrderService();
 
     private LocationClient locationClient;
     private MapView mapView;
@@ -95,18 +96,18 @@ public class OrdermakeActivity extends AppCompatActivity {
     //显示司机信息等
     private void initInfo(){
         //显示司机姓别
-        String driverFistName = "某";   //版本2修改-------------------------------------------------------
+        String driverFistName = "某";   //orderService.curOrder.getDriverName().substring(0,1);   //7.18修改-------------------------------------------------------
         CharSequence driverName = driverFistName + "师傅";
         TextView textView1 = findViewById(R.id.drivername1);
         textView1.setText(driverName);
 
-        //显示司机车牌号               //版本2修改-------------------------------------------------------
-        String carID = "鄂A123456";
+        //显示司机车牌号
+        String carID = "鄂A123456";   //orderService.curOrder.getCarNumber(); //7.18修改-------------------------------------------------------
         TextView carID1 = findViewById(R.id.carID1);
         carID1.setText(carID);
 
         //显示司机评分
-        double driverScore = 5.0;    //版本2修改----------------------------------------------------------
+        double driverScore = 5.0;    //TODO 获取司机评分----------------------------------------------------------
         CharSequence ScoreText = String.valueOf(driverScore);
         TextView textView2 = findViewById(R.id.driverscore1);
         textView2.setText(ScoreText);
@@ -140,7 +141,7 @@ public class OrdermakeActivity extends AppCompatActivity {
             }
         });
 
-        //获取司机结束行程、收费动作，跳转至支付页面----------------版本2添加-----------------------------
+        //TODO 获取司机结束行程、收费动作，跳转至支付页面----------------------
     }
 
     private void initLocation() {

@@ -96,6 +96,8 @@ public class TousuActivity extends AppCompatActivity {
                 }
                 tousuInf=tousuInf.substring(0,tousuInf.length()-1);
                 tousuCommentText=tousu_comment_text.getText().toString();
+                //TODO 将tousuInf与tousuCommentText存入数据库
+
                 Toast.makeText(TousuActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 //提交完成后，等待1秒跳转到上层界面
                 Timer timer = new Timer();
