@@ -63,18 +63,4 @@
         </LinearLayout>
     </LinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/CartLinearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        tools:layout_editor_absoluteX="1dp">-->
-
-<!--        <ListView-->
-<!--            android:id="@+id/cartLv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                 //定义跳转对象
                 Intent intentToReg = new Intent();
                 //设置跳转的起始界面和目的界面
-                intentToReg.setClass(LoginActivity.this, RegisterActivity.class);
+                intentToReg.setClass(LoginActivity.this, WalletActivity.class);
                 //启动跳转
                 startActivity(intentToReg);
             }
@@ -216,9 +216,9 @@ public class LoginActivity extends AppCompatActivity {
         Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         //设置跳转的起始界面和目的界面
         intentToMain.setClass(LoginActivity.this, MainActivity.class);
+        //设置当前用户信息
         UserService.curUser = new User(phoneNumber,password,"");
-
-
+        userService.setCurrentUserInfo();
         //传递当前登录手机号
         intentToMain.putExtra("phone",phoneNumber);
         //启动跳转

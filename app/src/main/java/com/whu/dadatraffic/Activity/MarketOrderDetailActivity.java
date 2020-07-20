@@ -118,7 +118,7 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
             holder.price.setText(marketItemService.GetMOrder(position).getPrice());
             holder.image.setImageResource(marketItemService.GetMOrder(position).getIcon());
             holder.count.setText(Integer.toString(marketItemService.GetMOrder(position).getCount())+"份");
-            marketItemService.SumMarketOrderScore();
+            //todo 删除原先计算积分的语句
             priceInAll.setText("合计："+marketItemService.scoreInAll+"积分");
             return convertView;
         }

@@ -1,10 +1,17 @@
 package com.whu.dadatraffic.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,24 +35,32 @@ import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Bean.PickerViewData;
 import com.whu.dadatraffic.Bean.TimeBean;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.OrderService;
+import com.whu.dadatraffic.Service.UserService;
 import com.wzh.pickerview.OptionsPickerView;
 import com.wzh.pickerview.model.IPickerViewData;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RouteActivity extends AppCompatActivity{
+    private OrderService orderService = new OrderService();
+    private UserService userService = new UserService();
 
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
     //路线规划相关
     private RoutePlanSearch mSearch = null;
 
+    private TextView tipView;
     private Button callCar;
     private Button reservasion;
+    private RelativeLayout mainLayout;
 
     //时间选择器
     private ArrayList<TimeBean> options1Items = new ArrayList<>();
@@ -55,6 +70,10 @@ public class RouteActivity extends AppCompatActivity{
     View vMasker;
 
     private String AppointTime="";
+
+    private boolean isWaiting =false; //当前是否正在等待司机接单(true表示已经开始叫车)
+    private long baseTimer;
+    public static Handler tipHandler;//用于计时
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +93,7 @@ public class RouteActivity extends AppCompatActivity{
 
         callCar=findViewById(R.id.CallCar);
         reservasion=findViewById(R.id.Reservation);
+        mainLayout = findViewById(R.id.routeMainView);
 
         //---设置action bar------
         ActionBar actionBar = this.getSupportActionBar();
@@ -82,7 +102,7 @@ public class RouteActivity extends AppCompatActivity{
         }
 
         Intent i = getIntent();
-        ArrayList address = i.getCharSequenceArrayListExtra("address");
+        final ArrayList address = i.getCharSequenceArrayListExtra("address");
         StartRoute(address);
 
         callCar.bringToFront();
@@ -91,6 +111,42 @@ public class RouteActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 //TODO 开始叫车，等待司机接单，然后进入行程中
+                if(isWaiting)//正在等车，点击后取消等车
+                {
+                    //取消当前订单
+                    if(orderService.cancelOrder());
+                    {
+                        tipView.setVisibility(View.INVISIBLE);
+                        tipView = null;
+                        isWaiting = false;
+
+                        callCar.setText("开始叫车");
+                    }
+                }
+                else {//未在等车时，点击进入等车状态
+                    showTipTv();
+                    tips();
+                    callCar.setText("取消叫车");
+                    isWaiting = true;
+                    //添加新订单
+                    orderService.addOrder(new Order(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString()));
+                    //检查当前订单是否被接单
+                    userService.checkOrderIsRunning();
+                    tipHandler = new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+                            if(msg.what == 1){//当前司机已接单
+                                //查询相应的订单的司机信息并显示
+                                orderService.queryDriverInfo();
+                                tipView = null;
+                                showTipTv();
+                                tipView.setText(orderService.curOrder.getDriverName().charAt(0)+"师傅正在赶来，请稍候");
+                                //TODO 这里可以进行UI操作，显示司机位置，界面跳转
+                            }
+                        }
+                    };
+                }
+
             }
         });
         reservasion.setOnClickListener(new View.OnClickListener() {
@@ -343,6 +399,51 @@ public class RouteActivity extends AppCompatActivity{
     private int currentHour(){
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.HOUR_OF_DAY);
+    }
+
+
+    //计时
+    private void tips(){
+
+        //RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
+        this.baseTimer = SystemClock.elapsedRealtime();
+
+
+        //mainLayout.addView(timerView,0);
+
+        Handler myhandler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (0 == baseTimer) {
+                    baseTimer = SystemClock.elapsedRealtime();
+                }
+                if(tipView==null){
+                    return;
+                }
+
+                int time = (int) ((SystemClock.elapsedRealtime() - baseTimer) / 1000);
+                String mm = new DecimalFormat("00").format(time / 60);
+                String ss = new DecimalFormat("00").format(time % 60);
+                if (null != tipView) {
+                    tipView.setText(mm + ":" + ss);
+                }
+                Message message = Message.obtain();
+                message.what = 0x0;
+                sendMessageDelayed(message, 1000);
+            }
+        };
+        myhandler.sendMessageDelayed(Message.obtain(myhandler, 1), 1000);
+    }
+
+    //设置计时框并显示
+    private void showTipTv(){
+        tipView = new TextView(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
+        tipView.setGravity(Gravity.CENTER);
+        tipView.setLayoutParams(params);
+        tipView.setBackgroundColor(Color.rgb(255,179,0));
+        tipView.setTextSize(36);
+        tipView.bringToFront();
+        mainLayout.addView(tipView);
     }
 
 }

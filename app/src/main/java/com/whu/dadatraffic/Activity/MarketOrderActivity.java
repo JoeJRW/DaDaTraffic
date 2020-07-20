@@ -4,8 +4,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.whu.dadatraffic.Base.MarketItem;
+import com.whu.dadatraffic.Base.User;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.MarketItemService;
+import com.whu.dadatraffic.Service.UserService;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,14 +26,15 @@ import java.util.ArrayList;
 
 public class MarketOrderActivity extends AppCompatActivity {
 
+    UserService userService = new UserService();
     MarketItemService marketItemService = new MarketItemService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_order);
+        marketItemService.queryAllItem(UserService.curUser.getPhoneNumber());
         setCustomActionBar();
 
-        marketItemService.addMarketOrder();
         //初始化ListView控件
         ListView listView = findViewById(R.id.molv);
         //创建一个Adapter的实例
@@ -48,7 +51,7 @@ public class MarketOrderActivity extends AppCompatActivity {
                 intentToTDetail.setClass(MarketOrderActivity.this, MarketOrderDetailActivity.class);
                 //传递选中View的对象
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("orderList", marketItemService.GetOrder(position));
+                bundle.putSerializable("orderList", marketItemService.historyItems.get(position));
                 //将bundle包中数据绑定到intent
                 intentToTDetail.putExtras(bundle);
                 //启动跳转，并传输对应数据
@@ -93,12 +96,12 @@ public class MarketOrderActivity extends AppCompatActivity {
         @Override
         public int getCount() {       //得到item的总数
 
-            return marketItemService.Example.size();    //返回ListView Item条目代表的对象
+            return marketItemService.historyItems.size();    //返回ListView Item条目代表的对象
         }
 
         @Override
         public Object getItem(int position) {
-            return marketItemService.GetMOrder(position).getTitle(); //返回item的数据对象
+            return marketItemService.historyItems.get(position).getTitle(); //返回item的数据对象
         }
 
         @Override
@@ -126,13 +129,12 @@ public class MarketOrderActivity extends AppCompatActivity {
             }
             //设置该View中各项值
             holder.title.setText("订单"+position);
-            ArrayList<MarketItem> list = marketItemService.GetOrder(position);
-            holder.price.setText(""+marketItemService.SumCount(list));
-            System.out.println(marketItemService.SumCount(list));
-            holder.image.setImageResource(list.get(position).getIcon());
-            holder.tv_price.setText("商品数量：");
-            marketItemService.SumMarketOrderScore();
-            holder.count.setText("合计："+marketItemService.scoreInAll+"积分");
+            holder.price.setText(""+marketItemService.historyItems.get(position).getCount());
+            holder.image.setImageResource(marketItemService.historyItems.get(position).getIcon());
+            holder.tv_price.setText("数量：");
+            //todo 使用新计算总分的方法
+            marketItemService.SumScore(marketItemService.historyItems);
+            holder.count.setText("共："+marketItemService.scoreInAll+"分");
             System.out.println(marketItemService.scoreInAll);
             return convertView;
         }

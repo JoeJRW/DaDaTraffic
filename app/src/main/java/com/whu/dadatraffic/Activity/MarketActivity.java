@@ -30,10 +30,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.whu.dadatraffic.Service.MarketItemService;
+import com.whu.dadatraffic.Service.UserService;
 
 
 public class MarketActivity extends AppCompatActivity{
 
+    UserService userService = new UserService();
     MarketItemService marketItemService = new MarketItemService();
     TextView priceInAll = null;
     TextView buy = null;
@@ -117,20 +119,29 @@ public class MarketActivity extends AppCompatActivity{
                 confirmDialog.setButton(DialogInterface.BUTTON_POSITIVE, "是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MarketActivity.this,"已生成订单，感谢您的光临！",Toast.LENGTH_SHORT).show();
                         int a = marketItemService.CartCount();
-                        //跳转到商城订单界面
-                        //定义跳转对象
-                        Intent intentToMOrder = new Intent();
-                        //设置跳转的起始界面和目的界面
-                        intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
-                        //传递选中View的对象
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("orderList", marketItemService.GetCartItemList());
-                        //将bundle包中数据绑定到intent
-                        intentToMOrder.putExtras(bundle);
-                        //启动跳转，并传输对应数据
-                        startActivity(intentToMOrder);
+                        //todo 判断用户积分是否足够，够则购买
+                        if(userService.curUser.getCredit() > a)
+                        {
+                            Toast.makeText(MarketActivity.this, "已生成订单，感谢您的光临！", Toast.LENGTH_SHORT).show();
+                            marketItemService.buyItem(marketItemService.GetCartItemList(), userService.curUser.getPhoneNumber());
+                            //跳转到商城订单界面
+                            //定义跳转对象
+                            Intent intentToMOrder = new Intent();
+                            //设置跳转的起始界面和目的界面
+                            intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
+                            //传递选中View的对象
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("orderList", marketItemService.GetCartItemList());
+                            //将bundle包中数据绑定到intent
+                            intentToMOrder.putExtras(bundle);
+                            //启动跳转，并传输对应数据
+                            startActivity(intentToMOrder);
+                        }
+                        else
+                        {
+                            Toast.makeText(MarketActivity.this, "您的积分不够T.T请重新挑选您的商品", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 //取消按钮

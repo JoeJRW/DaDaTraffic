@@ -43,5 +43,20 @@ public class MarketItem implements Serializable {
     public void CalculateCount(int number){
         count += number;
     }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public void setCount(int count)
+    {
+        this.count = count;
+    }
+
+    public void setIcon(int icon)
+    {
+        this.icon = icon;
+    }
 }
 

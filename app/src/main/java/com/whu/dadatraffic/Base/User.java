@@ -22,7 +22,9 @@ public class User {
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
-
+    public void costCredit(int cost){
+        credit -= cost;
+    }
     /*
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber=phoneNumber;
