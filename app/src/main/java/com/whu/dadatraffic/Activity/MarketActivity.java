@@ -1,12 +1,13 @@
 package com.whu.dadatraffic.Activity;
 /*
-*author：张朝勋
-* create time：7/8
-* update time: 7/15
+ *author：张朝勋
+ * create time：7/8
+ * update time: 7/18
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.whu.dadatraffic.Base.MarketItem;
 import com.whu.dadatraffic.R;
 
 import android.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +33,10 @@ import android.widget.Toast;
 
 import com.whu.dadatraffic.Service.MarketItemService;
 import com.whu.dadatraffic.Service.UserService;
+
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MarketActivity extends AppCompatActivity{
@@ -119,12 +125,13 @@ public class MarketActivity extends AppCompatActivity{
                 confirmDialog.setButton(DialogInterface.BUTTON_POSITIVE, "是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MarketActivity.this,"已生成订单，感谢您的光临！",Toast.LENGTH_SHORT).show();
                         int a = marketItemService.CartCount();
                         //todo 判断用户积分是否足够，够则购买
-                        if(userService.curUser.getCredit() > a)
-                        {
-                            Toast.makeText(MarketActivity.this, "已生成订单，感谢您的光临！", Toast.LENGTH_SHORT).show();
-                            marketItemService.buyItem(marketItemService.GetCartItemList(), userService.curUser.getPhoneNumber());
+                        if(UserService.curUser.getCredit() > a) {
+                            int cost = marketItemService.scoreInAll;
+                            UserService.curUser.costCredit(cost);
+
                             //跳转到商城订单界面
                             //定义跳转对象
                             Intent intentToMOrder = new Intent();
@@ -167,6 +174,7 @@ public class MarketActivity extends AppCompatActivity{
     private void initView() {
         buy = (TextView)findViewById(R.id.tv_buy);
         priceInAll = (TextView)findViewById(R.id.tv_priceinAll);
+
     }
 
     //初始化商城中的元素
@@ -198,6 +206,7 @@ public class MarketActivity extends AppCompatActivity{
             return true;
         }
         if(item.getItemId() == R.id.toOrder){
+            marketItemService.queryAllItem(UserService.curUser.getPhoneNumber());
             Intent intentToTDetail = new Intent();
             //设置跳转的起始界面和目的界面
             intentToTDetail.setClass(MarketActivity.this, MarketOrderActivity.class);

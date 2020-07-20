@@ -3,7 +3,7 @@ package com.whu.dadatraffic.Base;
 /*
  *author：张朝勋
  * create time：7/9
- * update time: 7/14
+ * update time: 7/18
  */
 import android.content.ClipData;
 
@@ -44,6 +44,7 @@ public class MarketItem implements Serializable {
         count += number;
     }
 
+
     public void setTitle(String title)
     {
         this.title = title;
@@ -58,5 +59,6 @@ public class MarketItem implements Serializable {
     {
         this.icon = icon;
     }
+
 }
 

@@ -2,9 +2,10 @@ package com.whu.dadatraffic.Service;
 /*
  *author：张朝勋
  * create time：7/9
- * update time: 7/14
+ * update time: 7/19
  */
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.whu.dadatraffic.Base.MarketItem;
 import com.whu.dadatraffic.R;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 
 public class MarketItemService extends MarketItem implements Serializable {
 
-    public static ArrayList<MarketItem> historyItems = new ArrayList<MarketItem>();
+    public static ArrayList<MarketItem> historyItems;
     private ArrayList<MarketItem> marketItemList = new ArrayList<MarketItem>();//商品列表
     private ArrayList<MarketItem> cartItemList = new ArrayList<MarketItem>();//购物车列表
     private ArrayList<MarketItem> mOrderItemList = new ArrayList<MarketItem>();//订单列表
@@ -85,6 +86,11 @@ public class MarketItemService extends MarketItem implements Serializable {
     {
         return  mOrderItemList;
     }
+
+    public ArrayList<MarketItem> getHistoryItems() {
+        return historyItems;
+    }
+
     public void setmOrderItemList(ArrayList<MarketItem> list)
     {
         //todo 新增立即计算该list的总积分
@@ -122,8 +128,8 @@ public class MarketItemService extends MarketItem implements Serializable {
     //todo 改为使用ArrayList进行传输数据
     public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
         for (int i=0;i<items.size();i++){
-            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+historyItems.get(i).getTitle() + "&count="+historyItems.get(i).getCount()+"&icon="+historyItems.get(i).getIcon();
-            new ItemAsyncTask().execute(buyUrlStr);
+            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()+"&icon="+ items.get(i).getIcon();
+            new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }
 
@@ -131,8 +137,9 @@ public class MarketItemService extends MarketItem implements Serializable {
      * @param phoneNumber 用户登录使用的手机号
      */
     public void queryAllItem(String phoneNumber){
-        final String queryUrlStr = DBConstent.URL_Item + "?type=query&phonenumber=" + phoneNumber;
-        new ItemAsyncTask().execute(queryUrlStr);
+        historyItems = new ArrayList<MarketItem>();
+        final String queryUrlStr = DBConstent.URL_Item + "?type=queryitems&phonenumber=" + phoneNumber;
+        new ItemAsyncTask().execute(queryUrlStr,"queryitems");
     }
 
     public class ItemAsyncTask extends AsyncTask<String, Integer, String> {
@@ -149,7 +156,7 @@ public class MarketItemService extends MarketItem implements Serializable {
             //Log.w("WangJ", "task doInBackground()");
             HttpURLConnection connection = null;
             StringBuilder response = new StringBuilder();
-            String type=params[1];
+            String type = params[1];
             try {
                 URL url = new URL(params[0]); // 声明一个URL
                 connection = (HttpURLConnection) url.openConnection(); // 打开该URL连接
@@ -167,8 +174,22 @@ public class MarketItemService extends MarketItem implements Serializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if(type.equals("queryitems"))
+            {
+                String results[] = response.toString().split(";");
 
-            return response.toString();
+                for (int i = 1;i<results.length;i+=3){
+                    MarketItem item = new MarketItem();
+                    item.setTitle(results[i]);
+                    item.setCount(Integer.parseInt(results[i+1]));
+                    item.setIcon(Integer.parseInt(results[i+2]));
+                    historyItems.add(item);
+                }
+
+                return response.toString();
+            }
+            else
+                return "";
         }
 
         @Override
@@ -184,14 +205,7 @@ public class MarketItemService extends MarketItem implements Serializable {
 
         @Override
         protected void onPostExecute(String result) {
-            String results[] = result.split(";");
-            for (int i = 1;i<Integer.parseInt(results[0]);i+=3){
-                MarketItem item = new MarketItem();
-                item.setTitle(results[i]);
-                item.setCount(Integer.parseInt(results[i+1]));
-                item.setIcon(Integer.parseInt(results[i+2]));
-                historyItems.add(item);
-            }
+
         }
 
     }

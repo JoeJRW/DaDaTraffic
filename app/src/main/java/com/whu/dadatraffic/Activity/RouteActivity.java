@@ -1,9 +1,17 @@
 package com.whu.dadatraffic.Activity;
-
+/*
+ *author：王子皓
+ * create time：7/17
+ * update time: 7/18
+ */
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.view.Gravity;
@@ -18,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
@@ -35,9 +44,11 @@ import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Bean.PickerViewData;
 import com.whu.dadatraffic.Bean.TimeBean;
+import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.OrderService;
 import com.whu.dadatraffic.Service.UserService;
@@ -47,6 +58,9 @@ import com.wzh.pickerview.model.IPickerViewData;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class RouteActivity extends AppCompatActivity{
     private OrderService orderService = new OrderService();
@@ -74,6 +88,7 @@ public class RouteActivity extends AppCompatActivity{
     private boolean isWaiting =false; //当前是否正在等待司机接单(true表示已经开始叫车)
     private long baseTimer;
     public static Handler tipHandler;//用于计时
+    private ArrayList address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +96,6 @@ public class RouteActivity extends AppCompatActivity{
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_route);
         SDKInitializer.setCoordType(CoordType.BD09LL);
-
         //没有这个HTTP申请无法实现路线规划
         SDKInitializer.setHttpsEnable(true);
 
@@ -90,6 +104,7 @@ public class RouteActivity extends AppCompatActivity{
         initRoutePlan();
 
         initTimePicker();
+
 
         callCar=findViewById(R.id.CallCar);
         reservasion=findViewById(R.id.Reservation);
@@ -102,7 +117,7 @@ public class RouteActivity extends AppCompatActivity{
         }
 
         Intent i = getIntent();
-        final ArrayList address = i.getCharSequenceArrayListExtra("address");
+        address = i.getCharSequenceArrayListExtra("address");
         StartRoute(address);
 
         callCar.bringToFront();
@@ -110,7 +125,16 @@ public class RouteActivity extends AppCompatActivity{
         callCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO 开始叫车，等待司机接单，然后进入行程中
+                showTipTv();
+                tips();
+                callCar.setText("取消叫车");
+                Toast.makeText(RouteActivity.this,
+                        "等待接单中",Toast.LENGTH_SHORT).show();
+                Timer timer = new Timer();
+                timer.schedule(task, 5000);
+
+                //TODO 代码异常等待修改
+                /*
                 if(isWaiting)//正在等车，点击后取消等车
                 {
                     //取消当前订单
@@ -119,7 +143,6 @@ public class RouteActivity extends AppCompatActivity{
                         tipView.setVisibility(View.INVISIBLE);
                         tipView = null;
                         isWaiting = false;
-
                         callCar.setText("开始叫车");
                     }
                 }
@@ -146,7 +169,7 @@ public class RouteActivity extends AppCompatActivity{
                         }
                     };
                 }
-
+                */
             }
         });
         reservasion.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +179,16 @@ public class RouteActivity extends AppCompatActivity{
             }
         });
     }
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.putStringArrayListExtra("address", address);
+            startActivity(i);
+        }
+    };
 
     //路线规划初始化
     private void initRoutePlan() {
@@ -272,9 +305,25 @@ public class RouteActivity extends AppCompatActivity{
                         + options3Items.get(options1).get(option2).get(options3).getPickerViewText();
                 vMasker.setVisibility(View.GONE);
                 //TODO 完善预约订单信息并返回主界面
+                Toast.makeText(RouteActivity.this,"已预约： "+AppointTime, Toast.LENGTH_SHORT).show();
+                Timer timer1 = new Timer();
+                timer1.schedule(task1, 2000);
             }
         });
     }
+
+    TimerTask task1=new TimerTask() {
+        @Override
+        public void run() {
+            //跳转到乘客的主界面
+            //定义跳转对象
+            Intent intentToMain = new Intent()
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            //设置跳转的起始界面和目的界面
+            intentToMain.setClass(RouteActivity.this, MainActivity.class);
+            startActivity(intentToMain);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -412,7 +461,7 @@ public class RouteActivity extends AppCompatActivity{
         //mainLayout.addView(timerView,0);
 
         Handler myhandler = new Handler() {
-            public void handleMessage(android.os.Message msg) {
+            public void handleMessage(Message msg) {
                 if (0 == baseTimer) {
                     baseTimer = SystemClock.elapsedRealtime();
                 }
@@ -445,5 +494,6 @@ public class RouteActivity extends AppCompatActivity{
         tipView.bringToFront();
         mainLayout.addView(tipView);
     }
+
 
 }

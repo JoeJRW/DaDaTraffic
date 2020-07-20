@@ -1,7 +1,7 @@
 /*
 *author: 李俊
 *create: time: 2020-07-10
-*update: time:
+*update: time: 2020-07-19 施武轩
 */
 
 package com.whu.dadatraffic.Base;
@@ -22,9 +22,7 @@ public class User {
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
-    public void costCredit(int cost){
-        credit -= cost;
-    }
+
     /*
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber=phoneNumber;
@@ -52,5 +50,9 @@ public class User {
 
     public int getCredit() {
         return credit;
+    }
+
+    public void costCredit(int cost){
+        credit-=cost;
     }
 }

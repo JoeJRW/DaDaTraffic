@@ -15,7 +15,7 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/frameLayout2"
             android:layout_width="411dp"
             android:layout_height="499dp"
@@ -25,20 +25,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="169dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="113dp"
-                android:layout_marginLeft="113dp"
-                android:layout_marginTop="154dp"
-                android:text="放地图"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_absoluteHeight="19dp"
-                tools:layout_conversion_absoluteWidth="58dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/orderView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:clickable="true" />
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/frameLayout"

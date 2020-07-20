@@ -1,8 +1,8 @@
 /*
- *author: 李俊
- *create: time: 2020-07-10
- *update: time:
- */
+*author: 李俊
+*create: time: 2020-07-10
+*update: time: 2020-07-19 施武轩
+*/
 
 package com.whu.dadatraffic.Service;
 
@@ -61,7 +61,9 @@ public class UserService {
      * 查看当前订单是否处于"进行中"（即是否已有司机接单）
      */
     public void checkOrderIsRunning(){
+
         flag = false;
+
         final String checkUrlStr = DBConstent.URL_User + "?type=checkstate&orderid=" + OrderService.curOrder.getOrderID();
         //new OrderAsyncTask().execute(queryUrlStr);
 
@@ -77,6 +79,7 @@ public class UserService {
                 }
             }
         },0,5000);//每隔5秒做一次run()操作，查询订单状态
+
     }
 
     //用户注册,把数据传给服务器

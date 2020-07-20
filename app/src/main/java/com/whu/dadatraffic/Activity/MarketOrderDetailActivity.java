@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.whu.dadatraffic.Service.MarketItemService;
+import com.whu.dadatraffic.Service.UserService;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         ArrayList<MarketItem> MarketOrderList = (ArrayList<MarketItem>)bundle.getSerializable("orderList");
+
         marketItemService.setmOrderItemList(MarketOrderList);
         priceInAll = (TextView)findViewById(R.id.MarketOrderPriceinAll);
 
@@ -45,6 +47,8 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         MarketOrderDetailAdapter newMarketOrderDetailAdapter = new MarketOrderDetailAdapter();
         //设置Adapter
         listView.setAdapter(newMarketOrderDetailAdapter);
+        marketItemService.buyItem(MarketOrderList, UserService.curUser.getPhoneNumber());
+
     }
 
 
