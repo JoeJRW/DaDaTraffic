@@ -50,13 +50,13 @@ import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.OrderService;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class OrdermakeActivity extends AppCompatActivity {
-    private OrderService orderService=new OrderService();
 
     private LocationClient locationClient;
     private MapView mapView;
@@ -80,34 +80,46 @@ public class OrdermakeActivity extends AppCompatActivity {
         final ArrayList address = i.getCharSequenceArrayListExtra("address");
         StartRoute(address);
 
-        Timer timer = new Timer();
-        timer.schedule(task, 10000);
+        //订单状态变为end时，跳转到支付界面---------------------------7.21添加
+        Runnable payRunnable=new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.currentThread().isInterrupted()) {
+                    if (OrderService.curOrder.getOrderState() == "end") {
+                        Intent intent = new Intent(OrdermakeActivity.this, OrderpayActivity.class);
+                        startActivity(intent);
+                        Thread.currentThread().interrupt();
+                    }
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread thread=new Thread(payRunnable);
+        thread.start();
 
     }
 
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            startActivity(new Intent(OrdermakeActivity.this, OrderpayActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
-    };
 
     //显示司机信息等
     public void initInfo(){
         //显示司机姓别
-        String driverFistName = "某";   //orderService.curOrder.getDriverName().substring(0,1);   //7.18修改-------------------------------------------------------
+        String driverFistName = OrderService.curOrder.getDriverName().substring(0,1);   //7.21修改-------------------------------------------------------
         CharSequence driverName = driverFistName + "师傅";
         TextView textView1 = findViewById(R.id.drivername1);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID = "鄂A123456";   //orderService.curOrder.getCarNumber(); //7.18修改-------------------------------------------------------
+        String carID = OrderService.curOrder.getCarID(); //7.21修改-------------------------------------------------------
         TextView carID1 = findViewById(R.id.carID1);
         carID1.setText(carID);
 
         //显示司机评分
-        double driverScore = 5.0;    //TODO 获取司机评分----------------------------------------------------------
+        DecimalFormat df =new DecimalFormat("#.0");
+        double driverScore = Double.parseDouble(df.format(OrderService.curOrder.getDriverScore()));    //7.21修改----------------------------------------
         CharSequence ScoreText = String.valueOf(driverScore);
         TextView textView2 = findViewById(R.id.driverscore1);
         textView2.setText(ScoreText);
@@ -131,7 +143,7 @@ public class OrdermakeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                String phone = "13871142476";//TODO-需获取司机电话  //phone=OrderService.curOrder.getDriverPhone();
+                String phone = OrderService.curOrder.getDriverPhone();       //7.21修改-------------------------------
                 Context context = OrdermakeActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -142,8 +154,6 @@ public class OrdermakeActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //TODO 获取司机结束行程、收费动作，跳转至支付页面----------------------
     }
 
     private void initLocation() {

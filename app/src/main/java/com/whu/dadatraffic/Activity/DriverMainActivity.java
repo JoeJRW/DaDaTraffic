@@ -54,6 +54,7 @@ import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.DriverService;
+import com.whu.dadatraffic.Service.OrderService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -64,10 +65,9 @@ import java.util.List;
 
 public class DriverMainActivity extends AppCompatActivity {
     LinearLayout UI_1, UI_2,UI_3,UI_4;
-    //private LinearLayout UI=findViewById(R.id.driverLayout);
     private Button startAcceptBtn,cancelAcceptBtn,getPassengerGtn,confirmReachBtn;
     private ImageButton callPassenger1,callPassenger2;
-    private String str_setOffPlace=" ",str_destination=" ",passengerPhoneNum="13871142476";
+    private String str_setOffPlace="",str_destination="",passengerPhoneNum="";
     private boolean isOpen = false;//表示当前司机是否正在营业
 
     private LocationClient locationClient;
@@ -101,8 +101,6 @@ public class DriverMainActivity extends AppCompatActivity {
                 if(!isOpen) {
                     UI_2.setVisibility(View.VISIBLE);
                     UI_1.setVisibility(View.GONE);
-//                    initUI_2();
-
                     isOpen=true;
                     //TODO 开始接单
 
@@ -116,7 +114,6 @@ public class DriverMainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(isOpen){
                     UI_2.setVisibility(View.GONE);
-//                    initUI_1();
                     UI_1.setVisibility(View.VISIBLE);
                     isOpen=false;
                     //TODO 取消接单
@@ -136,7 +133,6 @@ public class DriverMainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(isOpen){
                     UI_3.setVisibility(View.GONE);
-//                    initUI_4();
                     UI_4.setVisibility(View.VISIBLE);
                 }
             }
@@ -149,7 +145,6 @@ public class DriverMainActivity extends AppCompatActivity {
                 if(isOpen){
                     isOpen=false;
                     UI_4.setVisibility(View.GONE);
-//                    initUI_1()
                     UI_1.setVisibility(View.VISIBLE);
                     Toast.makeText(DriverMainActivity.this,"订单完成", Toast.LENGTH_SHORT).show();
                     mapLayer.clear();
@@ -237,17 +232,16 @@ public class DriverMainActivity extends AppCompatActivity {
     //当接到新的订单时，修改UI
     private void getNewOrder()
     {
-        //TODO 获取订单出发点、目的地、乘客手机号
-        //str_setOffPlace="";
-        //str_destination="";
-        //passengerPhoneNum="";
+        str_setOffPlace= OrderService.curOrder.getStartPoint();
+        str_destination=OrderService.curOrder.getDestination();
+        passengerPhoneNum=OrderService.curOrder.getDriverPhone();
         routeList.add(mCity);
         routeList.add(str_setOffPlace);
         routeList.add(str_destination);
         UI_2.setVisibility(View.GONE);
-//        initUI_3();
         UI_3.setVisibility(View.VISIBLE);
         //TODO 修改订单状态为进行中
+
         StartRoute(routeList);
     }
 
