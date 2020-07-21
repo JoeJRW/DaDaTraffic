@@ -10,17 +10,15 @@
     tools:context=".Activity.DriverMainActivity">
 
 
-    <!--主菜单布局-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:orientation="vertical">
 
-        <!--滑动条布局-->
 
         <LinearLayout
-            android:id="@+id/route"
+            android:id="@+id/driverLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -49,8 +47,7 @@
                     android:gravity="center"
                     android:text="开始接单"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:visibility="visible" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

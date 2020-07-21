@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
 
 public class DriverMainActivity extends AppCompatActivity {
     LinearLayout UI_1, UI_2,UI_3,UI_4;
-    private LinearLayout UI=findViewById(R.id.route);
+    //private LinearLayout UI=findViewById(R.id.driverLayout);
     private Button startAcceptBtn,cancelAcceptBtn,getPassengerGtn,confirmReachBtn;
     private ImageButton callPassenger1,callPassenger2;
     private String str_setOffPlace=" ",str_destination=" ",passengerPhoneNum="13871142476";
@@ -42,10 +42,6 @@ public class DriverMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_main);
         initUI();
-        UI_1.setVisibility(View.VISIBLE);
-        UI_2.setVisibility(View.GONE);
-        UI_3.setVisibility(View.GONE);
-        UI_4.setVisibility(View.GONE);
 
 
         //开始接单按钮绑定点击事件
@@ -53,11 +49,12 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!isOpen) {
+                    UI_2.setVisibility(View.VISIBLE);
                     UI_1.setVisibility(View.GONE);
 //                    initUI_2();
-                    UI_2.setVisibility(View.VISIBLE);
+
                     isOpen=true;
-                    //TODO 修改数据库司机状态为在营业（正在接单或接到单）
+                    //TODO 开始接单
 
                 }
             }
@@ -72,7 +69,7 @@ public class DriverMainActivity extends AppCompatActivity {
 //                    initUI_1();
                     UI_1.setVisibility(View.VISIBLE);
                     isOpen=false;
-                    //TODO 修改数据库司机状态为未接单
+                    //TODO 取消接单
                 }
             }
         });
@@ -142,10 +139,10 @@ public class DriverMainActivity extends AppCompatActivity {
     }
 
     private void initUI(){
-        LinearLayout UI_1=findViewById(R.id.btnLayout1);
-        LinearLayout UI_2=findViewById(R.id.btnLayout2);
-        LinearLayout UI_3=findViewById(R.id.btnLayout3);
-        LinearLayout UI_4=findViewById(R.id.btnLayout4);
+        UI_1=findViewById(R.id.btnLayout1);
+        UI_2=findViewById(R.id.btnLayout2);
+        UI_3=findViewById(R.id.btnLayout3);
+        UI_4=findViewById(R.id.btnLayout4);
         initUI_1();
         initUI_2();
         initUI_3();
@@ -160,7 +157,7 @@ public class DriverMainActivity extends AppCompatActivity {
     private void initUI_2()
     {
         cancelAcceptBtn = findViewById(R.id.btn_cancelAccept_driver);
-//        UI_2.setVisibility(View.VISIBLE);
+        UI_2.setVisibility(View.GONE);
     }
 
     private void initUI_3()
@@ -171,7 +168,7 @@ public class DriverMainActivity extends AppCompatActivity {
         TextView destination1 = findViewById(R.id.destination_text1);
         setOffPlace1.setText(str_setOffPlace);
         destination1.setText(str_destination);
-//        UI_3.setVisibility(View.VISIBLE);
+        UI_3.setVisibility(View.GONE);
     }
 
     private void initUI_4()
@@ -182,7 +179,7 @@ public class DriverMainActivity extends AppCompatActivity {
         TextView destination2 = findViewById(R.id.destination_text2);
         setOffPlace2.setText(str_setOffPlace);
         destination2.setText(str_destination);
-//        UI_4.setVisibility(View.VISIBLE);
+        UI_4.setVisibility(View.GONE);
     }
 
     //当接到新的订单时，修改UI
