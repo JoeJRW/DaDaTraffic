@@ -100,6 +100,11 @@ public class TousuActivity extends AppCompatActivity {
                     tousuInf+=tousu12.getText().toString()+"、";
                 }
                 tousuInf=tousuInf.substring(0,tousuInf.length()-1);
+                //选项不能为空
+                if(tousuInf.equals("")){
+                    Toast.makeText(TousuActivity.this,"请选择投诉内容",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 tousuCommentText=tousu_comment_text.getText().toString();
                 //TODO 将tousuInf与tousuCommentText存入数据库
                 //将投诉信息发送到服务器
@@ -125,6 +130,5 @@ public class TousuActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 }

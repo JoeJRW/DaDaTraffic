@@ -94,8 +94,8 @@ public class OrderService {
      * 查看当前订单的状态，并执行相应操作
      * 用户开始叫车后调用
      */
-    public void queryOrderState(){
-        final String queryUrl = DBConstent.URL_Order + "?type=query&orderid=" + curOrder.getOrderID();
+    public void checkOrderState(){
+        final String queryUrl = DBConstent.URL_User + "?type=checkstate&orderid=" + curOrder.getOrderID();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -224,9 +224,17 @@ public class OrderService {
                 curOrder.setDriverName(info[2]);//设置当前订单司机姓名
                 curOrder.setCarID(info[3]);//设置当前订单司机车牌号
                 curOrder.setDriverScore(Integer.parseInt(info[4]));
+                return "start";
             }
-            if(info[0].equals("cancel")||info[0].equals("unpaid")||info[0].equals("end")){
-                timer.cancel();
+            else if(info[0].equals("end")){//查询到订单处于结束状态
+                timer.cancel();//停止查询
+                return "end";
+            }
+            else if(info[0].equals("ongoing")){//查询到订单处于结束状态
+                return "ongoing";
+            }
+            else if(info[0].equals("cancel")){//查询到订单处于结束状态
+                timer.cancel();//停止查询
             }
 
             return ""; // 这里返回的结果就作为onPostExecute方法的入参
@@ -245,6 +253,7 @@ public class OrderService {
 
         @Override
         protected void onPostExecute(String result) {
+
 
         }
     }
