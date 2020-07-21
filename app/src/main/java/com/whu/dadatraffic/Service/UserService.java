@@ -54,6 +54,15 @@ public class UserService {
         new UserAsyncTask().execute(complainUrlStr,"complain");
     }
 
+    /**
+     * 为用户添加常用地址
+     * @param commonAddress 用户的常用地址
+     */
+    public void addAddress(String commonAddress){
+        String addUrlStr = DBConstent.URL_ChangeUserInfo+"?type=changeaddress&address="+commonAddress;
+        new UserAsyncTask().execute(addUrlStr,"changeaddress");
+    }
+
 
     //用户注册,把数据传给服务器
     public void register(User user)

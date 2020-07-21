@@ -71,7 +71,7 @@ public class DriverService {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                new DriverAsyncTask().execute(checkUrlStr,"check");
+                new CheckAsyncTask().execute(checkUrlStr,"check");
             }
         },0,2000);//每隔2秒做一次run()操作，查询是否有可接订单
     }
@@ -86,8 +86,22 @@ public class DriverService {
     }
 
     /**
-     * 确认乘客已上车，修改订单状态
+     * 确认乘客已上车，修改订单状态为ongoing
+     * 点击确认上次按钮后调用
      */
+    public void getPassenger(){
+        String getUrlStr = DBConstent.URL_Driver + "?type=getpassenger&phonenumber=" + OrderService.curOrder.getOrderID();
+        new DriverAsyncTask().execute(getUrlStr,"getpassenger");
+    }
+
+    /**
+     * 确认乘客到达目的地，修改订单状态为end
+     * 点击确认导弹按钮后调用
+     */
+    public void arrive(){
+        String arriveUrlStr = DBConstent.URL_Driver + "?type=arrive&phonenumber=" + OrderService.curOrder.getOrderID();
+        new DriverAsyncTask().execute(arriveUrlStr,"getpassenger");
+    }
 
     /**
      * AsyncTask类的三个泛型参数：
@@ -156,12 +170,65 @@ public class DriverService {
                 curDriver.setScore(Double.parseDouble(info[1]));
             }
 
-            else if (params[1].equals("check")){
-                if(!response.toString().equals("100")){
-                    String info[]=response.toString().split(";");
-                    OrderService.curOrder = new CurOrder(info[1],info[2],info[3]);
+            return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // 如果在doInBackground方法，那么就会立刻执行本方法
+            // 本方法在UI线程中执行，可以更新UI元素，典型的就是更新进度条进度，一般是在下载时候使用
+        }
+
+        /**
+         * 运行在UI线程中，所以可以直接操作UI元素
+         * @param
+         */
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+    }
+
+
+    public class CheckAsyncTask extends AsyncTask<String, Integer, String> {
+        @Override
+        protected void onPreExecute() {
+            //Log.w("WangJ", "task onPreExecute()");
+        }
+
+        /**
+         * @param params 这里的params是一个数组，即AsyncTask在激活运行是调用execute()方法传入的参数
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            StringBuilder response = new StringBuilder();
+            try {
+                URL url = new URL(params[0]); // 声明一个URL
+                connection = (HttpURLConnection) url.openConnection(); // 打开该URL连接
+                connection.setRequestMethod("GET"); // 设置请求方法，“POST或GET”，我们这里用GET，在说到POST的时候再用POST
+                connection.setConnectTimeout(80000); // 设置连接建立的超时时间
+                connection.setReadTimeout(80000); // 设置网络报文收发超时时间
+                InputStream in = connection.getInputStream();  // 通过连接的输入流获取下发报文，然后就是Java的流处理
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
                 }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            if(!response.toString().equals("100")){
+                String info[]=response.toString().split(";");
+                OrderService.curOrder = new CurOrder(info[1],info[2],info[3]);
+                timer.cancel();
+                return "getOrder";
+            }
+
             return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
         }
 
