@@ -191,7 +191,6 @@
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="36sp"
                     android:ems="10"
-                    android:inputType="textPassword"
                     android:textSize="18sp" />
 
 
