@@ -23,6 +23,7 @@ import com.whu.dadatraffic.R;
 public class SettingActivity extends AppCompatActivity {
 
     private Button button1;
+    private Button button4;
     private  ImageButton button2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         button1=(Button)findViewById(R.id.button); //账号与安全按钮
+        button4=findViewById(R.id.button4);
 
         //跳转至账号与安全
         button1.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +57,18 @@ public class SettingActivity extends AppCompatActivity {
                 intentToMain.setClass(SettingActivity.this, MainActivity.class);
                 //启动跳转
                 startActivity(intentToMain);
+            }
+        });
+
+        //跳转常用地址设置
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                //设置跳转的起始界面和目的界面
+                i.setClass(SettingActivity.this, AddressActivity.class);
+                //启动跳转
+                startActivity(i);
             }
         });
     }

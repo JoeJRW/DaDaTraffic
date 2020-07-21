@@ -15,23 +15,30 @@ import java.util.Date;
 public class Order {
     private String customerPhoneNum = null;//乘客手机号
     private String orderID = null;//订单编号
-    private String driverName = "";//司机姓名
-    private String carNumber = null;//车牌号
+    private String driverPhone = "";//司机手机号
     private String createTime = null;//订单创建时间
     private String startPoint = null;//行程起始地点
     private String destination = null;//行程目的地
-    private double price = 0.00;//本次行程价格
+    private String price = "";//本次行程价格
     public String orderState = null;//订单状态
     private String evalution = "";//行程评价
-    private float score = 1.0f;//得分
+    private int score = 0;//得分
 
-    public Order(String PhoneNum , String startPoint, String destination){
-        Date date = new Date(System.currentTimeMillis());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        createTime = simpleDateFormat.format(date);
+    public Order(String phoneNum,String orderID,String driverPhone,String createTime, String startPoint, String destination,String price,String orderState,String evalution,int score){
+        this.customerPhoneNum = phoneNum;
+        this.orderID = orderID;
+        this.driverPhone = driverPhone;
+        this.createTime = createTime;
+        this.startPoint = startPoint;
+        this.destination = destination;
+        this.price = price;
+        this.orderState = orderState;
+        this.evalution = evalution;
+        this.score = score;
+    }
 
-        this.customerPhoneNum = PhoneNum;
-        //this.orderID = orderID;
+    public Order(String customerPhoneNum,String startPoint,String destination){
+        this.customerPhoneNum = customerPhoneNum;
         this.startPoint = startPoint;
         this.destination = destination;
     }
@@ -44,35 +51,39 @@ public class Order {
 
     public String getDestination(){return destination;}
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setOrderState(String orderState) {
+        this.orderState = orderState;
     }
 
-    public double getPrice(){return  price;}
+    public String getOrderState() {
+        return orderState;
+    }
+
+    public String getPrice() {
+        return price;
+    }
 
     public String getCustomerPhoneNum() {
         return customerPhoneNum;
     }
 
-    public void setEvalution(String evalution){this.evalution = evalution;}
     public String getEvalution(){return evalution;}
 
-    public void setScore(float score){this.score = score;}
-    public float getScore(){return score;}
-
-    public void setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public String getCarNumber() {
-        return carNumber;
+    public int getScore() {
+        return score;
     }
 
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+    public void setDriverPhone(String driverPhone) {
+        this.driverPhone = driverPhone;
     }
 
-    public String getDriverName(){return driverName;}
+    public String getDriverPhone() {
+        return driverPhone;
+    }
 
     public void setOrderID(String id){orderID=id;}
 

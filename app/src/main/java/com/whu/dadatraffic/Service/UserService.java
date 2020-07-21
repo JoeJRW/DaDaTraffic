@@ -28,27 +28,14 @@ import java.util.TimerTask;
 
 public class UserService {
     public static User curUser;//表示当前登录应用的用户
-    private boolean flag = false;
-    /*
-    private ArrayList<User> users;
 
-    public UserService() {
-        users=new ArrayList<User>();
-    }
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-    //String resMessage = "";
-
+    /**修改用户积分时调用该函数
+     * @param newCredit 用户新的积分数
      */
-
-    /**用户在积分商城兑换商品后调用此函数，扣除用户相应积分
-     * @param cost 本次购买消费的积分
-     */
-    public void costCredit(int cost){
-        final String costUrlStr = DBConstent.URL_User + "?type=cost&phonenumber="+ curUser.getPhoneNumber()+"costcredit="+cost;
-        new UserAsyncTask().execute(costUrlStr);
-        curUser.costCredit(cost);
+    public void changeCredit(int newCredit){
+        final String changeUrlStr = DBConstent.URL_User + "?type=change&phonenumber="+ curUser.getPhoneNumber()+"costcredit="+newCredit;
+        new UserAsyncTask().execute(changeUrlStr,"change");
+        curUser.changeCredit(newCredit);
     }
 
     //设置当前用户信息
@@ -58,29 +45,27 @@ public class UserService {
     }
 
     /**
-     * 查看当前订单是否处于"进行中"（即是否已有司机接单）
+     *用户对司机进行投诉的接口
+     * @param driverPhone 投诉的司机手机号
+     * @param  content 投诉内容
      */
-    public void checkOrderIsRunning(){
 
-        flag = false;
 
-        final String checkUrlStr = DBConstent.URL_User + "?type=checkstate&orderid=" + OrderService.curOrder.getOrderID();
-        //new OrderAsyncTask().execute(queryUrlStr);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                new UserAsyncTask().execute(checkUrlStr,"check");
-                if(flag){
-                    Message message=new Message();
-                    message.what=1;
-                    RouteActivity.tipHandler.sendMessage(message);
-                }
-            }
-        },0,5000);//每隔5秒做一次run()操作，查询订单状态
+    public void complain(String driverPhone,String content){
+        String complainUrlStr = DBConstent.URL_Complain+"?driverphone="+driverPhone+"&content="+content;
+        new UserAsyncTask().execute(complainUrlStr,"complain");
 
     }
+
+    /**
+     * 为用户添加常用地址
+     * @param commonAddress 用户的常用地址
+     */
+    public void addAddress(String commonAddress){
+        String addUrlStr = DBConstent.URL_ChangeUserInfo+"?type=changeaddress&address="+commonAddress;
+        new UserAsyncTask().execute(addUrlStr,"changeaddress");
+    }
+
 
     //用户注册,把数据传给服务器
     public void register(User user)
@@ -275,15 +260,7 @@ public class UserService {
                     curUser.setCredit(Integer.parseInt(info[1]));
                 }
             }
-            else if(type.equals("check")){
-                String info[]=response.toString().split(";");
-                if(info[0]=="200")
-                {
-                    flag = true;
-                    OrderService.curOrder.setDriverName(info[1]);
-                    OrderService.curOrder.setCarNumber(info[2]);
-                }
-            }
+
             return response.toString();
         }
 

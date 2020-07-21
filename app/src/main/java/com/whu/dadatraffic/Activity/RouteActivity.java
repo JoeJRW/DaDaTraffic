@@ -55,6 +55,8 @@ import com.whu.dadatraffic.Service.UserService;
 import com.wzh.pickerview.OptionsPickerView;
 import com.wzh.pickerview.model.IPickerViewData;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,6 +77,9 @@ public class RouteActivity extends AppCompatActivity{
     private Button callCar;
     private Button reservasion;
     private RelativeLayout mainLayout;
+    private TextView routePrice;
+
+    private BigDecimal price;
 
     //时间选择器
     private ArrayList<TimeBean> options1Items = new ArrayList<>();
@@ -109,6 +114,7 @@ public class RouteActivity extends AppCompatActivity{
         callCar=findViewById(R.id.CallCar);
         reservasion=findViewById(R.id.Reservation);
         mainLayout = findViewById(R.id.routeMainView);
+        routePrice=findViewById(R.id.priceText);
 
         //---设置action bar------
         ActionBar actionBar = this.getSupportActionBar();
@@ -132,7 +138,7 @@ public class RouteActivity extends AppCompatActivity{
                         "等待接单中",Toast.LENGTH_SHORT).show();
                 Timer timer = new Timer();
                 timer.schedule(task, 5000);
-
+                //TODO 将价格price写进数据库
                 //TODO 代码异常等待修改
                 /*
                 if(isWaiting)//正在等车，点击后取消等车
@@ -232,6 +238,10 @@ public class RouteActivity extends AppCompatActivity{
                 overlay.setData(result.getRouteLines().get(0));
                 overlay.addToMap();
                 overlay.zoomToSpan();
+                double dis = result.getRouteLines().get(0).getDistance();
+                price = new BigDecimal(dis/1000*1.6+13)
+                        .setScale(2, RoundingMode.HALF_UP);
+                routePrice.setText("预计价格: "+price.toString()+" 元");
             }
         }
 
@@ -460,12 +470,13 @@ public class RouteActivity extends AppCompatActivity{
 
         //mainLayout.addView(timerView,0);
 
-        Handler myhandler = new Handler() {
+        final Handler myhandler = new Handler() {
             public void handleMessage(Message msg) {
                 if (0 == baseTimer) {
                     baseTimer = SystemClock.elapsedRealtime();
                 }
                 if(tipView==null){
+
                     return;
                 }
 

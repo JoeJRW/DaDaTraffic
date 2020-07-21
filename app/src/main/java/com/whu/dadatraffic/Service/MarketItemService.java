@@ -4,12 +4,9 @@ package com.whu.dadatraffic.Service;
  * create time：7/9
  * update time: 7/19
  */
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.whu.dadatraffic.Base.MarketItem;
-import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
 
 import java.io.BufferedReader;
@@ -20,9 +17,7 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MarketItemService extends MarketItem implements Serializable {
 
@@ -52,7 +47,7 @@ public class MarketItemService extends MarketItem implements Serializable {
     {
         for(int i = 0; i < list.size(); i++)
         {
-            list.get(i).setDate(date);
+            list.get(i).setTime(date);
         }
     }
 
@@ -145,7 +140,8 @@ public class MarketItemService extends MarketItem implements Serializable {
     //todo 改为使用ArrayList进行传输数据
     public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
         for (int i=0;i<items.size();i++){
-            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()+"&icon="+ items.get(i).getIcon()+"&date=" + items.get(i).getDate();
+            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()
+                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice();
             new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }
@@ -195,14 +191,15 @@ public class MarketItemService extends MarketItem implements Serializable {
             {
                 String results[] = response.toString().split(";");
 
-                for (int i = 1;i<results.length;i+=3){
+                for (int i = 1;i<results.length;i+=5){
                     MarketItem item = new MarketItem();
                     item.setTitle(results[i]);
                     item.setCount(Integer.parseInt(results[i+1]));
                     item.setIcon(Integer.parseInt(results[i+2]));
+                    item.setPrice(results[i+3]);
+                    item.setTime(results[i+4]);
                     historyItems.add(item);
                 }
-
                 return response.toString();
             }
             else

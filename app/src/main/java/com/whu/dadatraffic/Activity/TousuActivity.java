@@ -20,11 +20,13 @@ import android.widget.Toast;
 
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.UserService;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class TousuActivity extends AppCompatActivity {
+    private String driverPhone = "";//投诉的司机的手机号
     public String tousuInf="";   //记录投诉信息
     public String tousuCommentText="";   //记录投诉文本信息
     private EditText tousu_comment_text;
@@ -39,6 +41,9 @@ public class TousuActivity extends AppCompatActivity {
         if(actionBar!=null){
             actionBar.hide();
         }
+
+        //获取跳转前界面传递的数据
+        driverPhone=getIntent().getStringExtra("driverPhone");
 
         //点击提交按钮，获取投诉选择内容和文本信息，显示提交成功---------------版本2需记录信息存数据库------------------
         Button submitTousu=findViewById(R.id.submit_tousu);
@@ -95,7 +100,15 @@ public class TousuActivity extends AppCompatActivity {
                     tousuInf+=tousu12.getText().toString()+"、";
                 }
                 tousuInf=tousuInf.substring(0,tousuInf.length()-1);
+                //选项不能为空
+                if(tousuInf.equals("")){
+                    Toast.makeText(TousuActivity.this,"请选择投诉内容",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 tousuCommentText=tousu_comment_text.getText().toString();
+                //TODO 将tousuInf与tousuCommentText存入数据库
+                //将投诉信息发送到服务器
+                new UserService().complain(driverPhone,tousuInf+tousuCommentText);
                 Toast.makeText(TousuActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 //提交完成后，等待1秒跳转到上层界面
                 Timer timer = new Timer();
@@ -117,6 +130,5 @@ public class TousuActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 }

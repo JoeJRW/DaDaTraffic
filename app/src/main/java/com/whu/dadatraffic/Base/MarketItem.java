@@ -18,7 +18,8 @@ public class MarketItem implements Serializable {
     protected String price = null;//商品价格
     protected Integer icon = null;//商品图片
     protected Integer count = 0;//订购数量
-    protected  String date = null;
+    protected  String time = null;
+
     public MarketItem(){}
     public MarketItem(String title, String price, Integer icon)
     {
@@ -41,21 +42,25 @@ public class MarketItem implements Serializable {
     public Integer getCount(){
         return count;
     }
-    public String getDate()
-    {
-        return date;
-    }
+
     public void CalculateCount(int number){
         count += number;
     }
 
-    public void setDate(String date)
+    public void setTime(String time)
     {
-        this.date = date;
+        this.time = time;
     }
 
-    public void setTitle(String title)
+    public String getTime()
     {
+        return time;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+    public void setTitle(String title) {
         this.title = title;
     }
 

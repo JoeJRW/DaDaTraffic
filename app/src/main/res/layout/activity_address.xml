@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0F2F1"
+    tools:context=".Activity.AddressActivity">
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="412dp"
+        android:layout_height="73dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:text="常用地址"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/address_goback"
+        android:layout_width="80dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="24dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:text="＜"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/home_address"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/home_address"
+        android:layout_width="412dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="22dp"
+        android:background="#FFFFFF"
+        android:ellipsize="end"
+        android:gravity="center|left"
+        android:text="      家："
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <Button
+        android:id="@+id/work_address"
+        android:layout_width="412dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="15dp"
+        android:background="#FFFFFF"
+        android:gravity="center|left"
+        android:text="      公司："
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_address" />
+
+    <LinearLayout
+        android:layout_width="411dp"
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/addressPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="      家："
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"
+            android:visibility="invisible" />
+
+        <AutoCompleteTextView
+            android:id="@+id/addressInput"
+            android:layout_width="290dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="359dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="注意：修改地址后，需再次点击相应按钮才能保存修改！"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/work_address"></TextView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

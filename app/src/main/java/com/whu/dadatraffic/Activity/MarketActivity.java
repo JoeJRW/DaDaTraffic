@@ -128,23 +128,22 @@ public class MarketActivity extends AppCompatActivity{
                         Toast.makeText(MarketActivity.this,"已生成订单，感谢您的光临！",Toast.LENGTH_SHORT).show();
                         int a = marketItemService.CartCount();
                         //todo 判断用户积分是否足够，够则购买
-                        if(UserService.curUser.getCredit() > a) {
-                            int cost = marketItemService.scoreInAll;
-                            UserService.curUser.costCredit(cost);
-                            //跳转到商城订单界面
-                            //定义跳转对象
-                            Intent intentToMOrder = new Intent();
-                            //设置跳转的起始界面和目的界面
-                            intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
-                            //传递选中View的对象
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("orderList", marketItemService.GetCartItemList());
-                            //将bundle包中数据绑定到intent
-                            intentToMOrder.putExtras(bundle);
-                            //重置商城界面
-                            marketItemService.resetMarket();
-                            //启动跳转，并传输对应数据
-                            startActivity(intentToMOrder);
+                        int credit = UserService.curUser.getCredit();//获取当前用户的积分
+                        if(credit > a) {
+                            credit = credit - marketItemService.scoreInAll;//计算新积分
+                            new UserService().changeCredit(credit);//将新积分写入数据库
+                                    //跳转到商城订单界面
+                                    //定义跳转对象
+                                    Intent intentToMOrder = new Intent();
+                                    //设置跳转的起始界面和目的界面
+                                    intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
+                                    //传递选中View的对象
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("orderList", marketItemService.GetCartItemList());
+                                    //将bundle包中数据绑定到intent
+                                    intentToMOrder.putExtras(bundle);
+                                    //启动跳转，并传输对应数据
+                                    startActivity(intentToMOrder);
                         }
                         else
                         {
@@ -207,7 +206,7 @@ public class MarketActivity extends AppCompatActivity{
             return true;
         }
         if(item.getItemId() == R.id.toOrder){
-            marketItemService.queryAllItem(UserService.curUser.getPhoneNumber());
+
             Intent intentToTDetail = new Intent();
             //设置跳转的起始界面和目的界面
             intentToTDetail.setClass(MarketActivity.this, MarketOrderActivity.class);
@@ -290,6 +289,11 @@ public class MarketActivity extends AppCompatActivity{
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        marketItemService.queryAllItem(UserService.curUser.getPhoneNumber());
+    }
 }
 
 

@@ -40,12 +40,17 @@ import com.whu.dadatraffic.AlipayTool.OrderInfoUtil2_0;
 import com.whu.dadatraffic.AlipayTool.PayResult;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.MainActivity;
+import com.whu.dadatraffic.Service.OrderService;
 
 import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OrderpayActivity extends AppCompatActivity {
     private int payId=0;   //支付方式的Id
+    double allPrice;       //总车费
+    double discountPrice;  //抵扣车费
+    double endPrice;       //最终支付金额
+    private OrderService orderService=new OrderService();
 
     //用于支付宝支付业务的入参 app_id
     public static final String APPID = "2016102500760122";
@@ -78,11 +83,9 @@ public class OrderpayActivity extends AppCompatActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showAlert(OrderpayActivity.this, getString(R.string.pay_success) + payResult);
+                        //TODO 修改订单状态-------上传订单金额----------------------------------------------------
+                        //orderService.completeOrder(endPrice);--------------------------------------------------------7.18添加
 
-                        /*修改订单状态-----------------------------------------------------------待添加
-                        *TODO
-                        *TODO
-                        */
                         Intent intent=new Intent(OrderpayActivity.this,OrderendActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -259,29 +262,29 @@ public class OrderpayActivity extends AppCompatActivity {
         }
 
         //显示司机姓别
-        String driverFistName="某";   //-------------------------版本2修改------------------------------------------
+        String driverFistName="某";   //orderService.curOrder.getDriverName().substring(0,1);   //-------------------------7.18修改------------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername2);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID="鄂A123456";      //-------------------------版本2修改-----------------------------------------
+        String carID="鄂A123456";    //orderService.curOrder.getCarNumber();      //-------------------------7.18修改-----------------------------------------
         TextView carID2=findViewById(R.id.carID2);
         carID2.setText(carID);
 
         //显示司机评分
-        double driverScore=5.0;    //-----------------------版本2修改-----------------------------------------------
+        double driverScore=5.0;    //TODO -----------------------版本2修改-----------------------------------------------
         CharSequence scoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore2);
         textView2.setText(scoreText);
 
         //显示车费合计
-        double allPrice=8.01;   //------------------------------版本2修改--------------------------------------------
+        allPrice=8.01;   //TODO ------------------------------版本2修改--------------------------------------------
         CharSequence allPriceText=String.valueOf(allPrice)+"元";
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
 
-        //点击优惠券选择按钮，进入优惠券选择界面--------------------------版本2修改---------------------------------
+        //点击优惠券选择按钮，进入优惠券选择界面 TODO ----------------版本2修改-------------------------------------------
         Button couponOption=findViewById(R.id.coupon_option);
         couponOption.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -292,13 +295,13 @@ public class OrderpayActivity extends AppCompatActivity {
         });
 
         //显示车费抵扣
-        double discountPrice=8.0;   //版本2修改---------------------------------------------------------------------
+        discountPrice=8.0;   //TODO -------------------------------版本2修改--------------------------------------
         CharSequence discountPriceText="-"+discountPrice+"元";
         TextView textView4=findViewById(R.id.discountprice);
         textView4.setText(discountPriceText);
 
         //显示确认支付车费
-        double endPrice=allPrice-discountPrice;
+        endPrice=allPrice-discountPrice;
         DecimalFormat df =new DecimalFormat("#.00");
         CharSequence payPriceText="确认支付"+df.format(endPrice)+"元";
         Button button2=findViewById(R.id.pay);
@@ -342,6 +345,8 @@ public class OrderpayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(OrderpayActivity.this,TousuActivity.class);
+                //传递数据到投诉界面
+                intent.putExtra("driverPhone", OrderService.curOrder.getDriverPhone());
                 startActivity(intent);
             }
         });
@@ -352,7 +357,7 @@ public class OrderpayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                String phone = "13871142476";  //--------------------------------------需获取司机电话
+                String phone = "13871142476";  //TODO--------------------------------------需获取司机电话
                 Context context = OrderpayActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -365,6 +370,4 @@ public class OrderpayActivity extends AppCompatActivity {
         });
 
     }
-
-
 }

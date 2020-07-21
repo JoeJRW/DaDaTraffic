@@ -23,8 +23,6 @@ import android.widget.TextView;
 import com.whu.dadatraffic.Service.MarketItemService;
 import com.whu.dadatraffic.Service.UserService;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +46,17 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         ArrayList<MarketItem> MarketOrderList = (ArrayList<MarketItem>)bundle.getSerializable("orderList");
 
+
         marketItemService.SetDate(curTime,MarketOrderList);
+
+        //设置购买时间
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH时mm分");
+        Date date = new Date(System.currentTimeMillis());
+        String time = simpleDateFormat.format(date);
+        for(int i=0;i<MarketOrderList.size();i++){
+            MarketOrderList.get(i).setTime(time);
+        }
+
         marketItemService.setmOrderItemList(MarketOrderList);
         priceInAll = (TextView)findViewById(R.id.MarketOrderPriceinAll);
         createTime = (TextView)findViewById(R.id.MarketOrderCreateTime);
@@ -60,8 +68,9 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         MarketOrderDetailAdapter newMarketOrderDetailAdapter = new MarketOrderDetailAdapter();
         //设置Adapter
         listView.setAdapter(newMarketOrderDetailAdapter);
+        //将购买的商品记录写入数据库
         marketItemService.buyItem(MarketOrderList, UserService.curUser.getPhoneNumber());
-        createTime.setText("创建时间："+marketItemService.GetMOrder(0).getDate());
+        createTime.setText("创建时间："+marketItemService.GetMOrder(0).getTime());
 
     }
 

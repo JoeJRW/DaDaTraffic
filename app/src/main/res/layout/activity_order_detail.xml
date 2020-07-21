@@ -16,21 +16,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="100dp"
         android:text="价格"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/carNumTv_det"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="136dp"
-        android:text="车牌号"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/startPointTv_det"
@@ -40,7 +28,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="190dp"
         android:text="起点："
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,7 +56,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="270dp"
         android:text="目的地："
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,11 +75,11 @@
         android:id="@+id/driverNameTv_det"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="80dp"
-        android:text="司机名"
-        android:textSize="24sp"
+        android:text="司机手机号"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/imageView5"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,13 +99,12 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
         android:text="评价"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carNumTv_det" />
+        tools:layout_editor_absoluteY="349dp" />
 
     <TextView
         android:id="@+id/remarkTv_det"
@@ -127,7 +114,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:text="评价详情"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_det" />
 
@@ -150,7 +137,7 @@
         android:layout_marginBottom="30dp"
         android:text="取消订单"
         android:textSize="24sp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
