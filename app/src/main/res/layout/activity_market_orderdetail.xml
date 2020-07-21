@@ -21,17 +21,25 @@
     <LinearLayout
         android:id="@+id/func"
         android:layout_width="match_parent"
-        android:layout_height="93dp"
+        android:layout_height="93sp"
         android:layout_marginTop="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/moLinearLayout"
         tools:layout_editor_absoluteX="1dp"
         app:layout_constraintHorizontal_weight="1">
-
+        <TextView
+            android:id="@+id/MarketOrderCreateTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="创建时间：xx"
+            android:textColor="#000000"
+            android:textSize="30sp" />
         <TextView
             android:id="@+id/MarketOrderPriceinAll"
-            android:layout_width="168sp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"

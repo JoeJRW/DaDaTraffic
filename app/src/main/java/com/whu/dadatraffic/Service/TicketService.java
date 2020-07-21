@@ -13,7 +13,7 @@ import java.util.Vector;
 
 public class TicketService extends Ticket {
     Vector<Ticket> ticketList = new Vector<Ticket>();
-    // id = 1;
+    Vector<Ticket> usefulTicket = new Vector<Ticket>();
     int position = 0;
 
     public TicketService() {

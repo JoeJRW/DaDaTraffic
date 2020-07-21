@@ -131,7 +131,6 @@ public class MarketActivity extends AppCompatActivity{
                         if(UserService.curUser.getCredit() > a) {
                             int cost = marketItemService.scoreInAll;
                             UserService.curUser.costCredit(cost);
-
                             //跳转到商城订单界面
                             //定义跳转对象
                             Intent intentToMOrder = new Intent();
@@ -142,6 +141,8 @@ public class MarketActivity extends AppCompatActivity{
                             bundle.putSerializable("orderList", marketItemService.GetCartItemList());
                             //将bundle包中数据绑定到intent
                             intentToMOrder.putExtras(bundle);
+                            //重置商城界面
+                            marketItemService.resetMarket();
                             //启动跳转，并传输对应数据
                             startActivity(intentToMOrder);
                         }
@@ -179,12 +180,12 @@ public class MarketActivity extends AppCompatActivity{
 
     //初始化商城中的元素
     private void initItems() {
-        marketItemService.AddItem("围巾", "1800分", R.drawable.icon_scarf);
-        marketItemService.AddItem("耳机", "2480分", R.drawable.icon_earphone);
-        marketItemService.AddItem("马克杯", "880分", R.drawable.icon_cup);
         marketItemService.AddItem("38元打车券", "380分", R.drawable.icon_38);
-        marketItemService.AddItem("音箱", "580分", R.drawable.icon_box);
-        marketItemService.AddItem("8折优惠券", "80分", R.drawable.icon_d8);
+        marketItemService.AddItem("48元打车券", "480分", R.drawable.icon_48);
+        marketItemService.AddItem("58元打车券", "580分", R.drawable.icon_58);
+        marketItemService.AddItem("6折优惠券", "300分", R.drawable.icon_d6);
+        marketItemService.AddItem("7折优惠券", "250分", R.drawable.icon_d7);
+        marketItemService.AddItem("8折优惠券", "200分", R.drawable.icon_d8);
         initView();
     }
 

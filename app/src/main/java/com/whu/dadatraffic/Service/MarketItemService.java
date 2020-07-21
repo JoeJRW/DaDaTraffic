@@ -4,6 +4,7 @@ package com.whu.dadatraffic.Service;
  * create time：7/9
  * update time: 7/19
  */
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,7 +20,9 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MarketItemService extends MarketItem implements Serializable {
 
@@ -31,10 +34,28 @@ public class MarketItemService extends MarketItem implements Serializable {
     public MarketItemService() {
         super();
     }
+    public void resetMarket()
+    {
+        for (int i = 0; i <marketItemList.size() - 1; i++)
+        {
+            marketItemList.get(i).setCount(0);
+        }
+        cartItemList = null;
+    }
+
     public void AddItem(String title, String price, Integer icon)
     {
         marketItemList.add(new MarketItem(title,price,icon));
     }
+
+    public void SetDate(String date,ArrayList<MarketItem> list)
+    {
+        for(int i = 0; i < list.size(); i++)
+        {
+            list.get(i).setDate(date);
+        }
+    }
+
     public int Count()
     {
         return marketItemList.size();
@@ -82,18 +103,14 @@ public class MarketItemService extends MarketItem implements Serializable {
     {
         return cartItemList;
     }
-    public ArrayList<MarketItem> getmOrderItemList()
-    {
-        return  mOrderItemList;
-    }
 
     public ArrayList<MarketItem> getHistoryItems() {
         return historyItems;
     }
 
+    //设置订单详情中的列表并立即计算该订单总积分
     public void setmOrderItemList(ArrayList<MarketItem> list)
     {
-        //todo 新增立即计算该list的总积分
         mOrderItemList = list;
         SumScore(mOrderItemList);
     }
@@ -128,7 +145,7 @@ public class MarketItemService extends MarketItem implements Serializable {
     //todo 改为使用ArrayList进行传输数据
     public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
         for (int i=0;i<items.size();i++){
-            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()+"&icon="+ items.get(i).getIcon();
+            final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()+"&icon="+ items.get(i).getIcon()+"&date=" + items.get(i).getDate();
             new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }
