@@ -11,7 +11,7 @@ public class CurOrder {
     private String orderID = null;//当前订单编号
     private String driverPhone = "";//当前订单司机手机号
     private String driverName = "";//当前订单司机姓名
-    private int driverScore = 0;//当前司机评分
+    private double driverScore = 0.0;//当前司机评分
     private String carID = "";//当前订单司机车牌号
     private String createTime = null;//订单创建时间
     private String startPoint = null;//行程起始地点
@@ -19,11 +19,11 @@ public class CurOrder {
     private String price = "";//本次行程价格
     public String orderState = null;//订单状态
     private String evalution = "";//行程评价
-    private float score = 0.0f;//评分
+    private double score = 0.0;//评分
 
     public CurOrder(String PhoneNum , String startPoint, String destination){
         Date date = new Date(System.currentTimeMillis());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd,HH-mm");
         createTime = simpleDateFormat.format(date);
         orderState = "wait";
         this.customerPhoneNum = PhoneNum;
@@ -31,11 +31,11 @@ public class CurOrder {
         this.destination = destination;
     }
 
-    public int getDriverScore() {
+    public double getDriverScore() {
         return driverScore;
     }
 
-    public void setDriverScore(int driverScore) {
+    public void setDriverScore(double driverScore) {
         this.driverScore = driverScore;
     }
 
@@ -60,8 +60,8 @@ public class CurOrder {
     }
     public String getEvalution(){return evalution;}
 
-    public void setScore(float score){this.score = score;}
-    public float getScore(){return score;}
+    public void setScore(double score){this.score = score;}
+    public double getScore(){return score;}
 
     public void setDriverPhone(String driverPhone) {
         this.driverPhone = driverPhone;

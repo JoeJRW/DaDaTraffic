@@ -55,9 +55,9 @@ public class OrderService {
      * 取消当前订单
      */
     public void cancelOrder() {
-        final String cancelUrlStr = DBConstent.URL_Order + "?type=cancel&orderid=" + curOrder.getOrderID();
+        final String cancelUrlStr = DBConstent.URL_CancelOrder + "?orderid=" + curOrder.getOrderID();
         new OrderAsyncTask().execute(cancelUrlStr,"cancel");
-        historyOrders.get(0).setOrderState("cancel");
+        //historyOrders.get(0).setOrderState("cancel");
         curOrder = null;
     }
 
@@ -151,7 +151,7 @@ public class OrderService {
                 String info[]=response.toString().split(";");
                 int count = Integer.parseInt(info[0]);
                 for (int i=1;i<count*10+1;i+=10){
-                    historyOrders.add(new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Integer.parseInt(info[i+9])));
+                    historyOrders.add(new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Double.parseDouble(info[i+9])));
                 }
             }
 
@@ -219,12 +219,12 @@ public class OrderService {
 
             String info[]=response.toString().split(";");
             curOrder.setOrderState(info[0]);
-            if(info[0].equals("start")){//查询到订单处于准备状态
+            if(info[0].equals("prepare")){//查询到订单处于准备状态
                 curOrder.setDriverPhone(info[1]);//设置当前订单司机手机号
                 curOrder.setDriverName(info[2]);//设置当前订单司机姓名
                 curOrder.setCarID(info[3]);//设置当前订单司机车牌号
-                curOrder.setDriverScore(Integer.parseInt(info[4]));
-                return "start";
+                curOrder.setDriverScore(Double.parseDouble(info[4]));
+                return "prepare";
             }
             else if(info[0].equals("end")){//查询到订单处于结束状态
                 timer.cancel();//停止查询
@@ -236,7 +236,6 @@ public class OrderService {
             else if(info[0].equals("cancel")){//查询到订单处于结束状态
                 timer.cancel();//停止查询
             }
-
             return ""; // 这里返回的结果就作为onPostExecute方法的入参
         }
 
@@ -253,7 +252,6 @@ public class OrderService {
 
         @Override
         protected void onPostExecute(String result) {
-
 
         }
     }

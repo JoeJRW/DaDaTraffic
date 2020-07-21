@@ -129,7 +129,7 @@ public class MarketItemService extends MarketItem implements Serializable {
     public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
         for (int i=0;i<items.size();i++){
             final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()
-                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice();
+                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice()+"&time="+items.get(i).getTime();
             new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }

@@ -33,12 +33,12 @@ public class UserService {
      * @param newCredit 用户新的积分数
      */
     public void changeCredit(int newCredit){
-        final String changeUrlStr = DBConstent.URL_User + "?type=change&phonenumber="+ curUser.getPhoneNumber()+"costcredit="+newCredit;
+        final String changeUrlStr = DBConstent.URL_ChangeUserInfo + "?type=change&phonenumber="+ curUser.getPhoneNumber()+"newcredit="+newCredit;
         new UserAsyncTask().execute(changeUrlStr,"change");
         curUser.changeCredit(newCredit);
     }
 
-    //设置当前用户信息
+    //设置当前用户信息√
     public void setCurrentUserInfo() {
         final String getUserUrlStr = DBConstent.URL_User + "?type=getinfo&phonenumber="+ curUser.getPhoneNumber();
         new UserAsyncTask().execute(getUserUrlStr,"getinfo");

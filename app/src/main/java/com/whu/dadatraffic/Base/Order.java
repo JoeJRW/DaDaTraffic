@@ -22,9 +22,9 @@ public class Order {
     private String price = "";//本次行程价格
     public String orderState = null;//订单状态
     private String evalution = "";//行程评价
-    private int score = 0;//得分
+    private double score = 0;//得分
 
-    public Order(String phoneNum,String orderID,String driverPhone,String createTime, String startPoint, String destination,String price,String orderState,String evalution,int score){
+    public Order(String phoneNum,String orderID,String driverPhone,String createTime, String startPoint, String destination,String price,String orderState,String evalution,double score){
         this.customerPhoneNum = phoneNum;
         this.orderID = orderID;
         this.driverPhone = driverPhone;
@@ -69,11 +69,11 @@ public class Order {
 
     public String getEvalution(){return evalution;}
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 

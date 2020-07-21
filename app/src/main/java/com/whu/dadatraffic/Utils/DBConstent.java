@@ -7,6 +7,7 @@ public class DBConstent {
     public static String URL_Register = URL + "Register";
     public static String URL_Login = URL + "Login";
     public static String URL_CreateOrder = URL + "CreateOrder";
+    public static String URL_CancelOrder = URL + "CancelOrder";
     public static String URL_Order = URL + "Order";
     public static String URL_User = URL + "UserServlet";
     public static String URL_ChangeUserInfo = URL + "ChangeInfoByUser";

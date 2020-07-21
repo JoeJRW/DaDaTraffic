@@ -66,7 +66,7 @@ public class DriverService {
      * 每隔2s向服务器发送一次请求，如果有订单就会分配，获得乘客的手机号，出发地，目的地
      */
     public void open(){
-        final String checkUrlStr = DBConstent.URL_Driver + "?type=check";
+        final String checkUrlStr = DBConstent.URL_Driver + "?type=check&driverphone="+curDriver.getPhoneNumber();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -80,7 +80,7 @@ public class DriverService {
      * 从服务器获取司机的姓名评分等信息并设置给当前司机
      */
     public void setCurDriver(){
-        final String setUrlStr = DBConstent.URL_Driver + "?type=driver&phonenumber=" + curDriver.getPhoneNumber();
+        final String setUrlStr = DBConstent.URL_Driver + "?type=getinfo&phonenumber=" + curDriver.getPhoneNumber();
         //第二个参数代表操作类型
         new DriverAsyncTask().execute(setUrlStr,"setInfo");
     }
@@ -90,7 +90,7 @@ public class DriverService {
      * 点击确认上次按钮后调用
      */
     public void getPassenger(){
-        String getUrlStr = DBConstent.URL_Driver + "?type=getpassenger&phonenumber=" + OrderService.curOrder.getOrderID();
+        String getUrlStr = DBConstent.URL_Driver + "?type=getpassenger&orderid=" + OrderService.curOrder.getOrderID();
         new DriverAsyncTask().execute(getUrlStr,"getpassenger");
     }
 
@@ -167,7 +167,8 @@ public class DriverService {
             else if(params[1].equals("setInfo")){
                 String info[]=response.toString().split(";");
                 curDriver.setName(info[0]);
-                curDriver.setScore(Double.parseDouble(info[1]));
+                curDriver.setCarId(info[1]);
+                curDriver.setScore(Double.parseDouble(info[2]));
             }
 
             return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参

@@ -141,7 +141,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         timeTv.setText("订单时间："+selectOrder.getCreateTime());
         remarkTv.setText(selectOrder.getEvalution());
         priceTv.setText("价格："+selectOrder.getPrice());
-        scoreBar.setRating(selectOrder.getScore());
+        scoreBar.setRating((float) selectOrder.getScore());
         scoreBar.setIsIndicator(true);
     }
 
