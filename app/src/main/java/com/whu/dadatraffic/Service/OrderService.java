@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.OrdersActivity;
 import com.whu.dadatraffic.Activity.RouteActivity;
+import com.whu.dadatraffic.Base.CurOrder;
 import com.whu.dadatraffic.Base.Driver;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.MainActivity;
@@ -30,71 +31,78 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
 public class OrderService {
-    private boolean flag = false;//表示当前操作是否成功
-    private volatile boolean isRun = true;//表示当前异步进程是否正在运行
-    public static Order curOrder;
-    public Order[] historyOrders;
+    private Timer timer;
+    public static CurOrder curOrder;
+    public static Vector<Order> historyOrders;
 
     /**
      * 添加新建订单
-     * @param order 新建的Order对象
-     * @return 新建订单成功返回true，新建订单失败返回false
+     * @param newOrder 新建的Order对象
      */
-    public void addOrder(Order order) {
-        curOrder = order;
-        //OrdersActivity.orderList.add(order);
+    public void addOrder(CurOrder newOrder) {
+        curOrder = newOrder;
         //存入数据库
-        final String addUrlStr = DBConstent.URL_Order + "?type=add&phonenumber=" + order.getCustomerPhoneNum()  + "&start=" + order.getStartPoint() +"&destination="
-                +order.getDestination()+"&createtime=" + order.getCreateTime();
-        new AddAsyncTask().execute(addUrlStr);
+        final String addUrlStr = DBConstent.URL_CreateOrder + "?type=add&phonenumber=" + newOrder.getCustomerPhoneNum()  + "&start=" + newOrder.getStartPoint() +"&destination="
+                +newOrder.getDestination()+"&createtime=" + newOrder.getCreateTime();
+        new OrderAsyncTask().execute(addUrlStr,"add");
+        //historyOrders.add(new Order(newOrder.getCustomerPhoneNum(),newOrder.getStartPoint(),newOrder.getDestination()));
     }
 
     /**
      * 取消当前订单
-     * @return 取消成功返回true，取消失败返回false
      */
-    public boolean cancelOrder() {
+    public void cancelOrder() {
         final String cancelUrlStr = DBConstent.URL_Order + "?type=cancel&orderid=" + curOrder.getOrderID();
         new OrderAsyncTask().execute(cancelUrlStr,"cancel");
+        historyOrders.get(0).setOrderState("cancel");
         curOrder = null;
-        while (isRun){
-
-        }
-
-        return flag;
     }
 
-    //根据订单编号接受相应订单
-    public boolean acceptOrder(String orderID, Driver driver) {
-        final String acceptUrlStr = DBConstent.URL_Order + "?type=accept&orderid=" + orderID+"&drivername="+driver.getName()+"&carnumber="+
-                driver.getCarId();
-        new OrderAsyncTask().execute(acceptUrlStr,"accept");
-        while (isRun){
-        }
-
-        return flag;
+    /**
+    * 将当前订单的评价和评分存入数据库
+     * @param score 当前订单用户的评分
+     * @param evaluation 当前订单的用户评价
+    */
+    public void evaluate(int score,String evaluation){
+        String urlStr = DBConstent.URL_Order + "?type=evaluate&orderid="+curOrder.getOrderID()+"&score="+score+"&evaluation="+evaluation;
+        new OrderAsyncTask().execute(urlStr,"evaluate");
     }
 
     /**
      * 完成当前订单,支付成功后将价格存入数据库
      * @param price 本次订单金额
-     * @return 取消成功返回true，取消失败返回false
      */
-    public boolean completeOrder(double price) {
-        final String completeSqlStr = DBConstent.URL_Order+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
-        return flag;
+    public void completeOrder(double price) {
+        String completeSqlStr = DBConstent.URL_Order+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
+        new OrderAsyncTask().execute(completeSqlStr,"complete");
     }
 
+    /**
+     * 查询当前用户的历史订单并存入historyOrders中
+     * 需要服务器返回当前用户的订单数量和所有订单信息
+     */
+    public void getHistoryOrders(){
+        historyOrders = new Vector<Order>();
+        String getHistoryUrlStr = DBConstent.URL_Order + "?type=getorders&phonenumber="+ UserService.curUser.getPhoneNumber();
+        new OrderAsyncTask().execute(getHistoryUrlStr);
+    }
 
     /**
-     * 查看当前订单的司机相关信息
-     * 用户端在订单被接受后调用
+     * 查看当前订单的状态，并执行相应操作
+     * 用户开始叫车后调用
      */
-    public void queryDriverInfo(){
-        String queryUrl = DBConstent.URL_Order + "?type=query&orderid=" + curOrder.getOrderID();
-        new OrderAsyncTask().execute(queryUrl,"query");
+    public void queryOrderState(){
+        final String queryUrl = DBConstent.URL_Order + "?type=query&orderid=" + curOrder.getOrderID();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new QueryAsyncTask().execute(queryUrl);
+            }
+        },1000,2000);//每隔两秒发送一次，查询当前订单的状态,当查寻到订单状态为已取消或待支付或者已结束，就会终止该计时器
     }
 
     /**
@@ -104,8 +112,6 @@ public class OrderService {
      * （3）任务执行完毕后，如果需要对结果进行返回，则这里指定返回的数据类型
      */
     public class OrderAsyncTask extends AsyncTask<String, Integer, String> {
-        //OnDataFinishedListener onDataFinishedListener;
-
         @Override
         protected void onPreExecute() {
             //Log.w("WangJ", "task onPreExecute()");
@@ -138,13 +144,18 @@ public class OrderService {
                 e.printStackTrace();
             }
 
-            if(type.equals("query")){
+            if(type.equals("add")){//当前执行的是新建订单操作
+                curOrder.setOrderID(response.toString());
+            }
+            else if (type.equals("getHistory")){//当前执行的是查询历史订单操作
                 String info[]=response.toString().split(";");
-                curOrder.setDriverName(info[0]);
-                curOrder.setCarNumber(info[1]);
+                int count = Integer.parseInt(info[0]);
+                for (int i=1;i<count*10+1;i+=10){
+                    historyOrders.add(new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Integer.parseInt(info[i+9])));
+                }
             }
 
-            return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
+            return ""; // 这里返回的结果就作为onPostExecute方法的入参
         }
 
         @Override
@@ -160,13 +171,7 @@ public class OrderService {
 
         @Override
         protected void onPostExecute(String result) {
-            if(result.equals("200")){
-                flag=true;
-            }
-            else {
-                flag=false;
-            }
-            isRun=false;
+
         }
 
     }
@@ -178,7 +183,7 @@ public class OrderService {
      * （2）后台任务执行过程中，如果需要在UI上先是当前任务进度，则使用这里指定的泛型作为进度单位
      * （3）任务执行完毕后，如果需要对结果进行返回，则这里指定返回的数据类型
      */
-    public class AddAsyncTask extends AsyncTask<String, Integer, String> {
+    public class QueryAsyncTask extends AsyncTask<String, Integer, String> {
         //OnDataFinishedListener onDataFinishedListener;
 
         @Override
@@ -212,7 +217,19 @@ public class OrderService {
                 e.printStackTrace();
             }
 
-            return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
+            String info[]=response.toString().split(";");
+            curOrder.setOrderState(info[0]);
+            if(info[0].equals("start")){//查询到订单处于准备状态
+                curOrder.setDriverPhone(info[1]);//设置当前订单司机手机号
+                curOrder.setDriverName(info[2]);//设置当前订单司机姓名
+                curOrder.setCarID(info[3]);//设置当前订单司机车牌号
+                curOrder.setDriverScore(Integer.parseInt(info[4]));
+            }
+            if(info[0].equals("cancel")||info[0].equals("unpaid")||info[0].equals("end")){
+                timer.cancel();
+            }
+
+            return ""; // 这里返回的结果就作为onPostExecute方法的入参
         }
 
         @Override
@@ -228,8 +245,7 @@ public class OrderService {
 
         @Override
         protected void onPostExecute(String result) {
-            if (!result.equals("100"))
-                curOrder.setOrderID(result);
+
         }
     }
 }

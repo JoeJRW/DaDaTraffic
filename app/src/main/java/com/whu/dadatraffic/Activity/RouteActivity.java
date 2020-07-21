@@ -472,12 +472,13 @@ public class RouteActivity extends AppCompatActivity{
 
         //mainLayout.addView(timerView,0);
 
-        Handler myhandler = new Handler() {
+        final Handler myhandler = new Handler() {
             public void handleMessage(Message msg) {
                 if (0 == baseTimer) {
                     baseTimer = SystemClock.elapsedRealtime();
                 }
                 if(tipView==null){
+
                     return;
                 }
 

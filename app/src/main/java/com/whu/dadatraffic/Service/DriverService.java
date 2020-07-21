@@ -11,6 +11,7 @@ import android.os.Message;
 
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.RegisterActivity;
+import com.whu.dadatraffic.Base.CurOrder;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.Utils.DBConstent;
 import com.whu.dadatraffic.Base.Driver;
@@ -30,54 +31,9 @@ public class DriverService {
     public static Driver curDriver;
     private String depatrue = "";//出发地
     private String destination = "";//目的地
+    private Timer timer;
     private boolean flag = false;
-    /*
-    public DriverService() {
-        drivers=new ArrayList<Driver>();
-    }
 
-    public ArrayList<Driver> getDrivers() {
-        return drivers;
-    }
-
-    /*
-    //通过电话号码查找司机
-    public Driver getDriver(String phoneNumber) {
-        for(int i=0;i<drivers.size();i++){
-            if(phoneNumber==drivers.get(i).getPhoneNumber())
-                return drivers.get(i);
-        }
-        return null;
-    }
-
-     */
-
-
-    /*
-    //通过电话号码删除司机
-    public boolean removeUser(String phoneNumber) {
-        Driver driver=getDriver(phoneNumber);
-        if(driver!=null){
-            drivers.remove(driver);
-            return true;
-        }
-        else
-            return false;
-    }
-
-     */
-/*
-    //修改用户信息（姓名、车牌号）
-    public boolean updateDriver(Driver newDriver) {
-        Driver oldDriver=getDriver(newDriver.getPhoneNumber());
-        if(oldDriver==null)
-            return false;
-        drivers.remove(oldDriver);
-        drivers.add(newDriver);
-        return true;
-    }
-
- */
 
     /**
      * 司机注册时调用该函数
@@ -107,32 +63,31 @@ public class DriverService {
 
     /**
      * 司机接单时调用该函数
-     * 每隔10s向服务器发送一次请求，如果有订单就会分配
+     * 每隔2s向服务器发送一次请求，如果有订单就会分配，获得乘客的手机号，出发地，目的地
      */
     public void open(){
         final String checkUrlStr = DBConstent.URL_Driver + "?type=check";
-
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 new DriverAsyncTask().execute(checkUrlStr,"check");
-                if(flag){
-                    return;
-                }
             }
-        },0,10000);//每隔10秒做一次run()操作，查询是否有可接订单
+        },0,2000);//每隔2秒做一次run()操作，查询是否有可接订单
     }
 
     /**
      * 从服务器获取司机的姓名评分等信息并设置给当前司机
      */
     public void setCurDriver(){
-        //执行登录操作的服务端地址
         final String setUrlStr = DBConstent.URL_Driver + "?type=driver&phonenumber=" + curDriver.getPhoneNumber();
         //第二个参数代表操作类型
         new DriverAsyncTask().execute(setUrlStr,"setInfo");
     }
+
+    /**
+     * 确认乘客已上车，修改订单状态
+     */
 
     /**
      * AsyncTask类的三个泛型参数：
@@ -187,7 +142,6 @@ public class DriverService {
             {
                 if(response.toString().equals("100")) {
                     LoginActivity.instance.loginFail("密码不匹配或账号未注册");
-
                 }
                 else if(response.toString().equals("200")) {
                     LoginActivity.instance.loginSuccess_Driver("登录成功");
@@ -201,9 +155,12 @@ public class DriverService {
                 curDriver.setName(info[0]);
                 curDriver.setScore(Double.parseDouble(info[1]));
             }
+
             else if (params[1].equals("check")){
-                if(response.toString().equals("200")) {flag=true;}
-                else {flag=false;}
+                if(!response.toString().equals("100")){
+                    String info[]=response.toString().split(";");
+                    OrderService.curOrder = new CurOrder(info[1],info[2],info[3]);
+                }
             }
             return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
         }

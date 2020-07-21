@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -25,18 +26,16 @@ import com.whu.dadatraffic.Service.OrderService;
 
 public class OrderDetailActivity extends AppCompatActivity {
     private OrderService service = new OrderService();
-    private Order curOrder = null;
-    public String curOrderID = null;
+    private Order selectOrder = null;
     private TextView stateTv = null;
-    private TextView carNumberTv = null;
     private TextView IDTv = null;
     private TextView timeTv = null;
-    private TextView driverNameTv = null;
+    private TextView driverPhoneTv = null;
     private TextView startPointTv = null;
     private TextView destinationTv = null;
-    TextView remarkTv = null;
-    TextView priceTv = null;
-    RatingBar scoreBar = null;
+    private TextView remarkTv = null;
+    private TextView priceTv = null;
+    private RatingBar scoreBar = null;
     private Button cancelBtn = null;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -46,27 +45,41 @@ public class OrderDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_detail);
         setCustomActionBar();
         //获取上一界面传来的订单编号
-        curOrderID = getIntent().getStringExtra("ID");
+        int index = getIntent().getIntExtra("select", 0);
+        //生成当前订单
+        selectOrder = OrderService.historyOrders.get(index);
 
         //根据编号去服务器获取订单信息
 
-
         initUI();
-        //测试
+        /*测试
         curOrder=new Order("18945612321","whu","wuhan");
 
+         */
+
         //如果当前订单正在等待司机接单，则可以取消
-        if ("等待中".equals(curOrder.orderState)){
-            //设置取消按钮可见
-            cancelBtn.setVisibility(View.VISIBLE);
-            //给取消按钮绑定时间
+        if (selectOrder.orderState.equals("wait")){
+            stateTv.setText("已取消");
+            //给取消按钮绑定事件
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     service.cancelOrder();
-                    stateTv.setText("已取消");
-                    cancelBtn.setClickable(false);
-                    cancelBtn.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+        else if(selectOrder.orderState.equals("cancel")) {//当前订单状态为已取消，则按钮不可见
+            cancelBtn.setClickable(false);
+            cancelBtn.setVisibility(View.INVISIBLE);
+        }
+        else {//其他状态下可使用该按钮举报该司机
+            cancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setClass(OrderDetailActivity.this,TousuActivity.class);
+                    intent.putExtra("driverPhone",selectOrder.getDriverPhone());
+                    startActivity(intent);
                 }
             });
         }
@@ -107,13 +120,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressLint("SetTextI18n")
     private void initUI()
     {
         IDTv = (TextView) findViewById(R.id.orderIDTv_det);
         stateTv = (TextView)findViewById(R.id.stateTv_det);
-        driverNameTv = (TextView) findViewById(R.id.driverNameTv_det);
-        carNumberTv = (TextView)findViewById(R.id.carNumTv_det);
+        driverPhoneTv = (TextView) findViewById(R.id.driverNameTv_det);
         startPointTv = (TextView) findViewById(R.id.startPointTv_det);
         destinationTv = (TextView) findViewById(R.id.destinationTv_det);
         remarkTv = (TextView) findViewById(R.id.remarkTv_det);
@@ -122,18 +133,16 @@ public class OrderDetailActivity extends AppCompatActivity {
         timeTv = (TextView)findViewById(R.id.timetv_det);
         cancelBtn = (Button)findViewById(R.id.cancelBtn_det);
 
-        IDTv.setText("订单编号："+curOrderID);
-        /*
-        driverNameTv.setText("司机名："+curOrder.getDriverName());
-        startPointTv.setText("出发点："+curOrder.getStartPoint());
-        destinationTv.setText("目的地"+curOrder.getDestination());
-        remarkTv.setText(curOrder.getEvalution());
-        priceTv.setText("价格："+curOrder.getPrice());
-
-         */
-        //测试
-        scoreBar.setRating(2.5f);
-
+        IDTv.setText("订单编号："+ selectOrder.getOrderID());
+        timeTv.setText(selectOrder.getOrderState());
+        driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
+        startPointTv.setText("出发点："+selectOrder.getStartPoint());
+        destinationTv.setText("目的地"+selectOrder.getDestination());
+        timeTv.setText("订单时间："+selectOrder.getCreateTime());
+        remarkTv.setText(selectOrder.getEvalution());
+        priceTv.setText("价格："+selectOrder.getPrice());
+        scoreBar.setRating(selectOrder.getScore());
+        scoreBar.setIsIndicator(true);
     }
 
 }

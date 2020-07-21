@@ -345,6 +345,8 @@ public class OrderpayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(OrderpayActivity.this,TousuActivity.class);
+                //传递数据到投诉界面
+                intent.putExtra("driverPhone", OrderService.curOrder.getDriverPhone());
                 startActivity(intent);
             }
         });

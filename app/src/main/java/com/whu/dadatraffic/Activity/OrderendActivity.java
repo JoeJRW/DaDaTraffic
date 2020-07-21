@@ -31,11 +31,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class OrderendActivity extends AppCompatActivity {
+    private OrderService orderService = new OrderService();
     public float score;           //记录星级评分
     public String tourComment;    //记录行程意见及建议
     private RatingBar rating;
     private EditText tour_Comment;
-    private OrderService orderService=new OrderService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +70,8 @@ public class OrderendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(OrderendActivity.this,TousuActivity.class);
+                //传递数据到投诉界面
+                intent.putExtra("driverPhone",OrderService.curOrder.getDriverPhone());
                 startActivity(intent);
             }
         });
@@ -91,6 +93,8 @@ public class OrderendActivity extends AppCompatActivity {
                 //记录行程评价文本信息
                 tourComment=tour_Comment.getText().toString();
                 //TODO 将tourComment存到数据库，对应Order类的evaluation属性
+                //将评分和评价发送到服务器
+                orderService.evaluate((int)score,tourComment);
                 Toast.makeText(OrderendActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 Timer timer = new Timer();
                 timer.schedule(task, 3000);
@@ -109,8 +113,8 @@ public class OrderendActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //获取输入的电话号码
-                String phone = "13871142476";   //TODO--------------------------------------需获取司机电话
+                //TODO 获取输入的电话号码
+                String phone = "13871142476";   //--------------------需获取司机电话 phone=OrderService.curOrder.getDriverPhone();
                 Context context = OrderendActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
