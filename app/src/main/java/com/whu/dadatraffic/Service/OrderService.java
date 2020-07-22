@@ -87,7 +87,7 @@ public class OrderService {
      */
     public void getHistoryOrders(){
         historyOrders = new Vector<Order>();
-        String getHistoryUrlStr = DBConstent.URL_GetOrder + "?type=getorders&phonenumber="+ UserService.curUser.getPhoneNumber();
+        String getHistoryUrlStr = DBConstent.URL_GetOrder + "?phonenumber="+ UserService.curUser.getPhoneNumber();
         new OrderAsyncTask().execute(getHistoryUrlStr,"getHistory");
     }
 

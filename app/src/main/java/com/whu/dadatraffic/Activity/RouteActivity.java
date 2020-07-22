@@ -45,6 +45,7 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 
+import com.whu.dadatraffic.Base.CurOrder;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Bean.PickerViewData;
 import com.whu.dadatraffic.Bean.TimeBean;
@@ -134,11 +135,14 @@ public class RouteActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 if(!isWaiting){//开始叫车
+                    CurOrder newOrder = new CurOrder(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString());
                     showTipTv();
                     tips();
+
                     callCar.setText("取消叫车");
                     Toast.makeText(RouteActivity.this,
                             "等待接单中",Toast.LENGTH_SHORT).show();
+                    orderService.addOrder(newOrder);
                     isWaiting = true;
 
                 }

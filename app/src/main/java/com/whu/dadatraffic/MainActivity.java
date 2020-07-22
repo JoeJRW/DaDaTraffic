@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 ArrayList<String> addressList = new ArrayList<>();
                 addressList.add(mCity1);
                 addressList.add(address1);

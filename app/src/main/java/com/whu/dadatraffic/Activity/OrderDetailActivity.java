@@ -137,11 +137,21 @@ public class OrderDetailActivity extends AppCompatActivity {
         IDTv.setText("订单编号："+ selectOrder.getOrderID());
         stateTv.setText(selectOrder.getOrderState());
         timeTv.setText(selectOrder.getOrderState());
-        driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
+        if(selectOrder.getDriverPhone().equals("null")){
+            driverPhoneTv.setText("尚无司机接单");
+        }
+        else {
+            driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
+        }
         startPointTv.setText("出发点："+selectOrder.getStartPoint());
         destinationTv.setText("目的地"+selectOrder.getDestination());
         timeTv.setText("订单时间："+selectOrder.getCreateTime());
-        remarkTv.setText(selectOrder.getEvalution());
+        if(selectOrder.getEvalution().equals("null")){
+            remarkTv.setText("无评价");
+        }
+        else {
+            remarkTv.setText(selectOrder.getEvalution());
+        }
         priceTv.setText("价格："+selectOrder.getPrice());
         scoreBar.setRating((float) selectOrder.getScore());
         scoreBar.setIsIndicator(true);

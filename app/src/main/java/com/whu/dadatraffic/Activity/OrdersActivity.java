@@ -109,7 +109,11 @@ public class OrdersActivity extends AppCompatActivity {
             //layout内部子控件设计
             TextView driverTv = new TextView(this);
             driverTv.setTextSize(20);
-            driverTv.setText("  司机电话："+curOrder.getDriverPhone()+"                   "+curOrder.orderState);
+            driverTv.setText("  司机电话："+curOrder.getDriverPhone());
+            TextView stateTv = new TextView(this);
+            stateTv.setTextSize(20);
+            stateTv.setText("  订单状态："+curOrder.orderState);
+
             TextView startTv = new TextView(this);
             startTv.setTextSize(20);
             startTv.setText("  出发点："+curOrder.getStartPoint());
@@ -118,6 +122,7 @@ public class OrdersActivity extends AppCompatActivity {
             destinationTv.setText("  目的地："+curOrder.getDestination());
             //添加子控件
             cell.addView(driverTv);
+            cell.addView(stateTv);
             cell.addView(startTv);
             cell.addView(destinationTv);
             //添加自定义layout
