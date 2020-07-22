@@ -8,7 +8,9 @@ package com.whu.dadatraffic.Service;
 
 import android.os.AsyncTask;
 import android.os.Message;
+import android.util.Log;
 
+import com.whu.dadatraffic.Activity.DriverMainActivity;
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.RegisterActivity;
 import com.whu.dadatraffic.Base.CurOrder;
@@ -67,13 +69,7 @@ public class DriverService {
      */
     public void open(){
         final String checkUrlStr = DBConstent.URL_Driver + "?type=check&driverphone="+curDriver.getPhoneNumber();
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                new CheckAsyncTask().execute(checkUrlStr,"check");
-            }
-        },0,2000);//每隔2秒做一次run()操作，查询是否有可接订单
+        new CheckAsyncTask().execute(checkUrlStr,"check");
     }
 
     /**
@@ -154,15 +150,7 @@ public class DriverService {
             }
             else if(params[1].equals("login"))
             {
-                if(response.toString().equals("100")) {
-                    LoginActivity.instance.loginFail("密码不匹配或账号未注册");
-                }
-                else if(response.toString().equals("200")) {
-                    LoginActivity.instance.loginSuccess_Driver("登录成功");
-                }
-                else {
-                    LoginActivity.instance.loginFail("登录失败");
-                }
+                return response.toString();
             }
             else if(params[1].equals("setInfo")){
                 String info[]=response.toString().split(";");
@@ -187,6 +175,13 @@ public class DriverService {
 
         @Override
         protected void onPostExecute(String result) {
+            if(result.equals("100")){
+                LoginActivity.instance.loginFail("密码不匹配或账号未注册");
+            }
+            else if(result.equals("200")){
+                LoginActivity.instance.loginSuccess_Driver("登录成功");
+            }
+
         }
 
     }
@@ -222,11 +217,10 @@ public class DriverService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            Log.d("Test",response.toString());
             if(!response.toString().equals("100")){
                 String info[]=response.toString().split(";");
                 OrderService.curOrder = new CurOrder(info[1],info[2],info[3]);
-                timer.cancel();
                 return "getOrder";
             }
 
@@ -246,6 +240,9 @@ public class DriverService {
 
         @Override
         protected void onPostExecute(String result) {
+            if(result.equals("getOrder")){
+                DriverMainActivity.instance.getNewOrder();
+            }
         }
 
     }

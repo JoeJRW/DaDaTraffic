@@ -46,7 +46,7 @@ public class OrderService {
     public void addOrder(CurOrder newOrder) {
         curOrder = newOrder;
         //存入数据库
-        final String addUrlStr = DBConstent.URL_CreateOrder + "?type=add&phonenumber=" + newOrder.getCustomerPhoneNum()  + "&start=" + newOrder.getStartPoint() +"&destination="
+        final String addUrlStr = DBConstent.URL_CreateOrder + "?phonenumber=" + newOrder.getCustomerPhoneNum()  + "&start=" + newOrder.getStartPoint() +"&destination="
                 +newOrder.getDestination();
         new OrderAsyncTask().execute(addUrlStr,"add");
         historyOrders.add(new Order(newOrder.getCustomerPhoneNum(),newOrder.getStartPoint(),newOrder.getDestination()));
@@ -97,13 +97,7 @@ public class OrderService {
      */
     public void checkOrderState(){
         final String queryUrl = DBConstent.URL_User + "?type=checkstate&orderid=" + curOrder.getOrderID();
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                new QueryAsyncTask().execute(queryUrl);
-            }
-        },1000,2000);//每隔两秒发送一次，查询当前订单的状态,当查寻到订单状态为已取消或待支付或者已结束，就会终止该计时器
+        new QueryAsyncTask().execute(queryUrl);
     }
 
     /**
@@ -152,7 +146,7 @@ public class OrderService {
                 String info[]=response.toString().split(";");
                 int count = Integer.parseInt(info[0]);
                 for (int i=1;i<count*10+1;i+=10){
-                    historyOrders.add(new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Double.parseDouble(info[i+9])));
+                    historyOrders.add(0,new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Double.parseDouble(info[i+9])));
                 }
             }
 
@@ -220,6 +214,7 @@ public class OrderService {
 
             String info[]=response.toString().split(";");
             curOrder.setOrderState(info[0]);
+            //Log.d("Test",response.toString());
             if(info[0].equals("prepare")){//查询到订单处于准备状态
                 curOrder.setDriverPhone(info[1]);//设置当前订单司机手机号
                 curOrder.setDriverName(info[2]);//设置当前订单司机姓名
@@ -227,16 +222,18 @@ public class OrderService {
                 curOrder.setDriverScore(Double.parseDouble(info[4]));
                 return "prepare";
             }
+
             else if(info[0].equals("end")){//查询到订单处于结束状态
-                timer.cancel();//停止查询
+                //timer.cancel();//停止查询
                 return "end";
             }
             else if(info[0].equals("ongoing")){//查询到订单处于结束状态
                 return "ongoing";
             }
             else if(info[0].equals("cancel")){//查询到订单处于结束状态
-                timer.cancel();//停止查询
+                //timer.cancel();//停止查询
             }
+
             return ""; // 这里返回的结果就作为onPostExecute方法的入参
         }
 
@@ -252,10 +249,7 @@ public class OrderService {
          */
         @Override
         protected void onPostExecute(String result) {
-            Log.d("Test",result);
-            if(result.equals("prepare")){
-                RouteActivity.instance.gotoOrderMake();
-            }
+
         }
     }
 }

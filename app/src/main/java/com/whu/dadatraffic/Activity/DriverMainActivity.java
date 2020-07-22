@@ -62,8 +62,12 @@ import java.text.BreakIterator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DriverMainActivity extends AppCompatActivity {
+    private DriverService driverService = new DriverService();
+    public static DriverMainActivity instance = null;
     LinearLayout UI_1, UI_2,UI_3,UI_4;
     private Button startAcceptBtn,cancelAcceptBtn,getPassengerGtn,confirmReachBtn;
     private ImageButton callPassenger1,callPassenger2;
@@ -80,6 +84,7 @@ public class DriverMainActivity extends AppCompatActivity {
     private String mCity;
     private RoutePlanSearch mSearch = null;
     private ArrayList routeList;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,7 @@ public class DriverMainActivity extends AppCompatActivity {
         SDKInitializer.setCoordType(CoordType.BD09LL);
         //没有这个HTTP申请无法实现路线规划
         SDKInitializer.setHttpsEnable(true);
+        instance = this;
 
         initUI();
         initLocation();
@@ -103,6 +109,13 @@ public class DriverMainActivity extends AppCompatActivity {
                     UI_1.setVisibility(View.GONE);
                     isOpen=true;
                     //TODO 开始接单
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            driverService.open();
+                        }
+                    },0,2000);//每隔2秒做一次run()操作，查询是否有可接订单
 
                 }
             }
@@ -113,10 +126,12 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isOpen){
+
                     UI_2.setVisibility(View.GONE);
                     UI_1.setVisibility(View.VISIBLE);
                     isOpen=false;
                     //TODO 取消接单
+                    timer.cancel();
                 }
             }
         });
@@ -132,6 +147,8 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isOpen){
+
+                    driverService.getPassenger();
                     UI_3.setVisibility(View.GONE);
                     UI_4.setVisibility(View.VISIBLE);
                 }
@@ -143,6 +160,7 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isOpen){
+                    driverService.arrive();
                     isOpen=false;
                     UI_4.setVisibility(View.GONE);
                     UI_1.setVisibility(View.VISIBLE);
@@ -230,8 +248,9 @@ public class DriverMainActivity extends AppCompatActivity {
     }
 
     //当接到新的订单时，修改UI
-    private void getNewOrder()
+    public void getNewOrder()
     {
+        timer.cancel();
         str_setOffPlace= OrderService.curOrder.getStartPoint();
         str_destination=OrderService.curOrder.getDestination();
         passengerPhoneNum=OrderService.curOrder.getDriverPhone();
@@ -241,7 +260,7 @@ public class DriverMainActivity extends AppCompatActivity {
         UI_2.setVisibility(View.GONE);
         UI_3.setVisibility(View.VISIBLE);
         //TODO 修改订单状态为进行中
-
+        OrderService.curOrder.setOrderState("prepare");
         StartRoute(routeList);
     }
 

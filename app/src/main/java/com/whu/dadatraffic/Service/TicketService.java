@@ -4,15 +4,18 @@ package com.whu.dadatraffic.Service;
  * create time：7/9
  * update time: 7/15
  */
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.whu.dadatraffic.Base.Ticket;
+import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,8 +25,7 @@ import java.util.Date;
 import java.util.Vector;
 
 public class TicketService extends Ticket {
-    Vector<Ticket> ticketList = new Vector<Ticket>();
-    Vector<Ticket> usefulTicket;
+    public static Vector<Ticket> ticketList = new Vector<Ticket>();
     // id = 1;
     int position = 0;
 
@@ -31,11 +33,7 @@ public class TicketService extends Ticket {
         super();
     }
 
-    //添加优惠券
-    public void AddTicket(String title, String discount, Integer icon, String startDate, String endDate, boolean status, Integer resource)
-    {
-        ticketList.add(new Ticket( title, discount, icon, startDate, endDate, status,resource));
-    }
+
     //删除优惠券
     public void RemoveTicket(String title)
     {
@@ -102,6 +100,17 @@ public class TicketService extends Ticket {
         }
     }
 
+    public int getResourceId(String fileName) {
+        try {
+            Field field = R.drawable.class.getField(fileName);
+            return Integer.parseInt(field.get(null).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
     /**
      * 在数据库中删除相应的优惠券
      * 使用优惠券时调用
@@ -118,7 +127,7 @@ public class TicketService extends Ticket {
      * 查看用户优惠券时调用
      */
     public void queryAllTicket(){
-        usefulTicket = new Vector<Ticket>();
+        ticketList = new Vector<Ticket>();
         String queryUrl = DBConstent.URL_Ticket + "?type=query&userphone="+UserService.curUser.getPhoneNumber();
         new TicketAsyncTask().execute(queryUrl,"query");
     }
@@ -170,7 +179,7 @@ public class TicketService extends Ticket {
                 int count = Integer.parseInt(info[0]);
                 for(int i=1;i<count*4+1;i+=4){
                     Ticket ticket = new Ticket(info[i],info[i+1],info[i+2],Integer.parseInt(info[i+3]));
-                    usefulTicket.add(ticket);
+                    ticketList.add(ticket);
                 }
             }
 

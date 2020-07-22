@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.whu.dadatraffic.Base.Driver;
 import com.whu.dadatraffic.Base.User;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
@@ -241,6 +242,8 @@ public class LoginActivity extends AppCompatActivity {
         else {
             LocalStorageUtil.deleteSettingNote(LoginActivity.this,"userPreferences","autologin");
         }
+        DriverService.curDriver = new Driver(phoneNumber,password,"","");
+        new DriverService().setCurDriver();
         //跳转到司机的主界面
         //定义跳转对象
         Intent intentToMain = new Intent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

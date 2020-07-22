@@ -2,7 +2,7 @@ package com.whu.dadatraffic.Activity;
 /*
  *author：张朝勋
  * create time：7/8
- * update time: 7/18
+ * update time: 7/21
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +41,9 @@ import java.util.TimerTask;
 
 public class MarketActivity extends AppCompatActivity{
 
+    UserService userService = new UserService();
     MarketItemService marketItemService = new MarketItemService();
+    ArrayList<MarketItem> tmpList;
     TextView priceInAll = null;
     TextView buy = null;
     @Override
@@ -49,18 +51,10 @@ public class MarketActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market);
         setCustomActionBar();
-        /*
-        itemService.AddItem("围巾","1800分",R.drawable.icon_scarf);
-        itemService.AddItem("耳机","2480分",R.drawable.icon_earphone);
-        itemService.AddItem("马克杯","880分",R.drawable.icon_cup);
-        itemService.AddItem("38元打车券","380分",R.drawable.icon_38);
-        itemService.AddItem("音箱","580分",R.drawable.icon_box);
-        itemService.AddItem("8折优惠券","80分",R.drawable.icon_d8);
-        */
         initItems();
 
         //初始化ListView控件
-        ListView listView = findViewById(R.id.lv);
+        final ListView listView = findViewById(R.id.lv);
         //创建一个Adapter的实例
         MarketAdapter newMarketAdapter = new MarketAdapter();
         //设置Adapter
@@ -105,8 +99,6 @@ public class MarketActivity extends AppCompatActivity{
 
                 //创建PopupWindow对象，指定宽度和高度
                 PopupWindow window = new PopupWindow(popupView, 400, 600);
-                // TODO:设置动画
-//                window.setAnimationStyle(R.style.popup_window_anim);
                 //设置背景颜色
                 window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F8F8F8")));
                 //设置可以获取焦点
@@ -127,7 +119,6 @@ public class MarketActivity extends AppCompatActivity{
                 AlertDialog confirmDialog = new AlertDialog.Builder(MarketActivity.this).create();
                 confirmDialog.setTitle("确认下单吗？");
                 confirmDialog.setMessage("此次购物将花费"+marketItemService.scoreInAll+"积分");
-
                 //确认按钮
                 confirmDialog.setButton(DialogInterface.BUTTON_POSITIVE, "是", new DialogInterface.OnClickListener() {
                     @Override
@@ -139,19 +130,24 @@ public class MarketActivity extends AppCompatActivity{
                         if(credit > a) {
                             credit = credit - marketItemService.scoreInAll;//计算新积分
                             new UserService().changeCredit(credit);//将新积分写入数据库
-                                    //跳转到商城订单界面
-                                    //定义跳转对象
-                                    Intent intentToMOrder = new Intent();
-                                    //设置跳转的起始界面和目的界面
-                                    intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
-                                    //传递选中View的对象
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("orderList", marketItemService.GetCartItemList());
-                                    //将bundle包中数据绑定到intent
-                                    intentToMOrder.putExtras(bundle);
-                                    //启动跳转，并传输对应数据
-                                    startActivity(intentToMOrder);
+                            //跳转到商城订单界面
+                            //定义跳转对象
+                            Intent intentToMOrder = new Intent();
+                            //设置跳转的起始界面和目的界面
+                            intentToMOrder.setClass(MarketActivity.this, MarketOrderDetailActivity.class);
+                            //传递选中View的对象
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("orderList", marketItemService.GetCartItemList());
+                            //将bundle包中数据绑定到intent
+                            intentToMOrder.putExtras(bundle);
+                            //启动跳转，并传输对应数据
+                            startActivity(intentToMOrder);
+                            priceInAll.setText("合计：0积分");
 
+                            marketItemService.resetMarket();
+
+                            MarketAdapter resetMarketAdapter = new MarketAdapter();
+                            listView.setAdapter(resetMarketAdapter);
                         }
                         else
                         {
@@ -187,12 +183,12 @@ public class MarketActivity extends AppCompatActivity{
 
     //初始化商城中的元素
     private void initItems() {
-        marketItemService.AddItem("围巾", "1800分", R.drawable.icon_scarf);
-        marketItemService.AddItem("耳机", "2480分", R.drawable.icon_earphone);
-        marketItemService.AddItem("马克杯", "880分", R.drawable.icon_cup);
         marketItemService.AddItem("38元打车券", "380分", R.drawable.icon_38);
-        marketItemService.AddItem("音箱", "580分", R.drawable.icon_box);
-        marketItemService.AddItem("8折优惠券", "80分", R.drawable.icon_d8);
+        marketItemService.AddItem("48元打车券", "480分", R.drawable.icon_48);
+        marketItemService.AddItem("58元打车券", "580分", R.drawable.icon_58);
+        marketItemService.AddItem("6折优惠券", "300分", R.drawable.icon_d6);
+        marketItemService.AddItem("7折优惠券", "250分", R.drawable.icon_d7);
+        marketItemService.AddItem("8折优惠券", "200分", R.drawable.icon_d8);
         initView();
     }
 
@@ -252,6 +248,10 @@ public class MarketActivity extends AppCompatActivity{
             return position;         //返回item的id
         }
 
+        public void resetView()
+        {
+
+        }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {//获取item中的View视图,使用convertview增加系统效率

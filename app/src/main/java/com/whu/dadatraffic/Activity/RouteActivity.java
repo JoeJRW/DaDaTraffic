@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -97,6 +98,8 @@ public class RouteActivity extends AppCompatActivity{
     public static Handler tipHandler;//用于计时
     private ArrayList address;
 
+    private Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +139,8 @@ public class RouteActivity extends AppCompatActivity{
             public void onClick(View view) {
                 if(!isWaiting){//开始叫车
                     CurOrder newOrder = new CurOrder(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString());
+                    Log.d("Test",newOrder.getCustomerPhoneNum());
+                    Log.d("Test",newOrder.getStartPoint());
                     showTipTv();
                     tips();
 
@@ -144,6 +149,20 @@ public class RouteActivity extends AppCompatActivity{
                             "等待接单中",Toast.LENGTH_SHORT).show();
                     orderService.addOrder(newOrder);
                     isWaiting = true;
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            orderService.checkOrderState();
+                            String state = OrderService.curOrder.orderState;
+                            if(state.equals("prepare")){
+                                //测试
+                                OrderService.curOrder.setPrice("20.5");
+                                timer.cancel();
+                                gotoOrderMake();
+                            }
+                        }
+                    },1000,2000);//每隔两秒发送一次，查询当前订单的状态,有司机接单后就跳转
 
                 }
                 else {//取消叫车
@@ -270,9 +289,11 @@ public class RouteActivity extends AppCompatActivity{
                 overlay.addToMap();
                 overlay.zoomToSpan();
                 double dis = result.getRouteLines().get(0).getDistance();
-                price = new BigDecimal(dis/1000*1.6+13)
-                        .setScale(2, RoundingMode.HALF_UP);
-                routePrice.setText("预计价格: "+price.toString()+" 元");
+                double p = new BigDecimal(dis/1000*1.6+13)
+                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+                routePrice.setText("预计价格: "+p+" 元");
+
             }
         }
 

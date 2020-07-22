@@ -97,4 +97,7 @@ public class CurOrder {
         this.orderState = orderState;
     }
 
+    public void setPrice(String price) {
+        this.price = price;
+    }
 }

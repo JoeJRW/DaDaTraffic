@@ -14,7 +14,6 @@ public class Ticket {
     protected Integer icon = null;//优惠券界面的图标
     protected String startDate = null;//优惠券有效日期
     protected String endDate = null;
-    protected Boolean status = null;//优惠券状态
     protected Integer imageResource = null;//优惠券详情界面的图标
     public Ticket() { }
     public Ticket(String title,String startDate,String endDate,Integer icon) {
@@ -24,15 +23,13 @@ public class Ticket {
         this.icon = icon;
     }
 
-    public Ticket(String title, String discount, Integer icon, String startDate, String endDate,boolean status, Integer imageResource)
+    public Ticket(String title, String discount, Integer icon, String startDate, String endDate, Integer imageResource)
     {
-        //this.id = id;
         this.title = title;
         this.discount = discount;
         this.icon = icon;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = status;
         this.imageResource = imageResource;
     }
 
@@ -59,8 +56,5 @@ public class Ticket {
         return imageResource;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
 
 }

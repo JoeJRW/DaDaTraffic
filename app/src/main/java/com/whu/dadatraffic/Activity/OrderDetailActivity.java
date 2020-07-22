@@ -144,7 +144,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
         }
         startPointTv.setText("出发点："+selectOrder.getStartPoint());
-        destinationTv.setText("目的地"+selectOrder.getDestination());
+        destinationTv.setText("目的地："+selectOrder.getDestination());
         timeTv.setText("订单时间："+selectOrder.getCreateTime());
         if(selectOrder.getEvalution().equals("null")){
             remarkTv.setText("无评价");

@@ -140,7 +140,9 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<String> addressList = new ArrayList<>();
                 addressList.add(mCity1);
+                //addressList.add("青阳县");
                 addressList.add(address1);
+                //addressList.add("青阳县");
                 addressList.add(mCity2);
                 addressList.add(address2);
                 Intent i = new Intent(MainActivity.this, RouteActivity.class);
