@@ -265,6 +265,8 @@ public class OrderpayActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
+        // Todo 如果报错就在另一个前置界面也加一个传值的bundle然后以discount为key，传null到该界面
+        //获取折扣信息
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String discount = bundle.getString("discount");
@@ -290,6 +292,7 @@ public class OrderpayActivity extends AppCompatActivity {
 
         allPrice=8.01;
         //TODO ------------------------------版本2修改--------------------------------------------
+        //如果折扣信息为空，则代表支付界面并非从选择优惠券跳转而来。
         if(discount != null)
         {
             int effect = Integer.parseInt(discount.substring(0, discount.length() - 1));
@@ -318,9 +321,6 @@ public class OrderpayActivity extends AppCompatActivity {
                ticketService.AddTicket("38元打车券","38元",R.drawable.icon_dc38d,giveTime,endTime,R.drawable.icon_dc38);
                ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_dc8d,giveTime,endTime,R.drawable.icon_dc8);
                Intent intent=new Intent(OrderpayActivity.this, ChooseTicketActivity.class);
-               Bundle bundle = new Bundle();
-               bundle.putDouble("price",allPrice);
-               intent.putExtras(bundle);
                startActivity(intent);
             }
         });
@@ -401,6 +401,8 @@ public class OrderpayActivity extends AppCompatActivity {
         });
 
     }
+
+    //在进入选择界面前读取服务器上的现有优惠券，并进行是否可用的判断
     @Override
     protected void onResume() {
         super.onResume();

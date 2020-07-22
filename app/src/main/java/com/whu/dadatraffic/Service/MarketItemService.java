@@ -29,6 +29,8 @@ public class MarketItemService extends MarketItem implements Serializable {
     public MarketItemService() {
         super();
     }
+
+    //重置商城
     public void resetMarket()
     {
         for (int i = 0; i <marketItemList.size() - 1; i++)

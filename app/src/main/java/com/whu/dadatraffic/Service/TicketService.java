@@ -36,7 +36,7 @@ public class TicketService extends Ticket {
     {
         ticketList.add(new Ticket( title, discount, icon, startDate, endDate, resource));
     }
-    //删除优惠券
+    //移除不可用优惠券
     public void RemoveTicket(String title)
     {
         int found = 0;
@@ -92,6 +92,7 @@ public class TicketService extends Ticket {
     {
         return ticketList.get(position).getImageResource();
     }
+    //判断该情况下优惠券是否可用
     public void JudgeUse(double price)
     {
         if(price<38)

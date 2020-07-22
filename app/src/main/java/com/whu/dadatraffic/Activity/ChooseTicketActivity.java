@@ -35,9 +35,6 @@ public class ChooseTicketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ticket);
         setCustomActionBar();
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        price = bundle.getDouble("price");
 
         ListView listView=findViewById(R.id.tlv);
         //创建一个Adapter的实例
