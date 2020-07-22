@@ -45,7 +45,7 @@ public class TousuActivity extends AppCompatActivity {
         //获取跳转前界面传递的数据
         driverPhone=getIntent().getStringExtra("driverPhone");
 
-        //点击提交按钮，获取投诉选择内容和文本信息，显示提交成功---------------版本2需记录信息存数据库------------------
+        //点击提交按钮，获取投诉选择内容和文本信息，显示提交成功
         Button submitTousu=findViewById(R.id.submit_tousu);
         tousu_comment_text=findViewById(R.id.tousu_comment);   //投诉文本框信息
         tousu1=findViewById(R.id.tousu1);
@@ -99,16 +99,15 @@ public class TousuActivity extends AppCompatActivity {
                 if(tousu12.isChecked()){
                     tousuInf+=tousu12.getText().toString()+"、";
                 }
-                tousuInf=tousuInf.substring(0,tousuInf.length()-1);
                 //选项不能为空
                 if(tousuInf.equals("")){
                     Toast.makeText(TousuActivity.this,"请选择投诉内容",Toast.LENGTH_SHORT).show();
                     return;
-                }
+                } else
+                    tousuInf=tousuInf.substring(0,tousuInf.length()-1);
                 tousuCommentText=tousu_comment_text.getText().toString();
-                //TODO 将tousuInf与tousuCommentText存入数据库
                 //将投诉信息发送到服务器
-                new UserService().complain(driverPhone,tousuInf+tousuCommentText);
+                new UserService().complain(driverPhone,tousuInf+"---"+tousuCommentText);
                 Toast.makeText(TousuActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
                 //提交完成后，等待1秒跳转到上层界面
                 Timer timer = new Timer();
