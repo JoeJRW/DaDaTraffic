@@ -42,8 +42,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
+
         <activity android:name=".Activity.ChooseTicketActivity"></activity>
         <activity android:name=".Activity.AddressActivity" />
+
+        <activity android:name=".Activity.DriverMainActivity" />
+
         <activity android:name=".Activity.MarketOrderActivity" />
         <activity android:name=".Activity.MarketOrderDetailActivity" />
         <activity android:name=".Activity.MarketItemDetailActivity" />

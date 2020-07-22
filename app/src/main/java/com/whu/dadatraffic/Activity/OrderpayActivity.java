@@ -50,6 +50,7 @@ public class OrderpayActivity extends AppCompatActivity {
     double allPrice;       //总车费
     double discountPrice;  //抵扣车费
     double endPrice;       //最终支付金额
+
     Date curDate = new Date(System.currentTimeMillis());
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -57,6 +58,7 @@ public class OrderpayActivity extends AppCompatActivity {
     String endTime = "2021-08-01 23-59-59";
     private OrderService orderService=new OrderService();
     private TicketService ticketService = new TicketService();
+
     //用于支付宝支付业务的入参 app_id
     public static final String APPID = "2016102500760122";
     //私钥
@@ -88,9 +90,6 @@ public class OrderpayActivity extends AppCompatActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showAlert(OrderpayActivity.this, getString(R.string.pay_success) + payResult);
-                        //TODO 修改订单状态-------上传订单金额----------------------------------------------------
-                        //orderService.completeOrder(endPrice);--------------------------------------------------------7.18添加
-
                         Intent intent=new Intent(OrderpayActivity.this,OrderendActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -270,23 +269,25 @@ public class OrderpayActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         String discount = bundle.getString("discount");
         //显示司机姓别
-        String driverFistName="某";   //orderService.curOrder.getDriverName().substring(0,1);   //-------------------------7.18修改------------------------------------------
+        String driverFistName=OrderService.curOrder.getDriverName().substring(0,1);   //7.21修改----------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername2);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID="鄂A123456";    //orderService.curOrder.getCarNumber();      //-------------------------7.18修改-----------------------------------------
+        String carID=OrderService.curOrder.getCarID(); //7.21修改----------------------------------------------------------------
         TextView carID2=findViewById(R.id.carID2);
         carID2.setText(carID);
 
         //显示司机评分
-        double driverScore=5.0;    //TODO -----------------------版本2修改-----------------------------------------------
+        DecimalFormat df1 =new DecimalFormat("#.0");
+        double driverScore = Double.parseDouble(df1.format(OrderService.curOrder.getDriverScore()));    //7.21修改------------------------------
         CharSequence scoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore2);
         textView2.setText(scoreText);
 
         //显示车费合计
+
         allPrice=8.01;
         //TODO ------------------------------版本2修改--------------------------------------------
         if(discount != null)
@@ -301,7 +302,10 @@ public class OrderpayActivity extends AppCompatActivity {
                 discountPrice = allPrice / 100 * effect;
             }
         }
-        final CharSequence allPriceText=String.valueOf(allPrice)+"元";
+        CharSequence allPriceText=String.valueOf(allPrice)+"元";
+
+        allPrice=Double.parseDouble(OrderService.curOrder.getPrice());   //7.21修改 --------------------------------
+
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
 
@@ -384,7 +388,7 @@ public class OrderpayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                String phone = "13871142476";  //TODO--------------------------------------需获取司机电话
+                String phone = OrderService.curOrder.getDriverPhone();       //7.21修改-------------------------------
                 Context context = OrderpayActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

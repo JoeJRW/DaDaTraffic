@@ -72,10 +72,6 @@ public class AddressActivity extends AppCompatActivity {
                     addressInput.setVisibility(View.VISIBLE);
                     isShowOrNot1 = true;
                     isShowOrNot2  = false;
-                    //TODO 获取addressInput的输入信息，展示出地点供选择
-
-                    //addressInput.setText();
-
                 }
                 //再次点击，保存修改，将addressPlace和addressInput设为不可见
                 else {
@@ -103,10 +99,6 @@ public class AddressActivity extends AppCompatActivity {
                     addressInput.setVisibility(View.VISIBLE);
                     isShowOrNot2 = true;
                     isShowOrNot1  = false;
-                    //TODO 获取addressInput的输入信息，展示出地点供选择
-
-                    //addressInput.setText();
-
                 }
                 //再次点击，保存修改， 将addressPlace和addressInput设为不可见
                 else {
