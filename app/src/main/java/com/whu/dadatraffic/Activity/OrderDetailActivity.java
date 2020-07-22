@@ -135,6 +135,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         cancelBtn = (Button)findViewById(R.id.cancelBtn_det);
 
         IDTv.setText("订单编号："+ selectOrder.getOrderID());
+        stateTv.setText(selectOrder.getOrderState());
         timeTv.setText(selectOrder.getOrderState());
         driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
         startPointTv.setText("出发点："+selectOrder.getStartPoint());
