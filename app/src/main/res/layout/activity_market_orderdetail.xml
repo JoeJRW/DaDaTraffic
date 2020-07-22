@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/moLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="636sp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp">
@@ -16,38 +16,37 @@
     <ListView
         android:id="@+id/marketOrderLv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/func"
-        android:layout_width="match_parent"
-        android:layout_height="93sp"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moLinearLayout"
-        tools:layout_editor_absoluteX="1dp"
-        app:layout_constraintHorizontal_weight="1">
-        <TextView
-            android:id="@+id/MarketOrderCreateTime"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"/>
+        <LinearLayout
+            android:id="@+id/mofunc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="创建时间：xx"
-            android:textColor="#000000"
-            android:textSize="30sp" />
-        <TextView
-            android:id="@+id/MarketOrderPriceinAll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="合计:0积分"
-            android:textColor="#000000"
-            android:textSize="30sp" />
+            android:layout_height="93sp"
+            android:layout_marginTop="2dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/moLinearLayout">
+            <TextView
+                android:id="@+id/MarketOrderCreateTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="创建时间：xx"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/MarketOrderPriceinAll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="合计:0积分"
+                android:textColor="#000000"
+                android:textSize="20sp" />
 
 
+        </LinearLayout>
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

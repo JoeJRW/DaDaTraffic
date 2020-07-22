@@ -2,12 +2,13 @@ package com.whu.dadatraffic.Activity;
 /*
  *author：张朝勋
  * create time：7/15
- * update time: 7/15
+ * update time: 7/21
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.whu.dadatraffic.Base.MarketItem;
+import com.whu.dadatraffic.Base.Ticket;
 import com.whu.dadatraffic.R;
 
 import android.annotation.SuppressLint;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.whu.dadatraffic.Service.MarketItemService;
+import com.whu.dadatraffic.Service.TicketService;
 import com.whu.dadatraffic.Service.UserService;
 
 import java.text.SimpleDateFormat;
@@ -29,11 +31,12 @@ import java.util.Date;
 
 public class MarketOrderDetailActivity extends AppCompatActivity {
     MarketItemService marketItemService = new MarketItemService();
+    TicketService ticketService = new TicketService();
     TextView priceInAll = null;
     TextView createTime = null;
     Date curDate = new Date(System.currentTimeMillis());
     @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     String curTime = simpleDateFormat.format(curDate);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,7 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         marketItemService.setmOrderItemList(MarketOrderList);
         priceInAll = (TextView)findViewById(R.id.MarketOrderPriceinAll);
         createTime = (TextView)findViewById(R.id.MarketOrderCreateTime);
-
+        priceInAll.setText("合计："+marketItemService.scoreInAll+"积分");
 
         //初始化ListView控件
         ListView listView = findViewById(R.id.marketOrderLv);
@@ -70,6 +73,7 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         listView.setAdapter(newMarketOrderDetailAdapter);
         //将购买的商品记录写入数据库
         marketItemService.buyItem(MarketOrderList, UserService.curUser.getPhoneNumber());
+        ticketService.addTicket(new Ticket());
         createTime.setText("创建时间："+marketItemService.GetMOrder(0).getTime());
 
     }
@@ -145,7 +149,6 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
             holder.price.setText(marketItemService.GetMOrder(position).getPrice());
             holder.image.setImageResource(marketItemService.GetMOrder(position).getIcon());
             holder.count.setText(Integer.toString(marketItemService.GetMOrder(position).getCount())+"份");
-            priceInAll.setText("合计："+marketItemService.scoreInAll+"积分");
             return convertView;
         }
     }

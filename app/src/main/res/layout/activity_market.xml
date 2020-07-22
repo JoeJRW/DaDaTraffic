@@ -24,14 +24,10 @@
         <LinearLayout
             android:id="@+id/func"
             android:layout_width="match_parent"
-            android:layout_height="93dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="93sp"
             android:orientation="horizontal"
             android:layout_weight="0.5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:layout_editor_absoluteX="1dp"
-            app:layout_constraintHorizontal_weight="1">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:id="@+id/tv_priceinAll"

@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                 //定义跳转对象
                 Intent intentToReg = new Intent();
                 //设置跳转的起始界面和目的界面
-                intentToReg.setClass(LoginActivity.this, WalletActivity.class);
+                intentToReg.setClass(LoginActivity.this, RegisterActivity.class);
                 //启动跳转
                 startActivity(intentToReg);
             }

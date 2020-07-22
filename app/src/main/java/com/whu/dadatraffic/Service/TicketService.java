@@ -22,32 +22,36 @@ import java.util.Date;
 import java.util.Vector;
 
 public class TicketService extends Ticket {
-    Vector<Ticket> ticketList = new Vector<Ticket>();
+    public static Vector<Ticket> ticketList = new Vector<Ticket>();
     Vector<Ticket> usefulTicket = new Vector<Ticket>();
 
-    int position = 0;
+    int[] position;
 
     public TicketService() {
         super();
     }
 
     //添加优惠券
-    public void AddTicket(String title, String discount, Integer icon, String startDate, String endDate, boolean status, Integer resource)
+    public void AddTicket(String title, String discount, Integer icon, String startDate, String endDate, Integer resource)
     {
-        ticketList.add(new Ticket( title, discount, icon, startDate, endDate, status,resource));
+        ticketList.add(new Ticket( title, discount, icon, startDate, endDate, resource));
     }
     //删除优惠券
     public void RemoveTicket(String title)
     {
+        int found = 0;
         for(int i = 1; i <= ticketList.size(); i++)
         {
             if(title == ticketList.get(i).getTitle())
             {
-                position = i;
-                break;
+                position[found] = i;
+                found++;
             }
         }
-        ticketList.remove(position);
+        for(int i = 0; i < position.length; i++)
+        {
+            ticketList.remove(position[i]);
+        }
     }
 
     //获取list长度
@@ -59,6 +63,10 @@ public class TicketService extends Ticket {
     public String GetTitle(int position)
     {
         return ticketList.get(position).getTitle();
+    }
+    public Vector<Ticket> getUsefulTicket()
+    {
+        return usefulTicket;
     }
     //获取优惠券效果
     public String GetDiscount(int position)
@@ -79,10 +87,28 @@ public class TicketService extends Ticket {
     {
         return ticketList.get(position).getIcon();
     }
-    //获取优惠券新图标文件名，以在传值后
+    //获取优惠券新图标文件名，以在传值后调用新图片
     public Integer GetImageResource(int position)
     {
         return ticketList.get(position).getImageResource();
+    }
+    public void JudgeUse(double price)
+    {
+        if(price<38)
+        {
+            RemoveTicket("38元优惠券");
+            RemoveTicket("48元优惠券");
+            RemoveTicket("58元优惠券");
+        }
+        if(price<48)
+        {
+            RemoveTicket("48元优惠券");
+            RemoveTicket("58元优惠券");
+        }
+        if(price<58)
+        {
+            RemoveTicket("58元优惠券");
+        }
     }
     //判断优惠券是否过期
     public void JudgeStatus(int position)
@@ -118,7 +144,7 @@ public class TicketService extends Ticket {
      * 查看用户优惠券时调用
      */
     public void queryAllTicket(){
-        usefulTicket = new Vector<Ticket>();
+        ticketList = new Vector<Ticket>();
         String queryUrl = DBConstent.URL_Ticket + "?type=query&userphone="+UserService.curUser.getPhoneNumber();
         new TicketAsyncTask().execute(queryUrl,"query");
     }
