@@ -32,14 +32,6 @@ public class OrdersActivity extends AppCompatActivity {
         orderList = OrderService.historyOrders;
 
         initUI();
-        /*
-        orderList.removeAllElements();
-        orderList.add(new Order("18945612321","whu","wuhan"));
-        orderList.add(new Order("13352556211","whu","shu"));
-        orderList.add(new Order("13655552221","whu","shu"));
-        orderList.elementAt(0).setScore(0.5f);
-         */
-
 
     }
 

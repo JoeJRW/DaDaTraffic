@@ -13,18 +13,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Order {
-    private String customerPhoneNum = null;//乘客手机号
-    private String orderID = null;//订单编号
+    private String customerPhoneNum = "";//乘客手机号
+    private String orderID = "";//订单编号
     private String driverPhone = "";//司机手机号
-    private String createTime = null;//订单创建时间
-    private String startPoint = null;//行程起始地点
-    private String destination = null;//行程目的地
+    private String createTime = "";//订单创建时间
+    private String startPoint = "";//行程起始地点
+    private String destination = "";//行程目的地
     private String price = "";//本次行程价格
-    public String orderState = null;//订单状态
+    public String orderState = "";//订单状态
     private String evalution = "";//行程评价
     private double score = 0;//得分
 
-    public Order(String phoneNum,String orderID,String driverPhone,String createTime, String startPoint, String destination,String price,String orderState,String evalution,double score){
+    public Order(String phoneNum,String driverPhone,String orderID,String createTime, String startPoint, String destination,String price,String orderState,String evalution,double score){
         this.customerPhoneNum = phoneNum;
         this.orderID = orderID;
         this.driverPhone = driverPhone;

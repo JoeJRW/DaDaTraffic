@@ -7,18 +7,18 @@ import java.util.Date;
 
 public class CurOrder {
 
-    private String customerPhoneNum = null;//乘客手机号
-    private String orderID = null;//当前订单编号
+    private String customerPhoneNum = "";//乘客手机号
+    private String orderID = "";//当前订单编号
     private String driverPhone = "";//当前订单司机手机号
     private String driverName = "";//当前订单司机姓名
     private double driverScore = 0.0;//当前司机评分
     private String carID = "";//当前订单司机车牌号
-    private String createTime = null;//订单创建时间
-    private String startPoint = null;//行程起始地点
-    private String destination = null;//行程目的地
+    private String createTime = "";//订单创建时间
+    private String startPoint = "";//行程起始地点
+    private String destination = "";//行程目的地
     private String price = "";//本次行程价格
-    public String orderState = null;//订单状态
-    private String evalution = "";//行程评价
+    public String orderState = "";//订单状态
+    private String evaluation = "";//行程评价
     private double score = 0.0;//评分
 
     public CurOrder(String PhoneNum , String startPoint, String destination){
@@ -55,10 +55,10 @@ public class CurOrder {
         return customerPhoneNum;
     }
 
-    public void setEvalution(String evalution) {
-        this.evalution = evalution;
+    public void setEvaluation(String evalution) {
+        this.evaluation = evalution;
     }
-    public String getEvalution(){return evalution;}
+    public String getEvaluation(){return evaluation;}
 
     public void setScore(double score){this.score = score;}
     public double getScore(){return score;}

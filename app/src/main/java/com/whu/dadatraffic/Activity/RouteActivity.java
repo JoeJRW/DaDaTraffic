@@ -65,6 +65,7 @@ import java.util.TimerTask;
 
 
 public class RouteActivity extends AppCompatActivity{
+    public static RouteActivity instance;
     private OrderService orderService = new OrderService();
     private UserService userService = new UserService();
 
@@ -103,6 +104,7 @@ public class RouteActivity extends AppCompatActivity{
         SDKInitializer.setCoordType(CoordType.BD09LL);
         //没有这个HTTP申请无法实现路线规划
         SDKInitializer.setHttpsEnable(true);
+        instance = this;
 
         mMapView=findViewById(R.id.routeView);
         mBaiduMap=mMapView.getMap();
@@ -131,13 +133,25 @@ public class RouteActivity extends AppCompatActivity{
         callCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showTipTv();
-                tips();
-                callCar.setText("取消叫车");
-                Toast.makeText(RouteActivity.this,
-                        "等待接单中",Toast.LENGTH_SHORT).show();
-                Timer timer = new Timer();
-                timer.schedule(task, 5000);
+                if(!isWaiting){//开始叫车
+                    showTipTv();
+                    tips();
+                    callCar.setText("取消叫车");
+                    Toast.makeText(RouteActivity.this,
+                            "等待接单中",Toast.LENGTH_SHORT).show();
+                    isWaiting = true;
+
+                }
+                else {//取消叫车
+                    orderService.cancelOrder();
+                    tipView.setVisibility(View.INVISIBLE);
+                    tipView = null;
+                    isWaiting = false;
+                    callCar.setText("开始叫车");
+                }
+
+                //Timer timer = new Timer();
+                //timer.schedule(task, 5000);
                 //TODO 将价格price写进数据库
                 //TODO 代码异常等待修改
                 /*
@@ -188,6 +202,15 @@ public class RouteActivity extends AppCompatActivity{
         });
     }
 
+    //跳转到进行中界面
+    public void gotoOrderMake(){
+        Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putStringArrayListExtra("address", address);
+        startActivity(i);
+    }
+
+    /*
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
@@ -197,6 +220,8 @@ public class RouteActivity extends AppCompatActivity{
             startActivity(i);
         }
     };
+
+     */
 
     //路线规划初始化
     private void initRoutePlan() {
@@ -469,8 +494,6 @@ public class RouteActivity extends AppCompatActivity{
         //RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         this.baseTimer = SystemClock.elapsedRealtime();
 
-
-        //mainLayout.addView(timerView,0);
 
         final Handler myhandler = new Handler() {
             public void handleMessage(Message msg) {

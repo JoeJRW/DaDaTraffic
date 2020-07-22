@@ -178,12 +178,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordEt.setText(password);
     }
 
-    /*public void setPhoneNumber(String phoneNum){
-        this.phoneNumber = phoneNum;
-    }
-
-     */
-
 
     public void loginSuccess_Passenger(String result){
         messageTv.setText(result);

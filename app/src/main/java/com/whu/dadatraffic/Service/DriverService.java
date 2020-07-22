@@ -62,7 +62,7 @@ public class DriverService {
 
 
     /**
-     * 司机接单时调用该函数
+     * 司机接单时调用该函数√
      * 每隔2s向服务器发送一次请求，如果有订单就会分配，获得乘客的手机号，出发地，目的地
      */
     public void open(){
@@ -77,7 +77,7 @@ public class DriverService {
     }
 
     /**
-     * 从服务器获取司机的姓名评分等信息并设置给当前司机
+     * 从服务器获取司机的姓名评分等信息并设置给当前司机  √
      */
     public void setCurDriver(){
         final String setUrlStr = DBConstent.URL_Driver + "?type=getinfo&phonenumber=" + curDriver.getPhoneNumber();
@@ -86,7 +86,7 @@ public class DriverService {
     }
 
     /**
-     * 确认乘客已上车，修改订单状态为ongoing
+     * 确认乘客已上车，修改订单状态为ongoing √
      * 点击确认上次按钮后调用
      */
     public void getPassenger(){
@@ -95,7 +95,7 @@ public class DriverService {
     }
 
     /**
-     * 确认乘客到达目的地，修改订单状态为end
+     * 确认乘客到达目的地，修改订单状态为end √
      * 点击确认导弹按钮后调用
      */
     public void arrive(){

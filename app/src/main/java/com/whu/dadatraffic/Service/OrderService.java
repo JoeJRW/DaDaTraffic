@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -39,20 +40,20 @@ public class OrderService {
     public static Vector<Order> historyOrders;
 
     /**
-     * 添加新建订单
+     * 添加新建订单√
      * @param newOrder 新建的Order对象
      */
     public void addOrder(CurOrder newOrder) {
         curOrder = newOrder;
         //存入数据库
         final String addUrlStr = DBConstent.URL_CreateOrder + "?type=add&phonenumber=" + newOrder.getCustomerPhoneNum()  + "&start=" + newOrder.getStartPoint() +"&destination="
-                +newOrder.getDestination()+"&createtime=" + newOrder.getCreateTime();
+                +newOrder.getDestination();
         new OrderAsyncTask().execute(addUrlStr,"add");
-        //historyOrders.add(new Order(newOrder.getCustomerPhoneNum(),newOrder.getStartPoint(),newOrder.getDestination()));
+        historyOrders.add(new Order(newOrder.getCustomerPhoneNum(),newOrder.getStartPoint(),newOrder.getDestination()));
     }
 
     /**
-     * 取消当前订单
+     * 取消当前订单√
      */
     public void cancelOrder() {
         final String cancelUrlStr = DBConstent.URL_CancelOrder + "?orderid=" + curOrder.getOrderID();
@@ -62,12 +63,12 @@ public class OrderService {
     }
 
     /**
-    * 将当前订单的评价和评分存入数据库
+    * 将当前订单的评价和评分存入数据库√
      * @param score 当前订单用户的评分
      * @param evaluation 当前订单的用户评价
     */
     public void evaluate(int score,String evaluation){
-        String urlStr = DBConstent.URL_Order + "?type=evaluate&orderid="+curOrder.getOrderID()+"&score="+score+"&evaluation="+evaluation;
+        String urlStr = DBConstent.URL_User + "?type=evaluate&orderid="+curOrder.getOrderID()+"&score="+score+"&evaluation="+evaluation;
         new OrderAsyncTask().execute(urlStr,"evaluate");
     }
 
@@ -76,7 +77,7 @@ public class OrderService {
      * @param price 本次订单金额
      */
     public void completeOrder(double price) {
-        String completeSqlStr = DBConstent.URL_Order+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
+        String completeSqlStr = DBConstent.URL_User+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
         new OrderAsyncTask().execute(completeSqlStr,"complete");
     }
 
@@ -86,7 +87,7 @@ public class OrderService {
      */
     public void getHistoryOrders(){
         historyOrders = new Vector<Order>();
-        String getHistoryUrlStr = DBConstent.URL_Order + "?type=getorders&phonenumber="+ UserService.curUser.getPhoneNumber();
+        String getHistoryUrlStr = DBConstent.URL_GetOrder + "?type=getorders&phonenumber="+ UserService.curUser.getPhoneNumber();
         new OrderAsyncTask().execute(getHistoryUrlStr);
     }
 
@@ -249,10 +250,12 @@ public class OrderService {
          * 运行在UI线程中，所以可以直接操作UI元素
          * @param
          */
-
         @Override
         protected void onPostExecute(String result) {
-
+            Log.d("Test",result);
+            if(result.equals("prepare")){
+                RouteActivity.instance.gotoOrderMake();
+            }
         }
     }
 }

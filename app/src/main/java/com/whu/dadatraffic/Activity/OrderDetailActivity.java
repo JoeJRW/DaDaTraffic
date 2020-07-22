@@ -59,11 +59,11 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         //如果当前订单正在等待司机接单，则可以取消
         if (selectOrder.orderState.equals("wait")){
-            stateTv.setText("已取消");
             //给取消按钮绑定事件
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    stateTv.setText("已取消");
                     service.cancelOrder();
                 }
             });
@@ -73,6 +73,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             cancelBtn.setVisibility(View.INVISIBLE);
         }
         else {//其他状态下可使用该按钮举报该司机
+            cancelBtn.setText("举报");
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
