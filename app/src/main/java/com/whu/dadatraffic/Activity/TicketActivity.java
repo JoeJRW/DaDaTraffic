@@ -7,6 +7,7 @@ package com.whu.dadatraffic.Activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.whu.dadatraffic.Base.Ticket;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.TicketService;
 
@@ -23,25 +24,21 @@ import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 public class TicketActivity extends AppCompatActivity {
 
     TicketService ticketService = new TicketService();
-    String giveTime = null;
-    String endTime = "2021-08-01 23:59:59";
+    Vector<Ticket> list = new Vector<Ticket>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-
+        ticketService.queryAllTicket();
+        list = ticketService.ticketList;
         setCustomActionBar();
 
-        //使用现在时间创建优惠券
-        Date date = new Date(System.currentTimeMillis());
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        giveTime = simpleDateFormat.format(date);
-        //ticketService.AddTicket("38元打车券","38元",R.drawable.icon_dc38d,giveTime,endTime,true,R.drawable.icon_dc38);
-        //ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_dc8d,giveTime,endTime,true,R.drawable.icon_dc8);
         //初始化ListView控件
         ListView listView=findViewById(R.id.tlv);
         //创建一个Adapter的实例

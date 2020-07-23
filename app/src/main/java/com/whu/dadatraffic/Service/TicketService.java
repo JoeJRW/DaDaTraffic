@@ -7,6 +7,7 @@ package com.whu.dadatraffic.Service;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.whu.dadatraffic.Activity.MarketOrderActivity;
 import com.whu.dadatraffic.Base.Ticket;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
@@ -26,26 +27,48 @@ import java.util.Vector;
 
 public class TicketService extends Ticket {
     public static Vector<Ticket> ticketList = new Vector<Ticket>();
-    // id = 1;
-    int position = 0;
+    Vector<Ticket> usefulTicket = new Vector<Ticket>();
+
+    int[] position;
 
     public TicketService() {
         super();
     }
 
 
-    //删除优惠券
+    //添加优惠券
+    public void AddTicket(String title, String discount, Integer icon, String startDate, String endDate, Integer resource)
+    {
+        ticketList.add(new Ticket( title, discount, icon, startDate, endDate, resource));
+    }
+
+    public int getResourceId(String fileName) {
+        try {
+            Field field = R.drawable.class.getField(fileName);
+            return Integer.parseInt(field.get(null).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    //移除不可用优惠券
     public void RemoveTicket(String title)
     {
+        int found = 0;
         for(int i = 1; i <= ticketList.size(); i++)
         {
             if(title == ticketList.get(i).getTitle())
             {
-                position = i;
-                break;
+                position[found] = i;
+                found++;
             }
         }
-        ticketList.remove(position);
+        for(int i = 0; i < position.length; i++)
+        {
+            ticketList.remove(position[i]);
+        }
     }
 
     //获取list长度
@@ -57,6 +80,10 @@ public class TicketService extends Ticket {
     public String GetTitle(int position)
     {
         return ticketList.get(position).getTitle();
+    }
+    public Vector<Ticket> getUsefulTicket()
+    {
+        return usefulTicket;
     }
     //获取优惠券效果
     public String GetDiscount(int position)
@@ -77,10 +104,29 @@ public class TicketService extends Ticket {
     {
         return ticketList.get(position).getIcon();
     }
-    //获取优惠券新图标文件名，以在传值后
+    //获取优惠券新图标文件名，以在传值后调用新图片
     public Integer GetImageResource(int position)
     {
         return ticketList.get(position).getImageResource();
+    }
+    //判断该情况下优惠券是否可用
+    public void JudgeUse(double price)
+    {
+        if(price<38)
+        {
+            RemoveTicket("38元优惠券");
+            RemoveTicket("48元优惠券");
+            RemoveTicket("58元优惠券");
+        }
+        if(price<48)
+        {
+            RemoveTicket("48元优惠券");
+            RemoveTicket("58元优惠券");
+        }
+        if(price<58)
+        {
+            RemoveTicket("58元优惠券");
+        }
     }
     //判断优惠券是否过期
     public void JudgeStatus(int position)
@@ -99,17 +145,6 @@ public class TicketService extends Ticket {
             e.printStackTrace();
         }
     }
-
-    public int getResourceId(String fileName) {
-        try {
-            Field field = R.drawable.class.getField(fileName);
-            return Integer.parseInt(field.get(null).toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
 
     /**
      * 在数据库中删除相应的优惠券

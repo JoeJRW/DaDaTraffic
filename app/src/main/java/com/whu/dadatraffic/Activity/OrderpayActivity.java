@@ -24,7 +24,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -32,17 +31,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.AuthTask;
 import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.whu.dadatraffic.AlipayTool.AuthResult;
 import com.whu.dadatraffic.AlipayTool.OrderInfoUtil2_0;
 import com.whu.dadatraffic.AlipayTool.PayResult;
 import com.whu.dadatraffic.R;
-import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.Service.OrderService;
-
+import com.whu.dadatraffic.Service.UserService;
+import com.whu.dadatraffic.Service.TicketService;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class OrderpayActivity extends AppCompatActivity {
@@ -50,6 +50,14 @@ public class OrderpayActivity extends AppCompatActivity {
     double allPrice=0.0;       //总车费
     double discountPrice=0.0;  //抵扣车费
     double endPrice=0.0;       //最终支付金额
+
+    Date curDate = new Date(System.currentTimeMillis());
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    String giveTime = simpleDateFormat.format(curDate);
+    String endTime = "2021-08-01 23-59-59";
+    private OrderService orderService=new OrderService();
+    private TicketService ticketService = new TicketService();
 
     //用于支付宝支付业务的入参 app_id
     public static final String APPID = "2016102500760122";
@@ -257,6 +265,11 @@ public class OrderpayActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
+        // Todo 如果报错就在另一个前置界面也加一个传值的bundle然后以discount为key，传null到该界面
+        //获取折扣信息
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String discount = bundle.getString("discount");
         //显示司机姓别
         String driverFistName=OrderService.curOrder.getDriverName().substring(0,1);   //7.21修改----------------------------------------
         CharSequence driverName=driverFistName+"师傅";
@@ -276,23 +289,42 @@ public class OrderpayActivity extends AppCompatActivity {
         textView2.setText(scoreText);
 
         //显示车费合计
-        allPrice=Double.parseDouble(OrderService.curOrder.getPrice());   //7.21修改 --------------------------------
+
+        allPrice=8.01;
+        //TODO ------------------------------版本2修改--------------------------------------------
+        //如果折扣信息为空，则代表支付界面并非从选择优惠券跳转而来。
+        if(discount != null)
+        {
+            int effect = Integer.parseInt(discount.substring(0, discount.length() - 1));
+            if(discount.contains("元"))
+            {
+                discountPrice = allPrice - effect;
+            }
+            else
+            {
+                discountPrice = allPrice / 100 * effect;
+            }
+        }
         CharSequence allPriceText=String.valueOf(allPrice)+"元";
+
+        allPrice=Double.parseDouble(OrderService.curOrder.getPrice());   //7.21修改 --------------------------------
+
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
 
         //点击优惠券选择按钮，进入优惠券选择界面 TODO ----------------版本2修改-------------------------------------------
         Button couponOption=findViewById(R.id.coupon_option);
+
         couponOption.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(OrderpayActivity.this,优惠券选择界面);
-//                startActivity(intent);
+               Intent intent=new Intent(OrderpayActivity.this, ChooseTicketActivity.class);
+               startActivity(intent);
             }
         });
 
         //显示车费抵扣
-        discountPrice=8.0;   //TODO -------------------------------版本2修改--------------------------------------
+   //TODO -------------------------------版本2修改--------------------------------------
         CharSequence discountPriceText="-"+discountPrice+"元";
         TextView textView4=findViewById(R.id.discountprice);
         textView4.setText(discountPriceText);
@@ -366,5 +398,13 @@ public class OrderpayActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //在进入选择界面前读取服务器上的现有优惠券，并进行是否可用的判断
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ticketService.queryAllTicket();
+        ticketService.JudgeUse(allPrice);
     }
 }

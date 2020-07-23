@@ -14,10 +14,11 @@
         tools:layout_editor_absoluteX="1dp">
 
         <ListView
-            android:id="@+id/marketOrderLv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"/>
+        android:id="@+id/marketOrderLv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"/>
+
         <LinearLayout
             android:id="@+id/mofunc"
             android:layout_width="match_parent"
@@ -47,6 +48,6 @@
 
         </LinearLayout>
     </LinearLayout>
-
-
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
+

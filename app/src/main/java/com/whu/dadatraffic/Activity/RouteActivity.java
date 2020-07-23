@@ -186,7 +186,6 @@ public class RouteActivity extends AppCompatActivity{
                         tipView.setVisibility(View.INVISIBLE);
                         tipView = null;
                         isWaiting = false;
-
                         callCar.setText("开始叫车");
                     }
                 }
@@ -209,7 +208,6 @@ public class RouteActivity extends AppCompatActivity{
                                 showTipTv();
                                 tipView.setText(orderService.curOrder.getDriverName().charAt(0)+"师傅正在赶来，请稍候");
                                 //TODO 这里可以进行UI操作，显示司机位置，界面跳转
-
                             }
                         }
                     };

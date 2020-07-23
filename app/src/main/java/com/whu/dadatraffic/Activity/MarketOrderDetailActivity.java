@@ -92,18 +92,20 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
             String discount = title.substring(0,title.length()-3);
             if(discount.contains("元"))
             {
-                name = discount.substring(0,1);
+                name = discount.substring(0,2);
             }
             else
             {
-                name = discount.substring(0,0);
+                name = discount.substring(0,1);
             }
-            Integer dIcon = ticketService.getResourceId("icon_dc"+name+"d");
-            Integer icon = ticketService.getResourceId("icon_dc"+name);
-            Ticket curTicket = new Ticket(title,discount,dIcon,curTime,endTime,icon);
+
+            int dIcon = ticketService.getResourceId("icon_dc"+name+"d");
+            int icon = ticketService.getResourceId("icon_dc"+name);
+
+
+            Ticket curTicket = new Ticket(title,discount,dIcon,curTime, endTime,icon);
             ticketService.addTicket(curTicket);
         }
-
         createTime.setText("创建时间："+marketItemService.GetMOrder(0).getTime());
 
     }
