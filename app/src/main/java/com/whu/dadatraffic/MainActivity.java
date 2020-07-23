@@ -61,9 +61,17 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
@@ -113,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
     private LatLng latLng;
     private String mCity1;
     private String mCity2;
+
+    private GeoCoder mCoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -509,5 +519,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void initLongClick(){
+        mCoder = GeoCoder.newInstance();
+        mCoder.setOnGetGeoCodeResultListener(coderListener);
+        mapLayer.setOnMapLongClickListener(new BaiduMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                if(et_departure.isFocused()) {
+                    mapLayer.clear();
+                    OverlayOptions options = new MarkerOptions().position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start))
+                            .zIndex(5);
+                    mapLayer.addOverlay(options);
+                    Toast.makeText(MainActivity.this,"地点设置成功", Toast.LENGTH_LONG).show();
+                }
+                else if(et_destination.isFocused()){
+                    mapLayer.clear();
+                    OverlayOptions options = new MarkerOptions().position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_end))
+                            .zIndex(5);
+                    mapLayer.addOverlay(options);
+                    Toast.makeText(MainActivity.this,"地点设置成功", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    return;
+                }
+            }
+        });
+    }
+
+    OnGetGeoCoderResultListener coderListener = new OnGetGeoCoderResultListener() {
+        @Override
+        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+        }
+
+        @Override
+        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+            if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                //没有找到检索结果
+                return;
+            } else {
+                //详细地址
+                String address = reverseGeoCodeResult.getAddress();
+                //行政区号
+                int adCode = reverseGeoCodeResult. getCityCode();
+                //地址信息
+                PoiInfo info = reverseGeoCodeResult.getPoiList().get(0);
+            }
+        }
+    };
 
 }
