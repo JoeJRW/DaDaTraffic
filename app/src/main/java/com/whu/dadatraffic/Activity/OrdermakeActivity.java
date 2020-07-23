@@ -57,7 +57,7 @@ import java.util.TimerTask;
 
 
 public class OrdermakeActivity extends AppCompatActivity {
-
+    private OrderService orderService = new OrderService();
     private LocationClient locationClient;
     private MapView mapView;
     private BaiduMap mBaiduMap;
@@ -66,6 +66,7 @@ public class OrdermakeActivity extends AppCompatActivity {
     private double longitude;
     //路线规划相关
     private RoutePlanSearch mSearch = null;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,22 @@ public class OrdermakeActivity extends AppCompatActivity {
         StartRoute(address);
 
         //订单状态变为end时，跳转到支付界面---------------------------7.21添加
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                orderService.checkOrderState();
+                String state = OrderService.curOrder.orderState;
+                Log.d("Test",OrderService.curOrder.getDriverName());
+                if(state.equals("end")){
+
+                    timer.cancel();
+                    Intent intent = new Intent(OrdermakeActivity.this, OrderpayActivity.class);
+                    startActivity(intent);
+                }
+            }
+        },1000,2000);//每隔两秒发送一次，查询当前订单的状态,当查寻到订单状态为已取消或待支付或者已结束，就会终止该计时器
+        /*
         Runnable payRunnable=new Runnable() {
             @Override
             public void run() {
@@ -100,6 +117,8 @@ public class OrdermakeActivity extends AppCompatActivity {
         };
         Thread thread=new Thread(payRunnable);
         thread.start();
+
+         */
 
     }
 

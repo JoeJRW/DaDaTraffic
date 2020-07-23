@@ -8,7 +8,9 @@ package com.whu.dadatraffic.Service;
 
 import android.os.AsyncTask;
 import android.os.Message;
+import android.util.Log;
 
+import com.whu.dadatraffic.Activity.DriverMainActivity;
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.RegisterActivity;
 import com.whu.dadatraffic.Base.CurOrder;
@@ -62,40 +64,34 @@ public class DriverService {
 
 
     /**
-     * 司机接单时调用该函数
+     * 司机接单时调用该函数√
      * 每隔2s向服务器发送一次请求，如果有订单就会分配，获得乘客的手机号，出发地，目的地
      */
     public void open(){
-        final String checkUrlStr = DBConstent.URL_Driver + "?type=check";
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                new CheckAsyncTask().execute(checkUrlStr,"check");
-            }
-        },0,2000);//每隔2秒做一次run()操作，查询是否有可接订单
+        final String checkUrlStr = DBConstent.URL_Driver + "?type=check&driverphone="+curDriver.getPhoneNumber();
+        new CheckAsyncTask().execute(checkUrlStr,"check");
     }
 
     /**
-     * 从服务器获取司机的姓名评分等信息并设置给当前司机
+     * 从服务器获取司机的姓名评分等信息并设置给当前司机  √
      */
     public void setCurDriver(){
-        final String setUrlStr = DBConstent.URL_Driver + "?type=driver&phonenumber=" + curDriver.getPhoneNumber();
+        final String setUrlStr = DBConstent.URL_Driver + "?type=getinfo&phonenumber=" + curDriver.getPhoneNumber();
         //第二个参数代表操作类型
         new DriverAsyncTask().execute(setUrlStr,"setInfo");
     }
 
     /**
-     * 确认乘客已上车，修改订单状态为ongoing
+     * 确认乘客已上车，修改订单状态为ongoing √
      * 点击确认上次按钮后调用
      */
     public void getPassenger(){
-        String getUrlStr = DBConstent.URL_Driver + "?type=getpassenger&phonenumber=" + OrderService.curOrder.getOrderID();
+        String getUrlStr = DBConstent.URL_Driver + "?type=getpassenger&orderid=" + OrderService.curOrder.getOrderID();
         new DriverAsyncTask().execute(getUrlStr,"getpassenger");
     }
 
     /**
-     * 确认乘客到达目的地，修改订单状态为end
+     * 确认乘客到达目的地，修改订单状态为end √
      * 点击确认导弹按钮后调用
      */
     public void arrive(){
@@ -154,20 +150,13 @@ public class DriverService {
             }
             else if(params[1].equals("login"))
             {
-                if(response.toString().equals("100")) {
-                    LoginActivity.instance.loginFail("密码不匹配或账号未注册");
-                }
-                else if(response.toString().equals("200")) {
-                    LoginActivity.instance.loginSuccess_Driver("登录成功");
-                }
-                else {
-                    LoginActivity.instance.loginFail("登录失败");
-                }
+                return response.toString();
             }
             else if(params[1].equals("setInfo")){
                 String info[]=response.toString().split(";");
                 curDriver.setName(info[0]);
-                curDriver.setScore(Double.parseDouble(info[1]));
+                curDriver.setCarId(info[1]);
+                curDriver.setScore(Double.parseDouble(info[2]));
             }
 
             return response.toString(); // 这里返回的结果就作为onPostExecute方法的入参
@@ -186,6 +175,13 @@ public class DriverService {
 
         @Override
         protected void onPostExecute(String result) {
+            if(result.equals("100")){
+                LoginActivity.instance.loginFail("密码不匹配或账号未注册");
+            }
+            else if(result.equals("200")){
+                LoginActivity.instance.loginSuccess_Driver("登录成功");
+            }
+
         }
 
     }
@@ -221,11 +217,10 @@ public class DriverService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            Log.d("Test",response.toString());
             if(!response.toString().equals("100")){
                 String info[]=response.toString().split(";");
                 OrderService.curOrder = new CurOrder(info[1],info[2],info[3]);
-                timer.cancel();
                 return "getOrder";
             }
 
@@ -245,6 +240,9 @@ public class DriverService {
 
         @Override
         protected void onPostExecute(String result) {
+            if(result.equals("getOrder")){
+                DriverMainActivity.instance.getNewOrder();
+            }
         }
 
     }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.whu.dadatraffic.Base.Order;
+import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Service.OrderService;
 
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Vector;
@@ -24,22 +26,16 @@ import static com.whu.dadatraffic.R.*;
 public class OrdersActivity extends AppCompatActivity {
     private Vector<Order> orderList = null;
     private LinearLayout ordersLayout = null;
+    private ScrollView mainScroll = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_orders);
         orderList = OrderService.historyOrders;
+        mainScroll = (ScrollView)findViewById(id.ordersScroll);
 
         initUI();
-        /*
-        orderList.removeAllElements();
-        orderList.add(new Order("18945612321","whu","wuhan"));
-        orderList.add(new Order("13352556211","whu","shu"));
-        orderList.add(new Order("13655552221","whu","shu"));
-        orderList.elementAt(0).setScore(0.5f);
-         */
-
 
     }
 
@@ -85,6 +81,11 @@ public class OrdersActivity extends AppCompatActivity {
     {
         //清空当前布局
         ordersLayout.removeAllViews();
+
+        LinearLayout list = new LinearLayout(this);
+        list.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
+        list.setLayoutParams(layoutParams);
         for(int i = 0; i< orderList.size(); i++){
             //获取订单信息
             final Order curOrder = orderList.elementAt(i);
@@ -92,7 +93,7 @@ public class OrdersActivity extends AppCompatActivity {
             //设计每个订单的布局（自定义layout）
             LinearLayout cell = new LinearLayout(this);
             cell.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
+            //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
             layoutParams.setMargins(40,20,40,20);
             cell.setLayoutParams(layoutParams);
             cell.setBackgroundColor(0xffff00f);
@@ -117,7 +118,11 @@ public class OrdersActivity extends AppCompatActivity {
             //layout内部子控件设计
             TextView driverTv = new TextView(this);
             driverTv.setTextSize(20);
-            driverTv.setText("  司机电话："+curOrder.getDriverPhone()+"                   "+curOrder.orderState);
+            driverTv.setText("  司机电话："+curOrder.getDriverPhone());
+            TextView stateTv = new TextView(this);
+            stateTv.setTextSize(20);
+            stateTv.setText("  订单状态："+curOrder.orderState);
+
             TextView startTv = new TextView(this);
             startTv.setTextSize(20);
             startTv.setText("  出发点："+curOrder.getStartPoint());
@@ -126,11 +131,14 @@ public class OrdersActivity extends AppCompatActivity {
             destinationTv.setText("  目的地："+curOrder.getDestination());
             //添加子控件
             cell.addView(driverTv);
+            cell.addView(stateTv);
             cell.addView(startTv);
             cell.addView(destinationTv);
             //添加自定义layout
-            ordersLayout.addView(cell);
+            list.addView(cell);
         }
+        mainScroll.addView(list);
+        ordersLayout.addView(mainScroll);
     }
 }
 

@@ -2,7 +2,7 @@ package com.whu.dadatraffic.Activity;
 /*
  *author：张朝勋
  * create time：7/8
- * update time: 7/17
+ * update time: 7/21
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +40,6 @@ public class MarketOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_order);
         itemArrayList = marketItemService.getHistoryItems();
-
         setCustomActionBar();
 
         //初始化ListView控件
@@ -97,8 +96,6 @@ public class MarketOrderActivity extends AppCompatActivity {
         public TextView tv_price;
     }
 
-
-
     //设置Adapter来实现listView中各商品的呈现
     public class MarketOrderAdapter extends BaseAdapter {
 
@@ -137,7 +134,8 @@ public class MarketOrderActivity extends AppCompatActivity {
             }
             //设置该View中各项值
             holder.title.setText(itemArrayList.get(position).getTitle());
-            holder.count.setText("已购买"+itemArrayList.get(position).getCount()+"个");
+            holder.price.setText(itemArrayList.get(position).getPrice());
+            holder.count.setText(itemArrayList.get(position).getCount()+"个");
             holder.image.setImageResource(itemArrayList.get(position).getIcon());
             //holder.tv_price.setText("单价：");
             //TODO 显示单个订单总价

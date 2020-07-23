@@ -81,6 +81,7 @@ import com.whu.dadatraffic.Activity.RouteActivity;
 import com.whu.dadatraffic.Activity.SettingActivity;
 import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Adapter.AutoEditTextAdapter;
+import com.whu.dadatraffic.Base.CurOrder;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Base.User;
 import com.whu.dadatraffic.Service.OrderService;
@@ -131,10 +132,7 @@ public class MainActivity extends AppCompatActivity {
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        /*设置用户信息
-        userService.setCurrentUserInfo();
-
-         */
+        orderService.getHistoryOrders();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
@@ -149,9 +147,12 @@ public class MainActivity extends AppCompatActivity {
                 if(address1=="" || address2=="") {
                     return;
                 }
+
                 ArrayList<String> addressList = new ArrayList<>();
                 addressList.add(mCity1);
+                //addressList.add("青阳县");
                 addressList.add(address1);
+                //addressList.add("青阳县");
                 addressList.add(mCity2);
                 addressList.add(address2);
                 Intent i = new Intent(MainActivity.this, RouteActivity.class);

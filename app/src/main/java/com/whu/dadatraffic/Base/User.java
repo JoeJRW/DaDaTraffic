@@ -11,6 +11,7 @@ public class User {
     private String password;       //用户密码
     private String name;           //用户姓名
     private int credit;            //用户积分
+    private String commonAddress="";
 
 
     public User(String phoneNumber,String password,String name){
@@ -54,5 +55,13 @@ public class User {
 
     public void changeCredit(int newCredit){
         credit=newCredit;
+    }
+
+    public String getCommonAddress() {
+        return commonAddress;
+    }
+
+    public void setCommonAddress(String commonAddress) {
+        this.commonAddress = commonAddress;
     }
 }

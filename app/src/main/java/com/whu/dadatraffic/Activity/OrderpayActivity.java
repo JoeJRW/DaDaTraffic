@@ -47,9 +47,9 @@ import java.util.Map;
 
 public class OrderpayActivity extends AppCompatActivity {
     private int payId=0;   //支付方式的Id
-    double allPrice;       //总车费
-    double discountPrice;  //抵扣车费
-    double endPrice;       //最终支付金额
+    double allPrice=0.0;       //总车费
+    double discountPrice=0.0;  //抵扣车费
+    double endPrice=0.0;       //最终支付金额
 
     //用于支付宝支付业务的入参 app_id
     public static final String APPID = "2016102500760122";

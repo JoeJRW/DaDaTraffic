@@ -122,6 +122,26 @@ public class MarketItemService extends MarketItem implements Serializable {
         }
     }
 
+    //重置商城
+    public void resetMarket()
+    {
+        for (int i = 0; i <marketItemList.size() - 1; i++)
+        {
+            marketItemList.get(i).setCount(0);
+        }
+        cartItemList = null;
+    }
+
+    public void SetDate(String date,ArrayList<MarketItem> list)
+    {
+        for(int i = 0; i < list.size(); i++)
+        {
+            list.get(i).setTime(date);
+        }
+    }
+
+
+
     /**用户在积分商城兑换商品后调用此函数，增加购买记录
      * @param items 本次购买的所有商品
      */
@@ -129,7 +149,7 @@ public class MarketItemService extends MarketItem implements Serializable {
     public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
         for (int i=0;i<items.size();i++){
             final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()
-                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice();
+                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice()+"&time="+items.get(i).getTime();
             new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }
@@ -188,6 +208,7 @@ public class MarketItemService extends MarketItem implements Serializable {
                     item.setTime(results[i+4]);
                     historyItems.add(item);
                 }
+
                 return response.toString();
             }
             else

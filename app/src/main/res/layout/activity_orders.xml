@@ -6,7 +6,14 @@
     android:layout_height="wrap_content"
     android:fadeScrollbars="true"
     android:orientation="vertical">
-    <!-- 通过包的类的全名来引用自定义视图-->
+
+    <ScrollView
+        android:id="@+id/ordersScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    </ScrollView>
 
 
 </LinearLayout>

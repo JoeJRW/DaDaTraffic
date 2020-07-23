@@ -59,11 +59,11 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         //如果当前订单正在等待司机接单，则可以取消
         if (selectOrder.orderState.equals("wait")){
-            stateTv.setText("已取消");
             //给取消按钮绑定事件
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    stateTv.setText("已取消");
                     service.cancelOrder();
                 }
             });
@@ -73,6 +73,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             cancelBtn.setVisibility(View.INVISIBLE);
         }
         else {//其他状态下可使用该按钮举报该司机
+            cancelBtn.setText("举报");
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -134,14 +135,25 @@ public class OrderDetailActivity extends AppCompatActivity {
         cancelBtn = (Button)findViewById(R.id.cancelBtn_det);
 
         IDTv.setText("订单编号："+ selectOrder.getOrderID());
+        stateTv.setText(selectOrder.getOrderState());
         timeTv.setText(selectOrder.getOrderState());
-        driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
+        if(selectOrder.getDriverPhone().equals("null")){
+            driverPhoneTv.setText("尚无司机接单");
+        }
+        else {
+            driverPhoneTv.setText("司机手机号：\n"+selectOrder.getDriverPhone());
+        }
         startPointTv.setText("出发点："+selectOrder.getStartPoint());
-        destinationTv.setText("目的地"+selectOrder.getDestination());
+        destinationTv.setText("目的地："+selectOrder.getDestination());
         timeTv.setText("订单时间："+selectOrder.getCreateTime());
-        remarkTv.setText(selectOrder.getEvalution());
+        if(selectOrder.getEvalution().equals("null")){
+            remarkTv.setText("无评价");
+        }
+        else {
+            remarkTv.setText(selectOrder.getEvalution());
+        }
         priceTv.setText("价格："+selectOrder.getPrice());
-        scoreBar.setRating(selectOrder.getScore());
+        scoreBar.setRating((float) selectOrder.getScore());
         scoreBar.setIsIndicator(true);
     }
 

@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,6 +46,7 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 
+import com.whu.dadatraffic.Base.CurOrder;
 import com.whu.dadatraffic.Base.Order;
 import com.whu.dadatraffic.Bean.PickerViewData;
 import com.whu.dadatraffic.Bean.TimeBean;
@@ -65,6 +67,7 @@ import java.util.TimerTask;
 
 
 public class RouteActivity extends AppCompatActivity{
+    public static RouteActivity instance;
     private OrderService orderService = new OrderService();
     private UserService userService = new UserService();
 
@@ -95,6 +98,8 @@ public class RouteActivity extends AppCompatActivity{
     public static Handler tipHandler;//用于计时
     private ArrayList address;
 
+    private Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +108,7 @@ public class RouteActivity extends AppCompatActivity{
         SDKInitializer.setCoordType(CoordType.BD09LL);
         //没有这个HTTP申请无法实现路线规划
         SDKInitializer.setHttpsEnable(true);
+        instance = this;
 
         mMapView=findViewById(R.id.routeView);
         mBaiduMap=mMapView.getMap();
@@ -131,13 +137,44 @@ public class RouteActivity extends AppCompatActivity{
         callCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showTipTv();
-                tips();
-                callCar.setText("取消叫车");
-                Toast.makeText(RouteActivity.this,
-                        "等待接单中",Toast.LENGTH_SHORT).show();
-                Timer timer = new Timer();
-                timer.schedule(task, 5000);
+                if(!isWaiting){//开始叫车
+                    CurOrder newOrder = new CurOrder(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString());
+                    Log.d("Test",newOrder.getCustomerPhoneNum());
+                    Log.d("Test",newOrder.getStartPoint());
+                    showTipTv();
+                    tips();
+
+                    callCar.setText("取消叫车");
+                    Toast.makeText(RouteActivity.this,
+                            "等待接单中",Toast.LENGTH_SHORT).show();
+                    orderService.addOrder(newOrder);
+                    isWaiting = true;
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            orderService.checkOrderState();
+                            String state = OrderService.curOrder.orderState;
+                            if(state.equals("prepare")){
+                                //测试
+                                OrderService.curOrder.setPrice("20.5");
+                                timer.cancel();
+                                gotoOrderMake();
+                            }
+                        }
+                    },1000,2000);//每隔两秒发送一次，查询当前订单的状态,有司机接单后就跳转
+
+                }
+                else {//取消叫车
+                    orderService.cancelOrder();
+                    tipView.setVisibility(View.INVISIBLE);
+                    tipView = null;
+                    isWaiting = false;
+                    callCar.setText("开始叫车");
+                }
+
+                //Timer timer = new Timer();
+                //timer.schedule(task, 5000);
                 //TODO 将价格price写进数据库
                 //TODO 代码异常等待修改
                 /*
@@ -188,6 +225,15 @@ public class RouteActivity extends AppCompatActivity{
         });
     }
 
+    //跳转到进行中界面
+    public void gotoOrderMake(){
+        Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putStringArrayListExtra("address", address);
+        startActivity(i);
+    }
+
+    /*
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
@@ -197,6 +243,8 @@ public class RouteActivity extends AppCompatActivity{
             startActivity(i);
         }
     };
+
+     */
 
     //路线规划初始化
     private void initRoutePlan() {
@@ -241,9 +289,11 @@ public class RouteActivity extends AppCompatActivity{
                 overlay.addToMap();
                 overlay.zoomToSpan();
                 double dis = result.getRouteLines().get(0).getDistance();
-                price = new BigDecimal(dis/1000*1.6+13)
-                        .setScale(2, RoundingMode.HALF_UP);
-                routePrice.setText("预计价格: "+price.toString()+" 元");
+                double p = new BigDecimal(dis/1000*1.6+13)
+                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+                routePrice.setText("预计价格: "+p+" 元");
+
             }
         }
 
@@ -469,8 +519,6 @@ public class RouteActivity extends AppCompatActivity{
         //RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         this.baseTimer = SystemClock.elapsedRealtime();
 
-
-        //mainLayout.addView(timerView,0);
 
         final Handler myhandler = new Handler() {
             public void handleMessage(Message msg) {
