@@ -58,8 +58,6 @@ public class OrderService {
     public void cancelOrder() {
         final String cancelUrlStr = DBConstent.URL_CancelOrder + "?orderid=" + curOrder.getOrderID();
         new OrderAsyncTask().execute(cancelUrlStr,"cancel");
-        //historyOrders.get(0).setOrderState("cancel");
-        curOrder = null;
     }
 
     /**

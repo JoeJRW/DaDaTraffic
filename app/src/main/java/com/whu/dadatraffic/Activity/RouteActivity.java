@@ -166,6 +166,7 @@ public class RouteActivity extends AppCompatActivity{
 
                 }
                 else {//取消叫车
+                    timer.cancel();
                     orderService.cancelOrder();
                     tipView.setVisibility(View.INVISIBLE);
                     tipView = null;
@@ -227,6 +228,7 @@ public class RouteActivity extends AppCompatActivity{
 
     //跳转到进行中界面
     public void gotoOrderMake(){
+        timer.cancel();
         Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putStringArrayListExtra("address", address);

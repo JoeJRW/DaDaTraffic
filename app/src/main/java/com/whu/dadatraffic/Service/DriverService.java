@@ -95,7 +95,7 @@ public class DriverService {
      * 点击确认导弹按钮后调用
      */
     public void arrive(){
-        String arriveUrlStr = DBConstent.URL_Driver + "?type=arrive&phonenumber=" + OrderService.curOrder.getOrderID();
+        String arriveUrlStr = DBConstent.URL_Driver + "?type=arrive&orderid=" + OrderService.curOrder.getOrderID();
         new DriverAsyncTask().execute(arriveUrlStr,"getpassenger");
     }
 
@@ -217,10 +217,11 @@ public class DriverService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d("Test",response.toString());
+
             if(!response.toString().equals("100")){
                 String info[]=response.toString().split(";");
                 OrderService.curOrder = new CurOrder(info[1],info[2],info[3]);
+                OrderService.curOrder.setOrderID(info[4]);
                 return "getOrder";
             }
 

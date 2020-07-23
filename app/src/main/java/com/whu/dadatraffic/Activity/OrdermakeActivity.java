@@ -90,7 +90,6 @@ public class OrdermakeActivity extends AppCompatActivity {
                 String state = OrderService.curOrder.orderState;
                 Log.d("Test",OrderService.curOrder.getDriverName());
                 if(state.equals("end")){
-
                     timer.cancel();
                     Intent intent = new Intent(OrdermakeActivity.this, OrderpayActivity.class);
                     startActivity(intent);
