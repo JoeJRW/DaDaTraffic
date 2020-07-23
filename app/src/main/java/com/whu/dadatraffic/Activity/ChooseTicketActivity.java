@@ -120,7 +120,7 @@ public class ChooseTicketActivity extends AppCompatActivity {
                 holder=(ViewHolder)convertView.getTag();
             }
             //设置该View中各项值
-            holder.image.setImageResource(ticketService.GetIcon(position));
+            holder.image.setImageResource(ticketService.GetImageResource(position));
             return convertView;
         }
     }

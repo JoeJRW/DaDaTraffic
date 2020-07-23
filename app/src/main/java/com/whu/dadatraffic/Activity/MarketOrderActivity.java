@@ -96,8 +96,6 @@ public class MarketOrderActivity extends AppCompatActivity {
         public TextView tv_price;
     }
 
-
-
     //设置Adapter来实现listView中各商品的呈现
     public class MarketOrderAdapter extends BaseAdapter {
 
@@ -136,7 +134,8 @@ public class MarketOrderActivity extends AppCompatActivity {
             }
             //设置该View中各项值
             holder.title.setText(itemArrayList.get(position).getTitle());
-            holder.count.setText("已购买"+itemArrayList.get(position).getCount()+"个");
+            holder.price.setText(itemArrayList.get(position).getPrice());
+            holder.count.setText(itemArrayList.get(position).getCount()+"个");
             holder.image.setImageResource(itemArrayList.get(position).getIcon());
             //holder.tv_price.setText("单价：");
             //TODO 显示单个订单总价

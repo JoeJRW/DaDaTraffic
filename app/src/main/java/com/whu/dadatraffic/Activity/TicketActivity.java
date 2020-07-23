@@ -34,17 +34,9 @@ public class TicketActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ticket);
         ticketService.queryAllTicket();
-        list = ticketService.getUsefulTicket();
-
-        if(list.size() == 0)
-        {
-            setContentView(R.layout.activity_noneticket);
-        }
-        else
-        {
-            setContentView(R.layout.activity_ticket);
-        }
+        list = ticketService.ticketList;
         setCustomActionBar();
 
 

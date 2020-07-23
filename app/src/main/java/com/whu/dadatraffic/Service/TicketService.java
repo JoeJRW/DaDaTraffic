@@ -4,15 +4,19 @@ package com.whu.dadatraffic.Service;
  * create time：7/9
  * update time: 7/15
  */
+import android.content.Context;
 import android.os.AsyncTask;
 
+import com.whu.dadatraffic.Activity.MarketOrderActivity;
 import com.whu.dadatraffic.Base.Ticket;
+import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,11 +35,24 @@ public class TicketService extends Ticket {
         super();
     }
 
+
     //添加优惠券
     public void AddTicket(String title, String discount, Integer icon, String startDate, String endDate, Integer resource)
     {
         ticketList.add(new Ticket( title, discount, icon, startDate, endDate, resource));
     }
+
+    public int getResourceId(String fileName) {
+        try {
+            Field field = R.drawable.class.getField(fileName);
+            return Integer.parseInt(field.get(null).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
     //移除不可用优惠券
     public void RemoveTicket(String title)
     {

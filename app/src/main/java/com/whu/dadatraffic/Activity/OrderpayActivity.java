@@ -318,8 +318,6 @@ public class OrderpayActivity extends AppCompatActivity {
         couponOption.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View view) {
-               ticketService.AddTicket("38元打车券","38元",R.drawable.icon_dc38d,giveTime,endTime,R.drawable.icon_dc38);
-               ticketService.AddTicket("8折优惠券","8折",R.drawable.icon_dc8d,giveTime,endTime,R.drawable.icon_dc8);
                Intent intent=new Intent(OrderpayActivity.this, ChooseTicketActivity.class);
                startActivity(intent);
             }

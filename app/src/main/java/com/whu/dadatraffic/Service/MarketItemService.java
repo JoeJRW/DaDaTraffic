@@ -5,8 +5,10 @@ package com.whu.dadatraffic.Service;
  * update time: 7/19
  */
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.whu.dadatraffic.Base.MarketItem;
+import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
 
 import java.io.BufferedReader;
@@ -29,30 +31,10 @@ public class MarketItemService extends MarketItem implements Serializable {
     public MarketItemService() {
         super();
     }
-
-    //重置商城
-    public void resetMarket()
-    {
-        for (int i = 0; i <marketItemList.size() - 1; i++)
-        {
-            marketItemList.get(i).setCount(0);
-        }
-        cartItemList = null;
-    }
-
     public void AddItem(String title, String price, Integer icon)
     {
         marketItemList.add(new MarketItem(title,price,icon));
     }
-
-    public void SetDate(String date,ArrayList<MarketItem> list)
-    {
-        for(int i = 0; i < list.size(); i++)
-        {
-            list.get(i).setTime(date);
-        }
-    }
-
     public int Count()
     {
         return marketItemList.size();
@@ -100,14 +82,18 @@ public class MarketItemService extends MarketItem implements Serializable {
     {
         return cartItemList;
     }
+    public ArrayList<MarketItem> getmOrderItemList()
+    {
+        return  mOrderItemList;
+    }
 
     public ArrayList<MarketItem> getHistoryItems() {
         return historyItems;
     }
 
-    //设置订单详情中的列表并立即计算该订单总积分
     public void setmOrderItemList(ArrayList<MarketItem> list)
     {
+        //todo 新增立即计算该list的总积分
         mOrderItemList = list;
         SumScore(mOrderItemList);
     }
@@ -136,6 +122,26 @@ public class MarketItemService extends MarketItem implements Serializable {
         }
     }
 
+    //重置商城
+    public void resetMarket()
+    {
+        for (int i = 0; i <marketItemList.size() - 1; i++)
+        {
+            marketItemList.get(i).setCount(0);
+        }
+        cartItemList = null;
+    }
+
+    public void SetDate(String date,ArrayList<MarketItem> list)
+    {
+        for(int i = 0; i < list.size(); i++)
+        {
+            list.get(i).setTime(date);
+        }
+    }
+
+
+
     /**用户在积分商城兑换商品后调用此函数，增加购买记录
      * @param items 本次购买的所有商品
      */
@@ -143,7 +149,7 @@ public class MarketItemService extends MarketItem implements Serializable {
     public void buyItem(ArrayList<MarketItem> items, String phoneNumber){
         for (int i=0;i<items.size();i++){
             final String buyUrlStr = DBConstent.URL_Item + "?type=buy&phonenumber=" + phoneNumber + "&title="+items.get(i).getTitle() + "&count="+items.get(i).getCount()
-                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice();
+                    +"&icon="+ items.get(i).getIcon()+"&price=" + items.get(i).getPrice()+"&time="+items.get(i).getTime();
             new ItemAsyncTask().execute(buyUrlStr,"buy");
         }
     }
@@ -202,6 +208,7 @@ public class MarketItemService extends MarketItem implements Serializable {
                     item.setTime(results[i+4]);
                     historyItems.add(item);
                 }
+
                 return response.toString();
             }
             else
