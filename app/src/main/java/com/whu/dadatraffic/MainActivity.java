@@ -71,6 +71,7 @@ import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
@@ -123,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
     private String mCity1;
     private String mCity2;
 
-    private GeoCoder mCoder;
+    private GeoCoder mCoder1;
+    private GeoCoder mCoder2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         initLocation();
         initActionBar();
+        initLongClick();
 
 //--------------侧拉框中多个界面的跳转----------------------------------
         RelativeLayout userLayout = findViewById(R.id.user_layout);
@@ -314,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
                     location.getCity(),
                     location.getDistrict(),location.getStreet(),
                     location.getStreetNumber(),location.getAddrStr());
-            et_departure.setText(position);
+            et_departure.setText(pos);
             mCity1=location.getCity();
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
@@ -521,8 +524,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initLongClick(){
-        mCoder = GeoCoder.newInstance();
-        mCoder.setOnGetGeoCodeResultListener(coderListener);
+        mCoder1 = GeoCoder.newInstance();
+        mCoder1.setOnGetGeoCodeResultListener(coderListener1);
+        mCoder2 = GeoCoder.newInstance();
+        mCoder2.setOnGetGeoCodeResultListener(coderListener2);
+
         mapLayer.setOnMapLongClickListener(new BaiduMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -532,6 +538,12 @@ public class MainActivity extends AppCompatActivity {
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start))
                             .zIndex(5);
                     mapLayer.addOverlay(options);
+                    mCoder1.reverseGeoCode(new ReverseGeoCodeOption()
+                            .location(latLng)
+                            // 设置是否返回新数据 默认值0不返回，1返回
+                            .newVersion(1)
+                            // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                            .radius(500));
                     Toast.makeText(MainActivity.this,"地点设置成功", Toast.LENGTH_LONG).show();
                 }
                 else if(et_destination.isFocused()){
@@ -540,6 +552,12 @@ public class MainActivity extends AppCompatActivity {
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_end))
                             .zIndex(5);
                     mapLayer.addOverlay(options);
+                    mCoder2.reverseGeoCode(new ReverseGeoCodeOption()
+                            .location(latLng)
+                            // 设置是否返回新数据 默认值0不返回，1返回
+                            .newVersion(1)
+                            // POI召回半径，允许设置区间为0-1000米，超过1000米按1000米召回。默认值为1000
+                            .radius(500));
                     Toast.makeText(MainActivity.this,"地点设置成功", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -549,7 +567,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    OnGetGeoCoderResultListener coderListener = new OnGetGeoCoderResultListener() {
+    OnGetGeoCoderResultListener coderListener1 = new OnGetGeoCoderResultListener() {
         @Override
         public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
 
@@ -567,6 +585,30 @@ public class MainActivity extends AppCompatActivity {
                 int adCode = reverseGeoCodeResult. getCityCode();
                 //地址信息
                 PoiInfo info = reverseGeoCodeResult.getPoiList().get(0);
+                et_departure.setText(info.name);
+            }
+        }
+    };
+
+    OnGetGeoCoderResultListener coderListener2 = new OnGetGeoCoderResultListener() {
+        @Override
+        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+        }
+
+        @Override
+        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+            if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                //没有找到检索结果
+                return;
+            } else {
+                //详细地址
+                String address = reverseGeoCodeResult.getAddress();
+                //行政区号
+                int adCode = reverseGeoCodeResult. getCityCode();
+                //地址信息
+                PoiInfo info = reverseGeoCodeResult.getPoiList().get(0);
+                et_destination.setText(info.name);
             }
         }
     };
