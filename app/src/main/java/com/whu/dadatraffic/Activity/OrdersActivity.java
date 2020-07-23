@@ -81,7 +81,7 @@ public class OrdersActivity extends AppCompatActivity {
     {
         //清空当前布局
         ordersLayout.removeAllViews();
-
+        mainScroll.removeAllViews();
         LinearLayout list = new LinearLayout(this);
         list.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);

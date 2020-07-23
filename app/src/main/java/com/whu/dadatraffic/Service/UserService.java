@@ -8,6 +8,7 @@ package com.whu.dadatraffic.Service;
 
 import android.os.AsyncTask;
 import android.os.Message;
+import android.util.Log;
 
 import com.whu.dadatraffic.Activity.LoginActivity;
 import com.whu.dadatraffic.Activity.RegisterActivity;
@@ -33,7 +34,7 @@ public class UserService {
      * @param newCredit 用户新的积分数
      */
     public void changeCredit(int newCredit){
-        final String changeUrlStr = DBConstent.URL_ChangeUserInfo + "?type=changescore&phonenumber="+ curUser.getPhoneNumber()+"newcredit="+newCredit;
+        final String changeUrlStr = DBConstent.URL_ChangeUserInfo + "?type=changescore&phonenumber="+ curUser.getPhoneNumber()+"&newcredit="+newCredit;
         new UserAsyncTask().execute(changeUrlStr,"change");
         curUser.changeCredit(newCredit);
     }

@@ -6,8 +6,10 @@ package com.whu.dadatraffic.Service;
  */
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.whu.dadatraffic.Activity.MarketOrderActivity;
+import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Base.Ticket;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
@@ -27,7 +29,7 @@ import java.util.Vector;
 
 public class TicketService extends Ticket {
     public static Vector<Ticket> ticketList = new Vector<Ticket>();
-    Vector<Ticket> usefulTicket = new Vector<Ticket>();
+    //Vector<Ticket> usefulTicket = new Vector<Ticket>();
 
     int[] position;
 
@@ -56,18 +58,22 @@ public class TicketService extends Ticket {
     //移除不可用优惠券
     public void RemoveTicket(String title)
     {
-        int found = 0;
-        for(int i = 1; i <= ticketList.size(); i++)
+        if(!ticketList.isEmpty())
         {
-            if(title == ticketList.get(i).getTitle())
-            {
-                position[found] = i;
-                found++;
+            int found = 0;
+            for (int i = 1; i <= ticketList.size(); i++) {
+                if (title == ticketList.get(i).getTitle()) {
+                    position[found] = i;
+                    found++;
+                }
+            }
+            for (int i = 0; i < position.length; i++) {
+                ticketList.remove(position[i]);
             }
         }
-        for(int i = 0; i < position.length; i++)
+        else
         {
-            ticketList.remove(position[i]);
+            return;
         }
     }
 
@@ -81,10 +87,7 @@ public class TicketService extends Ticket {
     {
         return ticketList.get(position).getTitle();
     }
-    public Vector<Ticket> getUsefulTicket()
-    {
-        return usefulTicket;
-    }
+
     //获取优惠券效果
     public String GetDiscount(int position)
     {
@@ -173,8 +176,8 @@ public class TicketService extends Ticket {
      * @param ticket 购买的优惠券对象
      */
     public void addTicket(Ticket ticket){
-        String addUrl = DBConstent.URL_Ticket + "?type=add&userphone="+UserService.curUser.getPhoneNumber()+"&title="+ticket.getTitle()
-                +"&start="+ticket.getStartDate()+"&end="+ticket.getEndDate()+"&icon="+ticket.getIcon();
+        String addUrl = DBConstent.URL_Ticket + "?type=add&userphone="+UserService.curUser.getPhoneNumber()+"&title="+ticket.getTitle()+"&discount="+ticket.getDiscount()
+                +"&start="+ticket.getStartDate()+"&end="+ticket.getEndDate()+"&icon="+ticket.getIcon()+"&image="+ticket.getImageResource();
         new TicketAsyncTask().execute(addUrl,"add");
     }
 
@@ -212,10 +215,11 @@ public class TicketService extends Ticket {
             if (type.equals("query")){
                 String info[] = response.toString().split(";");
                 int count = Integer.parseInt(info[0]);
-                for(int i=1;i<count*4+1;i+=4){
-                    Ticket ticket = new Ticket(info[i],info[i+1],info[i+2],Integer.parseInt(info[i+3]));
+                for(int i=1;i<count*6+1;i+=6){
+                    Ticket ticket = new Ticket(info[i],info[i+1],Integer.parseInt(info[i+2]),info[i+3],info[i+4],Integer.parseInt(info[i+5]));
                     ticketList.add(ticket);
                 }
+                return "queryok";
             }
 
             return response.toString();

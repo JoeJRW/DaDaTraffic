@@ -139,8 +139,7 @@ public class RouteActivity extends AppCompatActivity{
             public void onClick(View view) {
                 if(!isWaiting){//开始叫车
                     CurOrder newOrder = new CurOrder(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString());
-                    Log.d("Test",newOrder.getCustomerPhoneNum());
-                    Log.d("Test",newOrder.getStartPoint());
+
                     showTipTv();
                     tips();
 
@@ -233,18 +232,6 @@ public class RouteActivity extends AppCompatActivity{
         startActivity(i);
     }
 
-    /*
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.putStringArrayListExtra("address", address);
-            startActivity(i);
-        }
-    };
-
-     */
 
     //路线规划初始化
     private void initRoutePlan() {
@@ -293,7 +280,7 @@ public class RouteActivity extends AppCompatActivity{
                         .setScale(2, RoundingMode.HALF_UP).doubleValue();
 
                 routePrice.setText("预计价格: "+p+" 元");
-
+                orderService.completeOrder(p);
             }
         }
 

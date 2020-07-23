@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        orderService.getHistoryOrders();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
@@ -510,6 +509,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("Test",UserService.curUser.getPhoneNumber());
+        orderService.getHistoryOrders();
         mapView.onResume();
     }
 

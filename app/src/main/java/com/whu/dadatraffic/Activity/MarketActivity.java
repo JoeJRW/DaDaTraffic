@@ -128,8 +128,8 @@ public class MarketActivity extends AppCompatActivity{
                         //todo 判断用户积分是否足够，够则购买
                         int credit = UserService.curUser.getCredit();//获取当前用户的积分
                         if(credit > a) {
-                            credit = credit - marketItemService.scoreInAll;//计算新积分
-                            new UserService().changeCredit(credit);//将新积分写入数据库
+                            //credit = credit - marketItemService.scoreInAll;//计算新积分
+                            //new UserService().changeCredit(credit);//将新积分写入数据库
                             //跳转到商城订单界面
                             //定义跳转对象
                             Intent intentToMOrder = new Intent();

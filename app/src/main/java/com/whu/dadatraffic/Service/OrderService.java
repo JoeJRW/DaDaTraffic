@@ -49,7 +49,7 @@ public class OrderService {
         final String addUrlStr = DBConstent.URL_CreateOrder + "?phonenumber=" + newOrder.getCustomerPhoneNum()  + "&start=" + newOrder.getStartPoint() +"&destination="
                 +newOrder.getDestination();
         new OrderAsyncTask().execute(addUrlStr,"add");
-        historyOrders.add(new Order(newOrder.getCustomerPhoneNum(),newOrder.getStartPoint(),newOrder.getDestination()));
+        //historyOrders.add(new Order(newOrder.getCustomerPhoneNum(),newOrder.getStartPoint(),newOrder.getDestination()));
     }
 
     /**
@@ -212,7 +212,7 @@ public class OrderService {
 
             String info[]=response.toString().split(";");
             curOrder.setOrderState(info[0]);
-            //Log.d("Test",response.toString());
+
             if(info[0].equals("prepare")){//查询到订单处于准备状态
                 curOrder.setDriverPhone(info[1]);//设置当前订单司机手机号
                 curOrder.setDriverName(info[2]);//设置当前订单司机姓名
