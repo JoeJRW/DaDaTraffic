@@ -14,12 +14,12 @@ public class User {
     private String commonAddress="";
 
 
-    public User(String phoneNumber,String password,String name){
-        this.phoneNumber=phoneNumber;
+    public User(String phoneNumber,String password,String name) {
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.name = name;
-    }
 
+    }
     public String getPhoneNumber() {
         return this.phoneNumber;
     }

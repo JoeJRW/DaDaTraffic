@@ -116,6 +116,6 @@
         app:layout_constraintBottom_toTopOf="@id/ShoppingView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_apple" />
+        app:srcCompat="@drawable/icon_38" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

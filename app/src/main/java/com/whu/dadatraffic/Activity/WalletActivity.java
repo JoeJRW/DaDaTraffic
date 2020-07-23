@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.TicketService;
 import com.whu.dadatraffic.Service.UserService;
 
 import android.widget.Button;
@@ -24,6 +25,7 @@ import static java.lang.String.*;
 
 public class WalletActivity extends AppCompatActivity {
 
+    TicketService ticketService = new TicketService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +104,7 @@ public class WalletActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         TextView scoreTv = (TextView)findViewById(R.id.score);
-        scoreTv.setText(UserService.curUser.getCredit()+"分");
+//        scoreTv.setText(UserService.curUser.getCredit()+"分");
+        ticketService.queryAllTicket();
     }
 }

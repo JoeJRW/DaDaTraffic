@@ -41,7 +41,7 @@ public class TicketDetailActivity extends AppCompatActivity {
         }
         else
         {
-            title = "满1元即可使用";
+            title = "任意金额均可使用";
         }
         tvDiscount.setText("   "+discount);
         tvUse.setText("   "+title);
