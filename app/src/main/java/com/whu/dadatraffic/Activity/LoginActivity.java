@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         instance=this;
 
         //关闭初始化界面
-        Splash.instance.finish();
+        //Splash.instance.finish();
 
         initUI();
 

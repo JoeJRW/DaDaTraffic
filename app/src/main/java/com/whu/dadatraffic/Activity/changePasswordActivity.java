@@ -31,20 +31,17 @@ public class changePasswordActivity extends AppCompatActivity {
     private EditText verificationCodeEditText=null;
     private EditText newPasswordEditText=null;
     private EditText cfPasswordEditText=null;
-    private Button confirmChangePassword;
+    private Button confirmChangePassword=null;
     private String phone="";
     private String code="";
     private String newPassword="";
     private String confirmPassword="";
     private int i=60;
     private boolean verificationCodeIsTrue=false;
-    private int result,event;
-    Object data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-        MobSDK.submitPolicyGrantResult(true, null);
         MobSDK.init(this, "302d311aed140", "df8f512666f47b13bf0f78941c293e0c");
         init();
 
@@ -55,7 +52,7 @@ public class changePasswordActivity extends AppCompatActivity {
         getVerificationCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                phone = phoneEditText.getText().toString().trim();
+                phone = phoneEditText.getText().toString();
                 if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(getApplicationContext(), "手机号码不能为空",
                             Toast.LENGTH_SHORT).show();
@@ -97,10 +94,10 @@ public class changePasswordActivity extends AppCompatActivity {
         confirmChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                phone = phoneEditText.getText().toString().trim();
-                code = verificationCodeEditText.getText().toString().trim();
-                newPassword=newPasswordEditText.getText().toString().trim();
-                confirmPassword=cfPasswordEditText.getText().toString().trim();
+                phone = phoneEditText.getText().toString();
+                code = verificationCodeEditText.getText().toString();
+                newPassword=newPasswordEditText.getText().toString();
+                confirmPassword=cfPasswordEditText.getText().toString();
                 if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(getApplicationContext(), "手机号码不能为空", Toast.LENGTH_SHORT).show();
                     return;
@@ -120,11 +117,13 @@ public class changePasswordActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(getApplicationContext(), "密码至少为6位",
                                         Toast.LENGTH_SHORT).show();
+                                return;
                             }else{
                                 if(!newPassword.equals(confirmPassword))
                                 {
                                     Toast.makeText(getApplicationContext(), "两次输入密码不一致",
                                             Toast.LENGTH_SHORT).show();
+                                    return;
                                 }else{
                                     SMSSDK.submitVerificationCode("86", phone, code);
                                 }
@@ -139,7 +138,7 @@ public class changePasswordActivity extends AppCompatActivity {
 
 
     private void init() {
-        getVerificationCode=findViewById(R.id.verificationCode);
+        getVerificationCode=findViewById(R.id.getVerificationCode);
         phoneEditText=findViewById(R.id.phoneEditText);
         verificationCodeEditText=findViewById(R.id.verificationCodeText);
         newPasswordEditText=findViewById(R.id.passwordEditText_reg);
@@ -159,22 +158,27 @@ public class changePasswordActivity extends AppCompatActivity {
                 getVerificationCode.setClickable(true);
                 i = 60;
             } else {
-                event = msg.arg1;
-                result = msg.arg2;
-                data = msg.obj;
+                int event = msg.arg1;
+                int result = msg.arg2;
+                Object data = msg.obj;
 
-                // 短信注册成功后，返回MainActivity,然后提示
+                // 短信验证码验证成功后，修改密码，返回LoginActivity
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    //TODO 修改密码到数据库
+                    if (result == SMSSDK.RESULT_COMPLETE) {
+                        //TODO 修改密码到数据库
 
+                        //
+                        Toast.makeText(changePasswordActivity.this, "修改密码成功",
+                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setClass(changePasswordActivity.this, LoginActivity.class);
+                        startActivity(intent);
 
-                    Toast.makeText(getApplicationContext(),"修改密码成功",
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClass(changePasswordActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    onDestroy();
-
+                        onDestroy();
+                    }else
+                    {
+                        Toast.makeText(changePasswordActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     if (result == SMSSDK.RESULT_COMPLETE) {
                     Toast.makeText(getApplicationContext(), "验证码已经发送",
@@ -196,6 +200,7 @@ public class changePasswordActivity extends AppCompatActivity {
                         }
                     } catch (Exception e) {
                     //do something
+                        Toast.makeText(changePasswordActivity.this, "验证失败，请重试", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

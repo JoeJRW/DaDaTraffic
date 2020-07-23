@@ -8,13 +8,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mob.MobSDK;
 import com.whu.dadatraffic.Base.Driver;
 import com.whu.dadatraffic.Base.User;
 import com.whu.dadatraffic.R;
@@ -22,8 +27,13 @@ import com.whu.dadatraffic.Service.DriverService;
 import com.whu.dadatraffic.Service.UserService;
 import com.whu.dadatraffic.Utils.LocalStorageUtil;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 
 public class RegisterActivity extends AppCompatActivity {
     private UserService userService = new UserService();
@@ -38,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox isDriverCb_reg = null;//我是司机复选框
     private TextView carNumTv = null;
     private EditText carNumEt = null;
+    private EditText verificationCode=null;
+    private Button getVerificationCode=null;
 
     private boolean isDriver = false;
     private String phoneNumber = null;
@@ -45,20 +57,66 @@ public class RegisterActivity extends AppCompatActivity {
     private String password1 = null;
     private String password2 = null;
     private String carNumber = null;
+    private String code=null;
+    private int i=60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         instance = this;
-
+        MobSDK.init(this, "302d311aed140", "df8f512666f47b13bf0f78941c293e0c");
+        SMSSDK.registerEventHandler(eventHandler);
         initUI();
+
+        //获取短信验证码按钮绑定事件
+        getVerificationCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                phoneNumber = phoneNumberEt.getText().toString();
+                if (TextUtils.isEmpty(phoneNumber)) {
+                    Toast.makeText(getApplicationContext(), "手机号码不能为空",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    //判断手机号是否有误
+                    if(phoneNumber.length() != 11){
+                        Toast.makeText(getApplicationContext(), "手机号码为11位数噢",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }else{
+                        SMSSDK.getVerificationCode("86", phoneNumber);
+                        getVerificationCode.setClickable(false);
+                        //开始倒计时
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (; i > 0; i--) {
+                                    handler.sendEmptyMessage(-1);
+                                    if (i <= 0) {
+                                        break;
+                                    }
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                //倒计时结束执行
+                                handler.sendEmptyMessage(-2);
+                            }
+                        }).start();
+                    }
+                }
+            }
+        });
 
         //给确认注册按钮绑定事件
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 phoneNumber = phoneNumberEt.getText().toString();
+                code = verificationCode.getText().toString();
                 name = nameEt.getText().toString();
                 password1 = passwordEt.getText().toString();
                 password2 = confirmPasswordEt.getText().toString();
@@ -98,15 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
                         return;
                     }
                 }
-
-                if(isDriver){
-                    //司机注册
-                    driverService.register(new Driver(phoneNumber,password1,name,carNumber));
-                }
-                else {
-                    //用户注册
-                    userService.register(new User(phoneNumber,password1,name));
-                }
+                //提交验证码，进行验证
+                SMSSDK.submitVerificationCode("86", phoneNumber, code);
 
             }
         });
@@ -142,7 +193,8 @@ public class RegisterActivity extends AppCompatActivity {
         isDriverCb_reg = (CheckBox)findViewById(R.id.isDriverCheckBox_reg);
         carNumTv = (TextView)findViewById(R.id.carNumberTextView);
         carNumEt = (EditText)findViewById(R.id.carNumberEditText);
-
+        getVerificationCode=findViewById(R.id.button18);
+        verificationCode=findViewById(R.id.verificationCode);
         //隐藏车牌号相关控件
         carNumEt.setVisibility(View.INVISIBLE);
         carNumTv.setVisibility(View.INVISIBLE);
@@ -170,6 +222,83 @@ public class RegisterActivity extends AppCompatActivity {
     public void registerFail(String result)
     {
         hintTv.setText(result);
+    }
+
+    Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == -1) {
+                //修改控件文本进行倒计时  i 以60秒倒计时为例
+                getVerificationCode.setText( i+" s");
+            } else if (msg.what == -2) {
+                //修改控件文本，进行重新发送验证码
+                getVerificationCode.setText("重新发送");
+                getVerificationCode.setClickable(true);
+                i = 60;
+            } else {
+                int event = msg.arg1;
+                int result = msg.arg2;
+                Object data = msg.obj;
+
+                // 短信验证码验证成功后，进行注册,然后返回Login界面
+                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                    if (result == SMSSDK.RESULT_COMPLETE) {
+                        // 验证码正确 要干的事
+                        if(isDriver){
+                            //司机注册
+                            driverService.register(new Driver(phoneNumber,password1,name,carNumber));
+                        }
+                        else {
+                            //用户注册
+                            userService.register(new User(phoneNumber,password1,name));
+                        }
+                        onDestroy();
+                    }else
+                    {
+                        Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                    if (result == SMSSDK.RESULT_COMPLETE) {
+                        Toast.makeText(getApplicationContext(), "验证码已经发送",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        ((Throwable) data).printStackTrace();
+                    }
+                } else if (result == SMSSDK.RESULT_ERROR) {
+                    try {
+                        Throwable throwable = (Throwable) data;
+                        throwable.printStackTrace();
+                        JSONObject object = new JSONObject(throwable.getMessage());
+                        String des = object.optString("detail");//错误描述
+                        int status = object.optInt("status");//错误代码
+                        if (status > 0 && !TextUtils.isEmpty(des)) {
+                            Toast.makeText(RegisterActivity.this, des, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    } catch (Exception e) {
+                        //do something
+                        Toast.makeText(RegisterActivity.this, "验证失败，请重试", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
+    };
+
+    //监听SMSSDK事件,发送相应消息
+    EventHandler eventHandler = new EventHandler() {
+        @Override
+        public void afterEvent(int event, int result, Object data) {
+            Message msg = new Message();
+            msg.arg1 = event;
+            msg.arg2 = result;
+            msg.obj = data;
+            handler.sendMessage(msg);
+        }
+    };
+    // 使用完EventHandler需注销，否则可能出现内存泄漏
+    protected void onDestroy() {
+        super.onDestroy();
+        SMSSDK.unregisterEventHandler(eventHandler);
     }
 
     /*
