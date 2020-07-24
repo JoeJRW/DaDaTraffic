@@ -19,12 +19,14 @@ import android.widget.ImageButton;
 
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Utils.LocalStorageUtil;
 
 public class SettingActivity extends AppCompatActivity {
 
     private Button button1;
     private Button button4;
     private  ImageButton button2;
+    private Button exitBtn;//退出登录按钮
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(getSupportActionBar()!=null){
@@ -34,6 +36,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         button1=(Button)findViewById(R.id.button); //账号与安全按钮
         button4=findViewById(R.id.button4);
+        exitBtn = (Button)findViewById(R.id.exitBtn_set);
 
         //跳转至账号与安全
         button1.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +72,19 @@ public class SettingActivity extends AppCompatActivity {
                 i.setClass(SettingActivity.this, AddressActivity.class);
                 //启动跳转
                 startActivity(i);
+            }
+        });
+
+        //为退出登录按钮绑定事件
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //清除偏好设置
+                LocalStorageUtil.clearSettingNote(LoginActivity.instance,"userPreferences");
+                //跳转到登录界面并关闭当前所有界面
+                Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
     }

@@ -175,7 +175,7 @@ public class RouteActivity extends AppCompatActivity{
 
                 //TODO 将价格price写进数据库
                 double p = price.doubleValue();
-                orderService.completeOrder(p);
+                orderService.payOrder(p);
                 //TODO 代码异常等待修改
 
             }

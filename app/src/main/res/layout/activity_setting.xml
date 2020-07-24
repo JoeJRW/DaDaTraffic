@@ -155,11 +155,12 @@
         app:layout_constraintTop_toBottomOf="@+id/button8" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/exitBtn_set"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="退出登录"
+        android:textColor="#FA0404"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button9" />

@@ -37,9 +37,9 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView hintTv = null;//提示框
     private CheckBox isDriverCb_reg = null;//我是司机复选框
     private TextView carNumTv = null;
-    private EditText carNumEt = null;
+    private EditText carNumEt = null;//车牌号输入框
 
-    private boolean isDriver = false;
+    private boolean isDriver = false;//表示当前注册用户身份是否是司机
     private String phoneNumber = null;
     private String name = null;
     private String password1 = null;
