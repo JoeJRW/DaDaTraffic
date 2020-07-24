@@ -318,8 +318,8 @@ public class OrderpayActivity extends AppCompatActivity {
         couponOption.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View view) {
+               ticketService.JudgeUse(allPrice);
                Intent intent=new Intent(OrderpayActivity.this, ChooseTicketActivity.class);
-               //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(intent);
             }
         });
@@ -405,7 +405,6 @@ public class OrderpayActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ticketService.queryAllTicket();
-        ticketService.JudgeUse(allPrice);
+        ticketService.queryAllTicket(false);
     }
 }

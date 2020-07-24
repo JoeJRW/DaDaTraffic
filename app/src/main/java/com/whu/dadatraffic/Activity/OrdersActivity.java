@@ -114,21 +114,26 @@ public class OrdersActivity extends AppCompatActivity {
                     startActivity(intentToDetail);
                 }
             });
-
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
+            params.setMargins(30,0,30,0);
             //layout内部子控件设计
             TextView driverTv = new TextView(this);
             driverTv.setTextSize(20);
-            driverTv.setText("  司机电话："+curOrder.getDriverPhone());
+            driverTv.setLayoutParams(params);
+            driverTv.setText("司机电话："+curOrder.getDriverPhone());
             TextView stateTv = new TextView(this);
             stateTv.setTextSize(20);
-            stateTv.setText("  订单状态："+curOrder.orderState);
+            stateTv.setLayoutParams(params);
+            stateTv.setText("订单状态："+curOrder.orderState);
 
             TextView startTv = new TextView(this);
+            startTv.setLayoutParams(params);
             startTv.setTextSize(20);
-            startTv.setText("  出发点："+curOrder.getStartPoint());
+            startTv.setText("出发点："+curOrder.getStartPoint());
             TextView destinationTv = new TextView(this);
+            destinationTv.setLayoutParams(params);
             destinationTv.setTextSize(20);
-            destinationTv.setText("  目的地："+curOrder.getDestination());
+            destinationTv.setText("目的地："+curOrder.getDestination());
             //添加子控件
             cell.addView(driverTv);
             cell.addView(stateTv);

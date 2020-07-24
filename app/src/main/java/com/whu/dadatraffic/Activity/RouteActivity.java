@@ -173,46 +173,9 @@ public class RouteActivity extends AppCompatActivity{
                     callCar.setText("开始叫车");
                 }
 
-                //Timer timer = new Timer();
-                //timer.schedule(task, 5000);
                 //TODO 将价格price写进数据库
                 //TODO 代码异常等待修改
-                /*
-                if(isWaiting)//正在等车，点击后取消等车
-                {
-                    //取消当前订单
-                    if(orderService.cancelOrder());
-                    {
-                        tipView.setVisibility(View.INVISIBLE);
-                        tipView = null;
-                        isWaiting = false;
-                        callCar.setText("开始叫车");
-                    }
-                }
-                else {//未在等车时，点击进入等车状态
-                    showTipTv();
-                    tips();
-                    callCar.setText("取消叫车");
-                    isWaiting = true;
-                    //添加新订单
-                    orderService.addOrder(new Order(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString()));
-                    //检查当前订单是否被接单
-                    userService.checkOrderIsRunning();
-                    tipHandler = new Handler(){
-                        @Override
-                        public void handleMessage(Message msg) {
-                            if(msg.what == 1){//当前司机已接单
-                                //查询相应的订单的司机信息并显示
-                                orderService.queryDriverInfo();
-                                tipView = null;
-                                showTipTv();
-                                tipView.setText(orderService.curOrder.getDriverName().charAt(0)+"师傅正在赶来，请稍候");
-                                //TODO 这里可以进行UI操作，显示司机位置，界面跳转
-                            }
-                        }
-                    };
-                }
-                */
+
             }
         });
         reservasion.setOnClickListener(new View.OnClickListener() {
@@ -542,6 +505,5 @@ public class RouteActivity extends AppCompatActivity{
         tipView.bringToFront();
         mainLayout.addView(tipView);
     }
-
 
 }
