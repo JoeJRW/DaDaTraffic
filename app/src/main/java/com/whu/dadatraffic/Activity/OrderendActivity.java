@@ -33,8 +33,8 @@ import java.util.TimerTask;
 
 public class OrderendActivity extends AppCompatActivity {
     private OrderService orderService = new OrderService();
-    public double score;           //记录星级评分
-    public String tourComment;    //记录行程意见及建议
+    public double score=0.0;           //记录星级评分
+    public String tourComment="";    //记录行程意见及建议
     private RatingBar rating;
     private EditText tour_Comment;
     @Override

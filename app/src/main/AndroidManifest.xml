@@ -26,6 +26,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" /> <!-- 写sd卡 -->
@@ -44,10 +49,9 @@
         tools:replace="android:label">
 
         <activity android:name=".Activity.ChooseTicketActivity"></activity>
+        <activity android:name=".Activity.changePasswordActivity" />
         <activity android:name=".Activity.AddressActivity" />
-
         <activity android:name=".Activity.DriverMainActivity" />
-
         <activity android:name=".Activity.MarketOrderActivity" />
         <activity android:name=".Activity.MarketOrderDetailActivity" />
         <activity android:name=".Activity.MarketItemDetailActivity" />
@@ -82,6 +86,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+<!--        <activity-->
+<!--            android:name="com.mob.tools.MobUIShell"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:windowSoftInputMode="stateHidden|adjustResize"/>-->
 
         <service
             android:name="com.baidu.location.f"

@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private RadioGroup roleRadioGroup = null;//单选组
     private CheckBox rememberPswCheckBox = null;
     private CheckBox autoLoginCheckBox = null;
+    private TextView forgetPassword = null;//忘记密码
 
     private boolean isPassager = true;
     private boolean autoLogin = false;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         instance=this;
 
         //关闭初始化界面
-        Splash.instance.finish();
+        //Splash.instance.finish();
 
         initUI();
 
@@ -146,6 +147,20 @@ public class LoginActivity extends AppCompatActivity {
                 autoLogin = isChecked;
             }
         });
+
+        //给忘记密码绑定事件
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //跳转到主界面
+                //定义跳转对象
+                Intent intent = new Intent();
+                //设置跳转的起始界面和目的界面
+                intent.setClass(LoginActivity.this, changePasswordActivity.class);
+                //启动跳转
+                startActivity(intent);
+            }
+        });
     }
 
     //初始化控件，将控件与变量建立关联
@@ -160,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         roleRadioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         rememberPswCheckBox = (CheckBox)findViewById(R.id.rememberCheckBox);
         autoLoginCheckBox = (CheckBox)findViewById(R.id.autoLoginCheckBox);
+        forgetPassword = findViewById(R.id.forgetPassword);
 
         //从而本地文件中读取上次保存的账号和密码
         phoneNumber = LocalStorageUtil.getSettingNote(LoginActivity.this,"userPreferences","userphone");
