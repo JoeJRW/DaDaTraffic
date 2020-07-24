@@ -68,6 +68,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     private AutoCompleteTextView et_departure;
     private AutoCompleteTextView et_destination;
     private Button btn_travel;
+    private Button btn_loc;
 
     private LocationClient locationClient;
     private MapView mapView;
@@ -140,6 +142,18 @@ public class MainActivity extends AppCompatActivity {
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
         et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
         btn_travel = (Button) findViewById(R.id.btn_travel);
+        btn_loc = findViewById(R.id.loc_btn);
+        btn_loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapLayer.clear();
+                locationClient.start();
+                latLng = new LatLng(latitude, longitude);
+                MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
+                mapLayer.animateMapStatus(msu);
+            }
+        });
+
         btn_travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -570,9 +584,22 @@ public class MainActivity extends AppCompatActivity {
     OnGetGeoCoderResultListener coderListener1 = new OnGetGeoCoderResultListener() {
         @Override
         public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-
+            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
+                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有检索到结果
+                    return;
+                } else {
+                    double dLatitude = geoCodeResult.getLocation().latitude;
+                    double dLongitude = geoCodeResult.getLocation().longitude;
+                    mapLayer.clear();
+                    latLng = new LatLng(dLatitude, dLongitude);
+                    OverlayOptions options = new MarkerOptions().position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start))
+                            .zIndex(5);
+                    mapLayer.addOverlay(options);
+                }
+            }
         }
-
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
             if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
@@ -593,7 +620,21 @@ public class MainActivity extends AppCompatActivity {
     OnGetGeoCoderResultListener coderListener2 = new OnGetGeoCoderResultListener() {
         @Override
         public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-
+            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
+                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有检索到结果
+                    return;
+                } else {
+                    double dLatitude = geoCodeResult.getLocation().latitude;
+                    double dLongitude = geoCodeResult.getLocation().longitude;
+                    mapLayer.clear();
+                    latLng = new LatLng(dLatitude, dLongitude);
+                    OverlayOptions options = new MarkerOptions().position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_end))
+                            .zIndex(5);
+                    mapLayer.addOverlay(options);
+                }
+            }
         }
 
         @Override
