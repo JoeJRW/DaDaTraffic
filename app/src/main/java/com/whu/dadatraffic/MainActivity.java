@@ -141,10 +141,7 @@ public class MainActivity extends AppCompatActivity {
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
         et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
         btn_travel = (Button) findViewById(R.id.btn_travel);
-<<<<<<< HEAD
 
-        Log.d("Test",UserService.curUser.getCommonAddress());
-=======
         btn_loc = findViewById(R.id.loc_btn);
         btn_loc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
->>>>>>> 01ee72ecda60a996a413f32bf0eba33006b5a7ba
         btn_travel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,5 +1,6 @@
 /*
  *作者：施武轩 创建时间：2020.7.9 更新时间：2020.7.10
+ * update: 2020.7.23
  */
 
 package com.whu.dadatraffic.Activity;
@@ -121,6 +122,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //绑定变量与控件，设置显示内容
     private void initUI()
     {
         IDTv = (TextView) findViewById(R.id.orderIDTv_det);

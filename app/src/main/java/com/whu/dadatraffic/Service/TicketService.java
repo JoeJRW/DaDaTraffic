@@ -3,6 +3,7 @@ package com.whu.dadatraffic.Service;
  *author：张朝勋
  * create time：7/9
  * update time: 7/15
+ * update time：7/23 施武轩
  */
 import android.content.Context;
 import android.os.AsyncTask;

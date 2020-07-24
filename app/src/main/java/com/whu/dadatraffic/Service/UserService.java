@@ -2,6 +2,7 @@
 *author: 李俊
 *create: time: 2020-07-10
 *update: time: 2020-07-19 施武轩
+*update time：2020-07-23 施武轩
 */
 
 package com.whu.dadatraffic.Service;
@@ -69,8 +70,8 @@ public class UserService {
      * 修改用户密码到服务器
      * @param newPassword 新密码
      */
-    public void changePassword(String newPassword){
-        String changeUrl = DBConstent.URL_ChangeUserInfo+"?type=changepassword&password="+newPassword;
+    public void changePassword(String newPassword,String phoneNumber){
+        String changeUrl = DBConstent.URL_ChangeUserInfo+"?type=changepassword&password="+newPassword+"&phonenumber="+phoneNumber;
         new UserAsyncTask().execute(changeUrl,"changepassword");
     }
 
