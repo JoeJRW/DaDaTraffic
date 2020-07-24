@@ -139,8 +139,7 @@ public class RouteActivity extends AppCompatActivity{
             public void onClick(View view) {
                 if(!isWaiting){//开始叫车
                     CurOrder newOrder = new CurOrder(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString());
-                    Log.d("Test",newOrder.getCustomerPhoneNum());
-                    Log.d("Test",newOrder.getStartPoint());
+
                     showTipTv();
                     tips();
 
@@ -157,7 +156,7 @@ public class RouteActivity extends AppCompatActivity{
                             String state = OrderService.curOrder.orderState;
                             if(state.equals("prepare")){
                                 //测试
-                                OrderService.curOrder.setPrice("20.5");
+                                //OrderService.curOrder.setPrice("20.5");
                                 timer.cancel();
                                 gotoOrderMake();
                             }
@@ -166,6 +165,7 @@ public class RouteActivity extends AppCompatActivity{
 
                 }
                 else {//取消叫车
+                    timer.cancel();
                     orderService.cancelOrder();
                     tipView.setVisibility(View.INVISIBLE);
                     tipView = null;
@@ -173,46 +173,11 @@ public class RouteActivity extends AppCompatActivity{
                     callCar.setText("开始叫车");
                 }
 
-                //Timer timer = new Timer();
-                //timer.schedule(task, 5000);
                 //TODO 将价格price写进数据库
+                double p = price.doubleValue();
+                orderService.completeOrder(p);
                 //TODO 代码异常等待修改
-                /*
-                if(isWaiting)//正在等车，点击后取消等车
-                {
-                    //取消当前订单
-                    if(orderService.cancelOrder());
-                    {
-                        tipView.setVisibility(View.INVISIBLE);
-                        tipView = null;
-                        isWaiting = false;
-                        callCar.setText("开始叫车");
-                    }
-                }
-                else {//未在等车时，点击进入等车状态
-                    showTipTv();
-                    tips();
-                    callCar.setText("取消叫车");
-                    isWaiting = true;
-                    //添加新订单
-                    orderService.addOrder(new Order(UserService.curUser.getPhoneNumber(),address.get(1).toString(),address.get(3).toString()));
-                    //检查当前订单是否被接单
-                    userService.checkOrderIsRunning();
-                    tipHandler = new Handler(){
-                        @Override
-                        public void handleMessage(Message msg) {
-                            if(msg.what == 1){//当前司机已接单
-                                //查询相应的订单的司机信息并显示
-                                orderService.queryDriverInfo();
-                                tipView = null;
-                                showTipTv();
-                                tipView.setText(orderService.curOrder.getDriverName().charAt(0)+"师傅正在赶来，请稍候");
-                                //TODO 这里可以进行UI操作，显示司机位置，界面跳转
-                            }
-                        }
-                    };
-                }
-                */
+
             }
         });
         reservasion.setOnClickListener(new View.OnClickListener() {
@@ -225,24 +190,13 @@ public class RouteActivity extends AppCompatActivity{
 
     //跳转到进行中界面
     public void gotoOrderMake(){
+        timer.cancel();
         Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putStringArrayListExtra("address", address);
         startActivity(i);
     }
 
-    /*
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            Intent i = new Intent(RouteActivity.this, OrdermakeActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.putStringArrayListExtra("address", address);
-            startActivity(i);
-        }
-    };
-
-     */
 
     //路线规划初始化
     private void initRoutePlan() {
@@ -287,11 +241,10 @@ public class RouteActivity extends AppCompatActivity{
                 overlay.addToMap();
                 overlay.zoomToSpan();
                 double dis = result.getRouteLines().get(0).getDistance();
-                double p = new BigDecimal(dis/1000*1.6+13)
-                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+                price = new BigDecimal(dis/1000*1.6+13)
+                        .setScale(2, RoundingMode.HALF_UP);
 
-                routePrice.setText("预计价格: "+p+" 元");
-
+                routePrice.setText("预计价格: "+price.toString()+" 元");
             }
         }
 
@@ -553,6 +506,5 @@ public class RouteActivity extends AppCompatActivity{
         tipView.bringToFront();
         mainLayout.addView(tipView);
     }
-
 
 }

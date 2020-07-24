@@ -88,11 +88,13 @@ public class OrdermakeActivity extends AppCompatActivity {
             public void run() {
                 orderService.checkOrderState();
                 String state = OrderService.curOrder.orderState;
-                Log.d("Test",OrderService.curOrder.getDriverName());
                 if(state.equals("end")){
-
                     timer.cancel();
+                    Bundle bundle = new Bundle();
+                    bundle.putCharSequence("discount",null);
                     Intent intent = new Intent(OrdermakeActivity.this, OrderpayActivity.class);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }

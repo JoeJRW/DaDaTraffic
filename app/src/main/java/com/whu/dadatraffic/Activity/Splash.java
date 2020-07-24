@@ -19,14 +19,11 @@ import java.util.TimerTask;
 
 public class Splash extends AppCompatActivity {
 
-    public static Splash instance = null;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        instance = this;
         Timer timer = new Timer();
         timer.schedule(task, 2000);
     }
@@ -34,7 +31,9 @@ public class Splash extends AppCompatActivity {
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            startActivity(new Intent(Splash.this, LoginActivity.class));
+            Intent i = new Intent(Splash.this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
     };
 

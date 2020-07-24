@@ -59,10 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         instance=this;
-
-        //关闭初始化界面
-        //Splash.instance.finish();
-
         initUI();
 
         //隐藏标题栏

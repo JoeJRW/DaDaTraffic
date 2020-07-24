@@ -55,7 +55,7 @@ public class OrderpayActivity extends AppCompatActivity {
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     String giveTime = simpleDateFormat.format(curDate);
-    String endTime = "2021-08-01 23-59-59";
+    String endTime = "2021-08-01,23-59-59";
     private OrderService orderService=new OrderService();
     private TicketService ticketService = new TicketService();
 
@@ -271,6 +271,7 @@ public class OrderpayActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         String discount = bundle.getString("discount");
         //显示司机姓别
+
         String driverFistName=OrderService.curOrder.getDriverName().substring(0,1);   //7.21修改----------------------------------------
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername2);
@@ -290,7 +291,7 @@ public class OrderpayActivity extends AppCompatActivity {
 
         //显示车费合计
 
-        allPrice=8.01;
+        allPrice=Double.parseDouble(OrderService.curOrder.getPrice());
         //TODO ------------------------------版本2修改--------------------------------------------
         //如果折扣信息为空，则代表支付界面并非从选择优惠券跳转而来。
         if(discount != null)
@@ -298,16 +299,15 @@ public class OrderpayActivity extends AppCompatActivity {
             int effect = Integer.parseInt(discount.substring(0, discount.length() - 1));
             if(discount.contains("元"))
             {
-                discountPrice = allPrice - effect;
+                discountPrice = effect;
             }
             else
             {
-                discountPrice = allPrice / 100 * effect;
+                discountPrice = allPrice * (1 - effect /100);
             }
         }
-        CharSequence allPriceText=String.valueOf(allPrice)+"元";
 
-        allPrice=Double.parseDouble(OrderService.curOrder.getPrice());   //7.21修改 --------------------------------
+        CharSequence allPriceText=String.valueOf(allPrice-discountPrice)+"元";//     7.23修改----------------------------------
 
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
@@ -318,6 +318,7 @@ public class OrderpayActivity extends AppCompatActivity {
         couponOption.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View view) {
+               ticketService.JudgeUse(allPrice);
                Intent intent=new Intent(OrderpayActivity.this, ChooseTicketActivity.class);
                startActivity(intent);
             }
@@ -404,7 +405,6 @@ public class OrderpayActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ticketService.queryAllTicket();
-        ticketService.JudgeUse(allPrice);
+        ticketService.queryAllTicket(false);
     }
 }

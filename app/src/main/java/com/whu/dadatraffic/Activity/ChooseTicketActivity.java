@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.whu.dadatraffic.Base.Ticket;
+import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.OrderService;
 import com.whu.dadatraffic.Service.TicketService;
 import com.whu.dadatraffic.Service.UserService;
 
@@ -44,7 +47,8 @@ public class ChooseTicketActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final Ticket curTicket = (Ticket)ticketService.ticketList.get(i);
+                final int index = i;
+                final Ticket curTicket = (Ticket)ticketService.ticketList.get(index);
                 //创建对话框
                 AlertDialog confirmDialog = new AlertDialog.Builder(ChooseTicketActivity.this).create();
                 confirmDialog.setTitle("确认使用该优惠券吗？");
@@ -56,13 +60,15 @@ public class ChooseTicketActivity extends AppCompatActivity {
                         Toast.makeText(ChooseTicketActivity.this,"优惠券已使用！",Toast.LENGTH_SHORT).show();
                         ticketService.useTicket(curTicket);
                         //跳转到订单支付界面
+
                         //定义跳转对象
                         Intent intentToPay = new Intent();
                         //设置跳转的起始界面和目的界面
                         intentToPay.setClass(ChooseTicketActivity.this, OrderpayActivity.class);
                         //传递选中View的属性
                         Bundle bundle = new Bundle();
-                        bundle.putCharSequence("discount",ticketService.GetDiscount(i));
+                        Log.d("Test",index+"");
+                        bundle.putCharSequence("discount",ticketService.GetDiscount(index));
                         //将bundle包中数据绑定到intent
                         intentToPay.putExtras(bundle);
                         //启动跳转，并传输对应数据

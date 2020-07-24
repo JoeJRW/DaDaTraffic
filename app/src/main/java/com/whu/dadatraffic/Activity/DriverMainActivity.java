@@ -77,6 +77,12 @@ public class DriverMainActivity extends AppCompatActivity {
     private LocationClient locationClient;
     private MapView mapView;
     private BaiduMap mapLayer;
+    private TextView setOffPlace1;
+    private TextView destination1;
+    private TextView detailTv1;
+    private TextView setOffPlace2;
+    private TextView destination2;
+    private TextView detailTv2;
     private boolean isFirstLoc = true;
     private double latitude;
     private double longitude;
@@ -147,7 +153,9 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isOpen){
-
+                    setOffPlace2.setText(str_setOffPlace);
+                    destination2.setText(str_destination);
+                    detailTv2.setText("已接到乘客，正在赶往目的地");
                     driverService.getPassenger();
                     UI_3.setVisibility(View.GONE);
                     UI_4.setVisibility(View.VISIBLE);
@@ -229,10 +237,9 @@ public class DriverMainActivity extends AppCompatActivity {
     {
         getPassengerGtn=findViewById(R.id.btn_getPassenger_driver);
         callPassenger1=findViewById(R.id.callPassenger1);
-        TextView setOffPlace1 = findViewById(R.id.setOffPlace_text1);
-        TextView destination1 = findViewById(R.id.destination_text1);
-        setOffPlace1.setText(str_setOffPlace);
-        destination1.setText(str_destination);
+        setOffPlace1 = findViewById(R.id.setOffPlace_text1);
+        destination1 = findViewById(R.id.destination_text1);
+        detailTv1 = (TextView)findViewById(R.id.detailTv_dri);
         UI_3.setVisibility(View.GONE);
     }
 
@@ -240,23 +247,28 @@ public class DriverMainActivity extends AppCompatActivity {
     {
         confirmReachBtn=findViewById(R.id.btn_confirmReach_driver);
         callPassenger2=findViewById(R.id.callPassenger2);
-        TextView setOffPlace2 = findViewById(R.id.setOffPlace_text2);
-        TextView destination2 = findViewById(R.id.destination_text2);
-        setOffPlace2.setText(str_setOffPlace);
-        destination2.setText(str_destination);
+        setOffPlace2 = findViewById(R.id.setOffPlace_text2);
+        destination2 = findViewById(R.id.destination_text2);
+        detailTv2 = (TextView)findViewById(R.id.detailTv2_dri);
         UI_4.setVisibility(View.GONE);
     }
 
     //当接到新的订单时，修改UI
     public void getNewOrder()
     {
+        routeList = new ArrayList();
         timer.cancel();
         str_setOffPlace= OrderService.curOrder.getStartPoint();
         str_destination=OrderService.curOrder.getDestination();
         passengerPhoneNum=OrderService.curOrder.getDriverPhone();
         routeList.add(mCity);
+        //测试 routeList.add("池州市");
         routeList.add(str_setOffPlace);
         routeList.add(str_destination);
+
+        setOffPlace1.setText(str_setOffPlace);
+        destination1.setText(str_destination);
+        detailTv1.setText("现在去接手机号为："+OrderService.curOrder.getCustomerPhoneNum()+"的乘客");
         UI_2.setVisibility(View.GONE);
         UI_3.setVisibility(View.VISIBLE);
         //TODO 修改订单状态为进行中

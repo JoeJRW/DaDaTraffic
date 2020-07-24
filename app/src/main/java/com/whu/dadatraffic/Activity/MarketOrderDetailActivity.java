@@ -14,6 +14,7 @@ import com.whu.dadatraffic.R;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import java.util.Date;
 
 public class MarketOrderDetailActivity extends AppCompatActivity {
     MarketItemService marketItemService = new MarketItemService();
+    UserService userService = new UserService();
     TicketService ticketService = new TicketService();
     TextView priceInAll = null;
     TextView createTime = null;
@@ -74,7 +76,8 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         createTime = (TextView)findViewById(R.id.MarketOrderCreateTime);
         priceInAll.setText("合计："+marketItemService.scoreInAll+"积分");
         int newCredit = UserService.curUser.getCredit()-marketItemService.scoreInAll;
-        new UserService().changeCredit(newCredit);
+        //Log.d("Test",newCredit+"");
+        userService.changeCredit(newCredit);
 
 
         //初始化ListView控件

@@ -6,8 +6,10 @@ package com.whu.dadatraffic.Service;
  */
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.whu.dadatraffic.Activity.MarketOrderActivity;
+import com.whu.dadatraffic.Activity.WalletActivity;
 import com.whu.dadatraffic.Base.Ticket;
 import com.whu.dadatraffic.R;
 import com.whu.dadatraffic.Utils.DBConstent;
@@ -22,14 +24,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
 public class TicketService extends Ticket {
     public static Vector<Ticket> ticketList = new Vector<Ticket>();
-    Vector<Ticket> usefulTicket = new Vector<Ticket>();
-
-    int[] position;
+    private Vector<Integer> position;
 
     public TicketService() {
         super();
@@ -56,18 +57,23 @@ public class TicketService extends Ticket {
     //移除不可用优惠券
     public void RemoveTicket(String title)
     {
-        int found = 0;
-        for(int i = 1; i <= ticketList.size(); i++)
+        position = new Vector<Integer>();
+        if(!ticketList.isEmpty())
         {
-            if(title == ticketList.get(i).getTitle())
-            {
-                position[found] = i;
-                found++;
+            int found = 0;
+            for (int i = 1; i <= ticketList.size(); i++) {
+                if (title.equals(ticketList.get(i-1).getTitle())) {
+                    position.add(i-1);
+                    found++;
+                }
+            }
+            for (int i = found-1; i >= 0; i--) {
+                ticketList.remove(position.get(i));
             }
         }
-        for(int i = 0; i < position.length; i++)
+        else
         {
-            ticketList.remove(position[i]);
+            return;
         }
     }
 
@@ -81,10 +87,7 @@ public class TicketService extends Ticket {
     {
         return ticketList.get(position).getTitle();
     }
-    public Vector<Ticket> getUsefulTicket()
-    {
-        return usefulTicket;
-    }
+
     //获取优惠券效果
     public String GetDiscount(int position)
     {
@@ -114,18 +117,18 @@ public class TicketService extends Ticket {
     {
         if(price<38)
         {
-            RemoveTicket("38元优惠券");
-            RemoveTicket("48元优惠券");
-            RemoveTicket("58元优惠券");
+            RemoveTicket("38元打车券");
+            RemoveTicket("48元打车券");
+            RemoveTicket("58元打车券");
         }
         if(price<48)
         {
-            RemoveTicket("48元优惠券");
-            RemoveTicket("58元优惠券");
+            RemoveTicket("48元打车券");
+            RemoveTicket("58元打车券");
         }
         if(price<58)
         {
-            RemoveTicket("58元优惠券");
+            RemoveTicket("58元打车券");
         }
     }
     //判断优惠券是否过期
@@ -160,11 +163,17 @@ public class TicketService extends Ticket {
     /**
      * 向服务器查询当前用户的所有优惠券
      * 查看用户优惠券时调用
+     * @param flag 提示当前操作是否要进行UI操作
      */
-    public void queryAllTicket(){
+    public void queryAllTicket(boolean flag){
         ticketList = new Vector<Ticket>();
         String queryUrl = DBConstent.URL_Ticket + "?type=query&userphone="+UserService.curUser.getPhoneNumber();
-        new TicketAsyncTask().execute(queryUrl,"query");
+        if(flag) {//代表当前执行查询后需要操作UI
+            new TicketAsyncTask().execute(queryUrl, "queryok");
+        }
+        else {
+            new TicketAsyncTask().execute(queryUrl, "query");
+        }
     }
 
     /**
@@ -173,8 +182,8 @@ public class TicketService extends Ticket {
      * @param ticket 购买的优惠券对象
      */
     public void addTicket(Ticket ticket){
-        String addUrl = DBConstent.URL_Ticket + "?type=add&userphone="+UserService.curUser.getPhoneNumber()+"&title="+ticket.getTitle()
-                +"&start="+ticket.getStartDate()+"&end="+ticket.getEndDate()+"&icon="+ticket.getIcon();
+        String addUrl = DBConstent.URL_Ticket + "?type=add&userphone="+UserService.curUser.getPhoneNumber()+"&title="+ticket.getTitle()+"&discount="+ticket.getDiscount()
+                +"&start="+ticket.getStartDate()+"&end="+ticket.getEndDate()+"&icon="+ticket.getIcon()+"&image="+ticket.getImageResource();
         new TicketAsyncTask().execute(addUrl,"add");
     }
 
@@ -209,13 +218,14 @@ public class TicketService extends Ticket {
                 e.printStackTrace();
             }
 
-            if (type.equals("query")){
+            if (type.equals("query")||type.equals("queryok")){
                 String info[] = response.toString().split(";");
                 int count = Integer.parseInt(info[0]);
-                for(int i=1;i<count*4+1;i+=4){
-                    Ticket ticket = new Ticket(info[i],info[i+1],info[i+2],Integer.parseInt(info[i+3]));
+                for(int i=1;i<count*6+1;i+=6){
+                    Ticket ticket = new Ticket(info[i],info[i+1],Integer.parseInt(info[i+2]),info[i+3],info[i+4],Integer.parseInt(info[i+5]));
                     ticketList.add(ticket);
                 }
+                return type;
             }
 
             return response.toString();
@@ -233,7 +243,9 @@ public class TicketService extends Ticket {
          */
         @Override
         protected void onPostExecute(String result) {
-
+            if(result.equals("queryok")){
+                WalletActivity.instance.showCount();
+            }
         }
 
     }

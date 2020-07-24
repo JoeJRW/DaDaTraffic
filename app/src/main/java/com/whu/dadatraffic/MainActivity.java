@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        orderService.getHistoryOrders();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
@@ -166,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<String> addressList = new ArrayList<>();
                 addressList.add(mCity1);
-                //addressList.add("青阳县");
+                //测试 addressList.add("青阳县");
                 addressList.add(address1);
-                //addressList.add("青阳县");
+                //测试 addressList.add("青阳县");
                 addressList.add(mCity2);
                 addressList.add(address2);
                 Intent i = new Intent(MainActivity.this, RouteActivity.class);
@@ -527,6 +526,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("Test",UserService.curUser.getPhoneNumber());
+        orderService.getHistoryOrders();
         mapView.onResume();
     }
 

@@ -24,13 +24,14 @@ import static java.lang.String.*;
 
 
 public class WalletActivity extends AppCompatActivity {
-
+    public static WalletActivity instance;
     TicketService ticketService = new TicketService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
         RelativeLayout ticketLayout = findViewById(R.id.wticket_layout);//优惠券按钮
+        instance = this;
         ticketLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,9 +103,15 @@ public class WalletActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        ticketService.queryAllTicket(true);
         super.onResume();
         TextView scoreTv = (TextView)findViewById(R.id.score);
-//        scoreTv.setText(UserService.curUser.getCredit()+"分");
-        ticketService.queryAllTicket();
+        scoreTv.setText(UserService.curUser.getCredit()+"分");
+
+    }
+
+    public void showCount(){
+        TextView ticketTv = (TextView)findViewById(R.id.wticketCount);
+        ticketTv.setText(TicketService.ticketList.size()+"张");
     }
 }
