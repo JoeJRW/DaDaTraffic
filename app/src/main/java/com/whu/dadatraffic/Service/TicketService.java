@@ -27,7 +27,6 @@ import java.util.Vector;
 
 public class TicketService extends Ticket {
     public static Vector<Ticket> ticketList = new Vector<Ticket>();
-    Vector<Ticket> usefulTicket = new Vector<Ticket>();
 
     int[] position;
 
@@ -42,6 +41,7 @@ public class TicketService extends Ticket {
         ticketList.add(new Ticket( title, discount, icon, startDate, endDate, resource));
     }
 
+    //根据文件名，获取资源id
     public int getResourceId(String fileName) {
         try {
             Field field = R.drawable.class.getField(fileName);
@@ -56,19 +56,23 @@ public class TicketService extends Ticket {
     //移除不可用优惠券
     public void RemoveTicket(String title)
     {
-        int found = 0;
-        for(int i = 1; i <= ticketList.size(); i++)
+        if(!ticketList.isEmpty())
         {
-            if(title == ticketList.get(i).getTitle())
-            {
-                position[found] = i;
-                found++;
+            int found = 0;
+            for (int i = 1; i <= ticketList.size(); i++) {
+                if (title == ticketList.get(i).getTitle()) {
+                    position[found] = i;
+                    found++;
+                }
+            }
+            for (int i = 0; i < position.length; i++) {
+                ticketList.remove(position[i]);
             }
         }
-        for(int i = 0; i < position.length; i++)
-        {
-            ticketList.remove(position[i]);
-        }
+        else
+            {
+                return;
+            }
     }
 
     //获取list长度
@@ -76,39 +80,42 @@ public class TicketService extends Ticket {
     {
         return ticketList.size();
     }
+
     //获取优惠券名称
     public String GetTitle(int position)
     {
         return ticketList.get(position).getTitle();
     }
-    public Vector<Ticket> getUsefulTicket()
-    {
-        return usefulTicket;
-    }
+
     //获取优惠券效果
     public String GetDiscount(int position)
     {
         return ticketList.get(position).getDiscount();
     }
+
     //获取优惠券有效日期
     public String GetStartDate(int position)
     {
         return ticketList.get(position).getStartDate();
     }
+
     public String GetEndDate(int position)
     {
         return ticketList.get(position).getEndDate();
     }
+
     //获取优惠券图标
     public Integer GetIcon(int position)
     {
         return ticketList.get(position).getIcon();
     }
+
     //获取优惠券新图标文件名，以在传值后调用新图片
     public Integer GetImageResource(int position)
     {
         return ticketList.get(position).getImageResource();
     }
+
     //判断该情况下优惠券是否可用
     public void JudgeUse(double price)
     {
@@ -128,6 +135,7 @@ public class TicketService extends Ticket {
             RemoveTicket("58元优惠券");
         }
     }
+
     //判断优惠券是否过期
     public void JudgeStatus(int position)
     {
@@ -212,10 +220,10 @@ public class TicketService extends Ticket {
             if (type.equals("query")){
                 String info[] = response.toString().split(";");
                 int count = Integer.parseInt(info[0]);
-                for(int i=1;i<count*4+1;i+=4){
-                    Ticket ticket = new Ticket(info[i],info[i+1],info[i+2],Integer.parseInt(info[i+3]));
-                    ticketList.add(ticket);
-                }
+//                for(int i=1;i<count*4+1;i+=4){
+//                    Ticket ticket = new Ticket(info[i],info[i+1],info[i+2],Integer.parseInt(info[i+3]));
+//                    ticketList.add(ticket);
+//                }
             }
 
             return response.toString();

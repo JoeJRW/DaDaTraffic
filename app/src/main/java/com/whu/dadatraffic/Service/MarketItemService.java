@@ -2,7 +2,7 @@ package com.whu.dadatraffic.Service;
 /*
  *author：张朝勋
  * create time：7/9
- * update time: 7/19
+ * update time: 7/21
  */
 import android.os.AsyncTask;
 import android.util.Log;
@@ -77,23 +77,20 @@ public class MarketItemService extends MarketItem implements Serializable {
     public Integer GetCount(int position) {
         return marketItemList.get(position).getCount();
     }
+
     //返回购物车列表与给订单列表赋值。实现在商城订单页面中的订单显示
     public ArrayList<MarketItem> GetCartItemList()
     {
         return cartItemList;
-    }
-    public ArrayList<MarketItem> getmOrderItemList()
-    {
-        return  mOrderItemList;
     }
 
     public ArrayList<MarketItem> getHistoryItems() {
         return historyItems;
     }
 
+    //设置订单详情页中呈现的List
     public void setmOrderItemList(ArrayList<MarketItem> list)
     {
-        //todo 新增立即计算该list的总积分
         mOrderItemList = list;
         SumScore(mOrderItemList);
     }

@@ -1,7 +1,7 @@
 /*
  *author：张朝勋
  * create time：7/22
- * update time:
+ * update time: 7/23
  */
 package com.whu.dadatraffic.Activity;
 
@@ -43,12 +43,12 @@ public class ChooseTicketActivity extends AppCompatActivity {
         listView.setAdapter(chooseTicketAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final Ticket curTicket = (Ticket)ticketService.ticketList.get(i);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                final Ticket curTicket = (Ticket)ticketService.ticketList.get(position);
                 //创建对话框
                 AlertDialog confirmDialog = new AlertDialog.Builder(ChooseTicketActivity.this).create();
                 confirmDialog.setTitle("确认使用该优惠券吗？");
-                confirmDialog.setMessage("您已选择"+ticketService.ticketList.get(i).getTitle());
+                confirmDialog.setMessage("您已选择"+ticketService.ticketList.get(position).getTitle());
                 //确认按钮
                 confirmDialog.setButton(DialogInterface.BUTTON_POSITIVE, "是", new DialogInterface.OnClickListener() {
                     @Override

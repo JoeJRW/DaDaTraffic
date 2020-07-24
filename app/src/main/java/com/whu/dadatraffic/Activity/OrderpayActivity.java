@@ -51,6 +51,7 @@ public class OrderpayActivity extends AppCompatActivity {
     double discountPrice=0.0;  //抵扣车费
     double endPrice=0.0;       //最终支付金额
 
+
     Date curDate = new Date(System.currentTimeMillis());
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -298,11 +299,11 @@ public class OrderpayActivity extends AppCompatActivity {
             int effect = Integer.parseInt(discount.substring(0, discount.length() - 1));
             if(discount.contains("元"))
             {
-                discountPrice = allPrice - effect;
+                discountPrice = effect;
             }
             else
             {
-                discountPrice = allPrice / 100 * effect;
+                discountPrice = allPrice * (1 - effect /100);
             }
         }
         CharSequence allPriceText=String.valueOf(allPrice)+"元";

@@ -2,7 +2,7 @@ package com.whu.dadatraffic.Activity;
 /*
  *author：张朝勋
  * create time：7/6
- * update time: 7/16
+ * update time: 7/23
  */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,7 +104,9 @@ public class WalletActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         TextView scoreTv = (TextView)findViewById(R.id.score);
-//        scoreTv.setText(UserService.curUser.getCredit()+"分");
+        scoreTv.setText(UserService.curUser.getCredit()+"分");
+        TextView ticketTv = (TextView)findViewById(R.id.wticketCount);
+        ticketTv.setText(TicketService.ticketList.size()+"张");
         ticketService.queryAllTicket();
     }
 }
