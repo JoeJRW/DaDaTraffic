@@ -1,4 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+MobSDK {
+    appKey "302d311aed140"
+    appSecret "df8f512666f47b13bf0f78941c293e0c"
+    SMSSDK {}
+}
 
 android {
     compileSdkVersion 30
@@ -21,7 +27,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 
 }
 

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
@@ -23,8 +24,8 @@ import com.whu.dadatraffic.Utils.LocalStorageUtil;
 
 public class SettingActivity extends AppCompatActivity {
 
-    private Button button1;
-    private Button button4;
+    private RelativeLayout button1;
+    private RelativeLayout button4;
     private  ImageButton button2;
     private Button exitBtn;//退出登录按钮
     @Override
@@ -34,8 +35,8 @@ public class SettingActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        button1=(Button)findViewById(R.id.button); //账号与安全按钮
-        button4=findViewById(R.id.button4);
+        button1=findViewById(R.id.line1); //账号与安全按钮
+        button4=findViewById(R.id.line4);
         exitBtn = (Button)findViewById(R.id.exitBtn_set);
 
         //跳转至账号与安全
@@ -100,5 +101,8 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View view) {
     }
 }
