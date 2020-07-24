@@ -156,8 +156,7 @@ public class RouteActivity extends AppCompatActivity{
                             String state = OrderService.curOrder.orderState;
                             if(state.equals("prepare")){
                                 orderService.payOrder(price.doubleValue());
-                                //测试
-                                //OrderService.curOrder.setPrice("20.5");
+
                                 timer.cancel();
                                 gotoOrderMake();
                             }
