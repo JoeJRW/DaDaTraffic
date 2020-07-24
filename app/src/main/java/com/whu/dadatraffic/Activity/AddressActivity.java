@@ -24,6 +24,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.whu.dadatraffic.Adapter.AutoEditTextAdapter;
 import com.whu.dadatraffic.MainActivity;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class AddressActivity extends AppCompatActivity {
                     home=addressInput.getText().toString();
                     homeAddress.setText("      家："+home);
                     //TODO 将home存到数据库中
-
+                    new UserService().addAddress(home);
                     addressPlace.setVisibility(View.INVISIBLE);
                     addressInput.setVisibility(View.INVISIBLE);
                     isShowOrNot1  = false;
@@ -105,7 +106,7 @@ public class AddressActivity extends AppCompatActivity {
                     workplace=addressInput.getText().toString();
                     workAddress.setText("      公司："+workplace);
                     //TODO 将workplace存到数据库中
-
+                    new UserService().addAddress(workplace);
                     addressPlace.setVisibility(View.INVISIBLE);
                     addressInput.setVisibility(View.INVISIBLE);
                     isShowOrNot2  = false;
