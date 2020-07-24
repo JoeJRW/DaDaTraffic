@@ -1,7 +1,7 @@
 /*
 *author: 李俊
 *create time: 2020-07-08
-*update time: 2020-07-16
+*update time: 2020-07-16  2020-07-21 李俊
 */
 
 package com.whu.dadatraffic.Activity;
@@ -265,26 +265,25 @@ public class OrderpayActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        // Todo 如果报错就在另一个前置界面也加一个传值的bundle然后以discount为key，传null到该界面
         //获取折扣信息
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String discount = bundle.getString("discount");
         //显示司机姓别
 
-        String driverFistName=OrderService.curOrder.getDriverName().substring(0,1);   //7.21修改----------------------------------------
+        String driverFistName=OrderService.curOrder.getDriverName().substring(0,1);
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername2);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID=OrderService.curOrder.getCarID(); //7.21修改----------------------------------------------------------------
+        String carID=OrderService.curOrder.getCarID();
         TextView carID2=findViewById(R.id.carID2);
         carID2.setText(carID);
 
         //显示司机评分
         DecimalFormat df1 =new DecimalFormat("#.0");
-        double driverScore = Double.parseDouble(df1.format(OrderService.curOrder.getDriverScore()));    //7.21修改------------------------------
+        double driverScore = Double.parseDouble(df1.format(OrderService.curOrder.getDriverScore()));
         CharSequence scoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore2);
         textView2.setText(scoreText);
@@ -292,7 +291,6 @@ public class OrderpayActivity extends AppCompatActivity {
         //显示车费合计
 
         allPrice=Double.parseDouble(OrderService.curOrder.getPrice());
-        //TODO ------------------------------版本2修改--------------------------------------------
         //如果折扣信息为空，则代表支付界面并非从选择优惠券跳转而来。
         if(discount != null)
         {
@@ -307,12 +305,12 @@ public class OrderpayActivity extends AppCompatActivity {
             }
         }
 
-        CharSequence allPriceText=String.valueOf(allPrice-discountPrice)+"元";//     7.23修改----------------------------------
+        CharSequence allPriceText=String.valueOf(allPrice-discountPrice)+"元";
 
         TextView textView3=findViewById(R.id.allprice);
         textView3.setText(allPriceText);
 
-        //点击优惠券选择按钮，进入优惠券选择界面 TODO ----------------版本2修改-------------------------------------------
+        //点击优惠券选择按钮，进入优惠券选择界面
         Button couponOption=findViewById(R.id.coupon_option);
 
         couponOption.setOnClickListener(new View.OnClickListener() {
@@ -325,7 +323,6 @@ public class OrderpayActivity extends AppCompatActivity {
         });
 
         //显示车费抵扣
-   //TODO -------------------------------版本2修改--------------------------------------
         CharSequence discountPriceText="-"+discountPrice+"元";
         TextView textView4=findViewById(R.id.discountprice);
         textView4.setText(discountPriceText);
@@ -381,13 +378,13 @@ public class OrderpayActivity extends AppCompatActivity {
             }
         });
 
-        //点击电话按钮，对司机进行拨号--------------------------------版本2添加-----------------------------------
+        //点击电话按钮，对司机进行拨号
         ImageButton imageButton=findViewById(R.id.calldriver2);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //获取输入的电话号码
-                String phone = OrderService.curOrder.getDriverPhone();       //7.21修改-------------------------------
+                String phone = OrderService.curOrder.getDriverPhone();
                 Context context = OrderpayActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

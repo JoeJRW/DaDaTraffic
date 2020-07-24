@@ -1,7 +1,7 @@
 /*
 *author: 李俊
 *create time: 2020-07-09
-*update time:2020-07-18
+*update time: 2020-07-21
 */
 
 package com.whu.dadatraffic.Activity;
@@ -49,19 +49,19 @@ public class OrderendActivity extends AppCompatActivity {
         }
 
         //显示司机姓别
-        String driverFistName = OrderService.curOrder.getDriverName().substring(0,1);   //7.21修改------------------------------------------------------------------
+        String driverFistName = OrderService.curOrder.getDriverName().substring(0,1);
         CharSequence driverName=driverFistName+"师傅";
         TextView textView1=findViewById(R.id.drivername3);
         textView1.setText(driverName);
 
         //显示司机车牌号
-        String carID = OrderService.curOrder.getCarID(); //7.21修改-------------------------------------------------------
+        String carID = OrderService.curOrder.getCarID();
         TextView carID3=findViewById(R.id.carID3);
         carID3.setText(carID);
 
         //显示司机评分
         DecimalFormat df =new DecimalFormat("#.0");
-        double driverScore = Double.parseDouble(df.format(OrderService.curOrder.getDriverScore()));    //7.21修改----------------------------------------
+        double driverScore = Double.parseDouble(df.format(OrderService.curOrder.getDriverScore()));
         CharSequence ScoreText=String.valueOf(driverScore);
         TextView textView2=findViewById(R.id.driverscore3);
         textView2.setText(ScoreText);
@@ -109,12 +109,12 @@ public class OrderendActivity extends AppCompatActivity {
             };
         });
 
-        //点击电话按钮，对司机进行拨号-----------------------版本2修改---------------------------------
+        //点击电话按钮，对司机进行拨号
         ImageButton imageButton=findViewById(R.id.calldriver3);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone = OrderService.curOrder.getDriverPhone();       //7.21修改-------------------------------
+                String phone = OrderService.curOrder.getDriverPhone();
                 Context context = OrderendActivity.this;
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

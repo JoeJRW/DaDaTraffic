@@ -1,3 +1,8 @@
+/*
+ *author: 李俊
+ *create: time: 2020-07-20
+ *update: time: 2020-07-21 李俊
+ */
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -114,7 +119,6 @@ public class DriverMainActivity extends AppCompatActivity {
                     UI_2.setVisibility(View.VISIBLE);
                     UI_1.setVisibility(View.GONE);
                     isOpen=true;
-                    //TODO 开始接单
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
@@ -136,17 +140,10 @@ public class DriverMainActivity extends AppCompatActivity {
                     UI_2.setVisibility(View.GONE);
                     UI_1.setVisibility(View.VISIBLE);
                     isOpen=false;
-                    //TODO 取消接单
                     timer.cancel();
                 }
             }
         });
-
-        //TODO 接到订单消息事件
-        //接收服务器消息事件
-        //调用getNewOrder()跳转到行程中
-        //发送消息到服务器，使乘客界面也跳到行程中
-
 
         //确认乘客上车按钮绑定点击事件
         getPassengerGtn.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +268,6 @@ public class DriverMainActivity extends AppCompatActivity {
         detailTv1.setText("现在去接手机号为："+OrderService.curOrder.getCustomerPhoneNum()+"的乘客");
         UI_2.setVisibility(View.GONE);
         UI_3.setVisibility(View.VISIBLE);
-        //TODO 修改订单状态为进行中
         OrderService.curOrder.setOrderState("prepare");
         StartRoute(routeList);
     }
