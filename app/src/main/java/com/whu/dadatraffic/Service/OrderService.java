@@ -77,6 +77,7 @@ public class OrderService {
     public void completeOrder(double price) {
         String completeSqlStr = DBConstent.URL_User+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
         new OrderAsyncTask().execute(completeSqlStr,"complete");
+        curOrder.setPrice(price+"");
     }
 
     /**

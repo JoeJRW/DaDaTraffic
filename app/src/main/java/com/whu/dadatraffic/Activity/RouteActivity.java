@@ -156,7 +156,7 @@ public class RouteActivity extends AppCompatActivity{
                             String state = OrderService.curOrder.orderState;
                             if(state.equals("prepare")){
                                 //测试
-                                OrderService.curOrder.setPrice("20.5");
+                                //OrderService.curOrder.setPrice("20.5");
                                 timer.cancel();
                                 gotoOrderMake();
                             }
@@ -174,6 +174,8 @@ public class RouteActivity extends AppCompatActivity{
                 }
 
                 //TODO 将价格price写进数据库
+                double p = price.doubleValue();
+                orderService.completeOrder(p);
                 //TODO 代码异常等待修改
 
             }
@@ -239,11 +241,10 @@ public class RouteActivity extends AppCompatActivity{
                 overlay.addToMap();
                 overlay.zoomToSpan();
                 double dis = result.getRouteLines().get(0).getDistance();
-                double p = new BigDecimal(dis/1000*1.6+13)
-                        .setScale(2, RoundingMode.HALF_UP).doubleValue();
+                price = new BigDecimal(dis/1000*1.6+13)
+                        .setScale(2, RoundingMode.HALF_UP);
 
-                routePrice.setText("预计价格: "+p+" 元");
-                orderService.completeOrder(p);
+                routePrice.setText("预计价格: "+price.toString()+" 元");
             }
         }
 
