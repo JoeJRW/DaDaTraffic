@@ -51,7 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText verificationCode=null;
     private Button getVerificationCode=null;
 
-    private boolean isDriver = false;
+
+    private boolean isDriver = false;//表示当前注册用户身份是否是司机
     private String phoneNumber = null;
     private String name = null;
     private String password1 = null;

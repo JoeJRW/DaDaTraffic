@@ -74,9 +74,9 @@ public class OrderService {
      * 完成当前订单,支付成功后将价格存入数据库
      * @param price 本次订单金额
      */
-    public void completeOrder(double price) {
-        String completeSqlStr = DBConstent.URL_User+"?type=complete&orderid=" + curOrder.getOrderID() + "&price=" +price;
-        new OrderAsyncTask().execute(completeSqlStr,"complete");
+    public void payOrder(double price) {
+        String completeSqlStr = DBConstent.URL_User+"?type=pay&orderid=" + curOrder.getOrderID() + "&price=" +price;
+        new OrderAsyncTask().execute(completeSqlStr,"pay");
         curOrder.setPrice(price+"");
     }
 

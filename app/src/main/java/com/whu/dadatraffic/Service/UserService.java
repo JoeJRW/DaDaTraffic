@@ -67,6 +67,14 @@ public class UserService {
         new UserAsyncTask().execute(addUrlStr,"changeaddress");
     }
 
+    /**
+     * 修改用户密码到服务器
+     * @param newPassword 新密码
+     */
+    public void changePassword(String newPassword){
+        String changeUrl = DBConstent.URL_ChangeUserInfo+"?type=changepassword&password="+newPassword;
+        new UserAsyncTask().execute(changeUrl,"changepassword");
+    }
 
     //用户注册,把数据传给服务器
     public void register(User user)
