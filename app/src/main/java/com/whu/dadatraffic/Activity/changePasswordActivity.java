@@ -1,3 +1,8 @@
+/*
+ *author: 李俊
+ *create: time: 2020-07-22
+ *update: time: 2020-07-23
+ */
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -139,7 +144,7 @@ public class changePasswordActivity extends AppCompatActivity {
     }
 
 
-
+    //界面控件绑定
     private void init() {
         getVerificationCode=findViewById(R.id.getVerificationCode);
         phoneEditText=findViewById(R.id.phoneEditText);
@@ -149,7 +154,7 @@ public class changePasswordActivity extends AppCompatActivity {
         confirmChangePassword=findViewById(R.id.confirmChangePassword);
     }
 
-
+    //消息处理
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == -1) {
@@ -208,7 +213,7 @@ public class changePasswordActivity extends AppCompatActivity {
         }
     };
 
-
+    //事件触发消息发送
     EventHandler eventHandler = new EventHandler() {
         @Override
         public void afterEvent(int event, int result, Object data) {
