@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.mob.MobSDK;
 import com.whu.dadatraffic.R;
+import com.whu.dadatraffic.Service.UserService;
 
 
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ import cn.smssdk.SMSSDK;
 
 
 public class changePasswordActivity extends AppCompatActivity {
+    private UserService userService = new UserService();
     private TextView getVerificationCode=null;
     private EditText phoneEditText=null;
     private EditText verificationCodeEditText=null;
@@ -125,6 +127,7 @@ public class changePasswordActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                     return;
                                 }else{
+                                    userService.changePassword(newPassword,phone);
                                     SMSSDK.submitVerificationCode("86", phone, code);
                                 }
                             }
@@ -165,9 +168,7 @@ public class changePasswordActivity extends AppCompatActivity {
                 // 短信验证码验证成功后，修改密码，返回LoginActivity
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     if (result == SMSSDK.RESULT_COMPLETE) {
-                        //TODO 修改密码到数据库
 
-                        //
                         Toast.makeText(changePasswordActivity.this, "修改密码成功",
                                 Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();

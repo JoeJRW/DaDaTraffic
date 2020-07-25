@@ -2,6 +2,7 @@
 *author: 李俊
 *create time: 2020-07-08
 *update time: 2020-07-16
+* update: 2020.7.23
 */
 
 package com.whu.dadatraffic.Activity;
@@ -292,6 +293,9 @@ public class OrderpayActivity extends AppCompatActivity {
         //显示车费合计
 
         allPrice=Double.parseDouble(OrderService.curOrder.getPrice());
+        //修改用户积分
+        int newCredit = (int)allPrice*10+UserService.curUser.getCredit();
+        new UserService().changeCredit(newCredit);
         //TODO ------------------------------版本2修改--------------------------------------------
         //如果折扣信息为空，则代表支付界面并非从选择优惠券跳转而来。
         if(discount != null)

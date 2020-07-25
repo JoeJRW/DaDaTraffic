@@ -3,6 +3,7 @@ package com.whu.dadatraffic.Base;
  *author：张朝勋
  * create time：7/9
  * update time: 7/15
+ * update time: 7/22
  */
 import java.util.Date;
 import java.util.Vector;

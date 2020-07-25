@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             et_destination.setText(UserService.curUser.getCommonAddress());
         }
         btn_travel = (Button) findViewById(R.id.btn_travel);
+
         btn_loc = findViewById(R.id.loc_btn);
         btn_loc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,9 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<String> addressList = new ArrayList<>();
                 addressList.add(mCity1);
-                //测试 addressList.add("青阳县");
                 addressList.add(address1);
-                //测试 addressList.add("青阳县");
                 addressList.add(mCity2);
                 addressList.add(address2);
                 Intent i = new Intent(MainActivity.this, RouteActivity.class);

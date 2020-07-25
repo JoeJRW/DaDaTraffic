@@ -155,10 +155,7 @@ public class RouteActivity extends AppCompatActivity{
                             orderService.checkOrderState();
                             String state = OrderService.curOrder.orderState;
                             if(state.equals("prepare")){
-                                //测试
-                                //OrderService.curOrder.setPrice("20.5");
-                                double p = price.doubleValue();
-                                orderService.payOrder(p);
+                                orderService.payOrder(price.doubleValue());
                                 timer.cancel();
                                 gotoOrderMake();
                             }
@@ -245,6 +242,8 @@ public class RouteActivity extends AppCompatActivity{
                         .setScale(2, RoundingMode.HALF_UP);
 
                 routePrice.setText("预计价格: "+price.toString()+" 元");
+                double p = price.doubleValue();
+                //orderService.payOrder(20.5);
             }
         }
 
@@ -466,12 +465,10 @@ public class RouteActivity extends AppCompatActivity{
 
     //计时
     private void tips(){
-
-        //RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         this.baseTimer = SystemClock.elapsedRealtime();
 
 
-        final Handler myhandler = new Handler() {
+        tipHandler = new Handler() {
             public void handleMessage(Message msg) {
                 if (0 == baseTimer) {
                     baseTimer = SystemClock.elapsedRealtime();
@@ -492,7 +489,7 @@ public class RouteActivity extends AppCompatActivity{
                 sendMessageDelayed(message, 1000);
             }
         };
-        myhandler.sendMessageDelayed(Message.obtain(myhandler, 1), 1000);
+        tipHandler.sendMessageDelayed(Message.obtain(tipHandler, 1), 1000);
     }
 
     //设置计时框并显示

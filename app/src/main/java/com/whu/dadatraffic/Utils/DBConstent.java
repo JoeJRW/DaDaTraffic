@@ -1,3 +1,8 @@
+/*
+ *作者：施武轩 创建时间：2020.7.10
+ * update: 2020.7.21
+ */
+
 package com.whu.dadatraffic.Utils;
 
 public class DBConstent {

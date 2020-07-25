@@ -1,5 +1,6 @@
 /*
  *作者：施武轩 创建时间：2020.7.7 更新时间：2020.7.13
+ * update: 2020.7.15
  */
 
 package com.whu.dadatraffic.Activity;
@@ -150,9 +151,9 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (isDriver){
+                if (isDriver){//当前为司机注册
                     carNumber = carNumEt.getText().toString();
-                    if(carNumber.isEmpty()){
+                    if(carNumber.isEmpty()){//判断是否输入手机号
                         hintTv.setText("车牌号不可为空");
                         return;
                     }

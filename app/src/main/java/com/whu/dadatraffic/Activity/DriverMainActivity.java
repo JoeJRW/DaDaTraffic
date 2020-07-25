@@ -1,3 +1,5 @@
+
+
 package com.whu.dadatraffic.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -262,7 +264,6 @@ public class DriverMainActivity extends AppCompatActivity {
         str_destination=OrderService.curOrder.getDestination();
         passengerPhoneNum=OrderService.curOrder.getDriverPhone();
         routeList.add(mCity);
-        //测试 routeList.add("池州市");
         routeList.add(str_setOffPlace);
         routeList.add(str_destination);
 

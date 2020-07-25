@@ -117,19 +117,22 @@ public class OrdersActivity extends AppCompatActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
             params.setMargins(30,0,30,0);
             //layout内部子控件设计
+            //司机手机号显示框
             TextView driverTv = new TextView(this);
             driverTv.setTextSize(20);
             driverTv.setLayoutParams(params);
             driverTv.setText("司机电话："+curOrder.getDriverPhone());
+            //订单状态显示框
             TextView stateTv = new TextView(this);
             stateTv.setTextSize(20);
             stateTv.setLayoutParams(params);
             stateTv.setText("订单状态："+curOrder.orderState);
-
+            //出发地显示框
             TextView startTv = new TextView(this);
             startTv.setLayoutParams(params);
             startTv.setTextSize(20);
             startTv.setText("出发点："+curOrder.getStartPoint());
+            //目的地显示框
             TextView destinationTv = new TextView(this);
             destinationTv.setLayoutParams(params);
             destinationTv.setTextSize(20);
