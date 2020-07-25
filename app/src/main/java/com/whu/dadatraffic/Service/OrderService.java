@@ -146,7 +146,11 @@ public class OrderService {
                 String info[]=response.toString().split(";");
                 int count = Integer.parseInt(info[0]);
                 for (int i=1;i<count*10+1;i+=10){
-                    historyOrders.add(0,new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Double.parseDouble(info[i+9])));
+                    if(info[i+9].equals("null")){
+                        info[i+9]="0.0";
+                    }
+                    historyOrders.add(0,
+                            new Order(info[i],info[i+1],info[i+2],info[i+3],info[i+4],info[i+5],info[i+6],info[i+7],info[i+8],Double.parseDouble(info[i+9])));
                 }
             }
 

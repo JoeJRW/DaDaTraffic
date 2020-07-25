@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
         et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
         if(UserService.curUser.getCommonAddress()!= "" && UserService.curUser.getCommonAddress() != null
-        && UserService.curUser.getCommonAddress() != "null"){
+        && !UserService.curUser.getCommonAddress().equals("null")){
             et_destination.setText(UserService.curUser.getCommonAddress());
         }
         btn_travel = (Button) findViewById(R.id.btn_travel);
