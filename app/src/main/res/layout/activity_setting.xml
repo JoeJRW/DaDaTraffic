@@ -48,7 +48,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="账号与安全"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -60,7 +59,6 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:text=">"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -118,7 +116,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="切换语言"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -165,7 +162,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="常用地址"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -199,7 +195,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="行程安全"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -269,7 +264,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="版本更新"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -303,7 +297,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="法律条款与平台规则"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -337,7 +330,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="用户指南"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView
@@ -371,7 +363,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="0sp"
             android:text="关于滴滴"
-            android:textColor="#9b9b9b"
             android:textSize="18sp" />
 
         <TextView

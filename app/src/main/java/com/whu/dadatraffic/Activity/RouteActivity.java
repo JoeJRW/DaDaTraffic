@@ -157,6 +157,8 @@ public class RouteActivity extends AppCompatActivity{
                             if(state.equals("prepare")){
                                 //测试
                                 //OrderService.curOrder.setPrice("20.5");
+                                double p = price.doubleValue();
+                                orderService.payOrder(p);
                                 timer.cancel();
                                 gotoOrderMake();
                             }
@@ -174,8 +176,6 @@ public class RouteActivity extends AppCompatActivity{
                 }
 
                 //TODO 将价格price写进数据库
-                double p = price.doubleValue();
-                orderService.payOrder(p);
                 //TODO 代码异常等待修改
 
             }

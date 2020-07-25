@@ -50,8 +50,6 @@ public class UserService {
      * @param driverPhone 投诉的司机手机号
      * @param  content 投诉内容
      */
-
-
     public void complain(String driverPhone,String content){
         String complainUrlStr = DBConstent.URL_Complain+"?driverphone="+driverPhone+"&content="+content;
         new UserAsyncTask().execute(complainUrlStr,"complain");
@@ -63,7 +61,7 @@ public class UserService {
      * @param commonAddress 用户的常用地址
      */
     public void addAddress(String commonAddress){
-        String addUrlStr = DBConstent.URL_ChangeUserInfo+"?type=changeaddress&address="+commonAddress;
+        String addUrlStr = DBConstent.URL_ChangeUserInfo+"?type=changeaddress&address="+commonAddress+"&phonenumber="+curUser.getPhoneNumber();
         new UserAsyncTask().execute(addUrlStr,"changeaddress");
     }
 
@@ -267,6 +265,7 @@ public class UserService {
                     String info[]=response.toString().split(";");
                     curUser.setName(info[0]);
                     curUser.setCredit(Integer.parseInt(info[1]));
+                    curUser.setCommonAddress(info[2]);
                 }
             }
 

@@ -60,15 +60,10 @@ public class TicketService extends Ticket {
         position = new Vector<Integer>();
         if(!ticketList.isEmpty())
         {
-            int found = 0;
-            for (int i = 1; i <= ticketList.size(); i++) {
+            for (int i = ticketList.size(); i >= 1; i--) {
                 if (title.equals(ticketList.get(i-1).getTitle())) {
-                    position.add(i-1);
-                    found++;
+                    ticketList.remove(i-1);
                 }
-            }
-            for (int i = found-1; i >= 0; i--) {
-                ticketList.remove(position.get(i));
             }
         }
         else

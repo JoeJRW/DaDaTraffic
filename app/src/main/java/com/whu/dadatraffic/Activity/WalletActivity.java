@@ -114,4 +114,7 @@ public class WalletActivity extends AppCompatActivity {
         TextView ticketTv = (TextView)findViewById(R.id.wticketCount);
         ticketTv.setText(TicketService.ticketList.size()+"张");
     }
+
+    public void onClick(View view) {
+    }
 }

@@ -140,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
         et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
+        if(UserService.curUser.getCommonAddress()!= "" || UserService.curUser.getCommonAddress() != null){
+            et_destination.setText(UserService.curUser.getCommonAddress());
+        }
         btn_travel = (Button) findViewById(R.id.btn_travel);
         btn_loc = findViewById(R.id.loc_btn);
         btn_loc.setOnClickListener(new View.OnClickListener() {
