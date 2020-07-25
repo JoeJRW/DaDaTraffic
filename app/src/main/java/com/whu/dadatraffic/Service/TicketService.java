@@ -31,8 +31,6 @@ import java.util.Vector;
 
 public class TicketService extends Ticket {
     public static Vector<Ticket> ticketList = new Vector<Ticket>();
-    private Vector<Integer> position;
-
     public TicketService() {
         super();
     }
@@ -44,6 +42,7 @@ public class TicketService extends Ticket {
         ticketList.add(new Ticket( title, discount, icon, startDate, endDate, resource));
     }
 
+    //根据文件名，获取资源id
     public int getResourceId(String fileName) {
         try {
             Field field = R.drawable.class.getField(fileName);
@@ -58,7 +57,6 @@ public class TicketService extends Ticket {
     //移除不可用优惠券
     public void RemoveTicket(String title)
     {
-        position = new Vector<Integer>();
         if(!ticketList.isEmpty())
         {
             for (int i = ticketList.size(); i >= 1; i--) {
@@ -78,6 +76,7 @@ public class TicketService extends Ticket {
     {
         return ticketList.size();
     }
+
     //获取优惠券名称
     public String GetTitle(int position)
     {
@@ -89,25 +88,30 @@ public class TicketService extends Ticket {
     {
         return ticketList.get(position).getDiscount();
     }
+
     //获取优惠券有效日期
     public String GetStartDate(int position)
     {
         return ticketList.get(position).getStartDate();
     }
+
     public String GetEndDate(int position)
     {
         return ticketList.get(position).getEndDate();
     }
+
     //获取优惠券图标
     public Integer GetIcon(int position)
     {
         return ticketList.get(position).getIcon();
     }
+
     //获取优惠券新图标文件名，以在传值后调用新图片
     public Integer GetImageResource(int position)
     {
         return ticketList.get(position).getImageResource();
     }
+
     //判断该情况下优惠券是否可用
     public void JudgeUse(double price)
     {
@@ -127,6 +131,7 @@ public class TicketService extends Ticket {
             RemoveTicket("58元打车券");
         }
     }
+
     //判断优惠券是否过期
     public void JudgeStatus(int position)
     {

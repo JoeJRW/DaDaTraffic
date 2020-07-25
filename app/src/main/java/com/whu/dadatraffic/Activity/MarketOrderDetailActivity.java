@@ -64,7 +64,6 @@ public class MarketOrderDetailActivity extends AppCompatActivity {
         marketItemService.SetDate(curTime,MarketOrderList);
 
         //设置购买时间
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH时mm分");
         Date date = new Date(System.currentTimeMillis());
         String time = simpleDateFormat.format(date);
         for(int i=0;i<MarketOrderList.size();i++){

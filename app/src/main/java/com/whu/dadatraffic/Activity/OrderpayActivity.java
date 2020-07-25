@@ -51,6 +51,7 @@ public class OrderpayActivity extends AppCompatActivity {
     double discountPrice=0.0;  //抵扣车费
     double endPrice=0.0;       //最终支付金额
 
+
     Date curDate = new Date(System.currentTimeMillis());
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");

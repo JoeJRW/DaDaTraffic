@@ -7,6 +7,8 @@ package com.whu.dadatraffic;
  *      2020.07.08&07.09 完成百度地图SDK的环境配置和定位功能的实现
  *      2020.07.10&07.11 完成出发地和目的地文本框代码编写，主要实现sug检索和显示相关热词，并在点击后补全地址
  *      2020.07.15 添加向路线规划窗口传递信息的功能
+ *      2020.07.22 加入长按选点功能
+ *      2020.07.23 添加回到当前位置按钮，添加常用位置调用
  */
 import android.Manifest;
 import android.content.Context;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 
+    private TextView user_tel;
     private AutoCompleteTextView et_departure;
     private AutoCompleteTextView et_destination;
     private Button btn_travel;
@@ -137,10 +140,13 @@ public class MainActivity extends AppCompatActivity {
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
+        user_tel = findViewById(R.id.user_tel);
+        user_tel.setText(UserService.curUser.getPhoneNumber());
         drawerLayout = findViewById(R.id.drawer_layout);
         et_departure = (AutoCompleteTextView) findViewById(R.id.et_departure);
         et_destination = (AutoCompleteTextView) findViewById(R.id.et_destination);
-        if(UserService.curUser.getCommonAddress()!= "" || UserService.curUser.getCommonAddress() != null){
+        if(UserService.curUser.getCommonAddress()!= "" && UserService.curUser.getCommonAddress() != null
+        && UserService.curUser.getCommonAddress() != "null"){
             et_destination.setText(UserService.curUser.getCommonAddress());
         }
         btn_travel = (Button) findViewById(R.id.btn_travel);
